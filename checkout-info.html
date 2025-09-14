@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SINCERA - Điền Thông Tin Mua Hàng</title>
+    <link rel="stylesheet" href="checkout-info.css">
+</head>
+<body>
+    <header class="checkout-header">
+        <div class="container">
+            <div class="logo">
+                <h1>Hoàn tất đơn hàng</h1>
+            </div>
+            <div class="checkout-steps">
+                <span class="step completed">Chọn sản phẩm</span>
+                <span class="step-arrow">→</span>
+                <span class="step active">Thông tin</span>
+                <span class="step-arrow">→</span>
+                <span class="step">Thanh toán</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="checkout-main">
+        <div class="container">
+            <div class="checkout-grid">
+                
+                <div class="size-section">
+                    <h2 class="section-title">📏 NHẬP SIZE TAY CỦA BẠN</h2>
+                    
+                    <div class="size-guide-btn" onclick="toggleSizeGuide()">
+                        <span>📖 Xem hướng dẫn đo size</span>
+                        <span class="toggle-icon">▼</span>
+                    </div>
+                    
+                    <div class="size-guide" id="sizeGuide" style="display: none;">
+                        <div class="guide-content">
+                            <img src="images/huong-dan-do-size-tay.jpg" alt="Hướng dẫn đo size ni tay" style="width: 100%; max-width: 500px; border-radius: 8px; display: block; margin: 0 auto 15px auto;">
+                        </div>
+                    </div>
+
+                    <div class="size-inputs">
+                        <div class="ring-input">
+                            <h3>🔵 VÒNG SỐ 1</h3>
+                            <div class="input-group">
+                                <label for="ring1-size">Size cổ tay (cm):</label>
+                                <input type="number" id="ring1-size" step="0.1" placeholder="16.5">
+                            </div>
+                            <div class="input-group">
+                                <label for="ring1-name">Tên người đeo (tùy chọn):</label>
+                                <input type="text" id="ring1-name" placeholder="Ví dụ: Anh Minh">
+                            </div>
+                        </div>
+
+                        <div class="ring-input">
+                            <h3>🔵 VÒNG SỐ 2</h3>
+                            <div class="input-group">
+                                <label for="ring2-size">Size cổ tay (cm):</label>
+                                <input type="number" id="ring2-size" step="0.1" placeholder="15.0">
+                            </div>
+                            <div class="input-group">
+                                <label for="ring2-name">Tên người đeo (tùy chọn):</label>
+                                <input type="text" id="ring2-name" placeholder="Ví dụ: Em Lan">
+                            </div>
+                        </div>
+
+                        <div class="same-size-option">
+                            <input type="checkbox" id="sameSize" onchange="toggleSameSize()">
+                            <label for="sameSize">Cả 2 vòng cùng size</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="info-section">
+                    <h2 class="section-title">📋 THÔNG TIN GIAO HÀNG</h2>
+                        <h3 class="address-note">
+                            <em>Khách hàng vui lòng điền địa chỉ cũ trước sát nhập</em>
+                        </h3>
+
+                    <form class="shipping-form" id="shippingForm">
+                        <div class="input-group">
+                            <label for="fullName">Tên người nhận *</label>
+                            <input type="text" id="fullName" required placeholder="Họ và tên đầy đủ">
+                        </div>
+
+                        <div class="input-group">
+                            <label for="phoneNumber">Số điện thoại liên hệ *</label>
+                            <input type="tel" id="phoneNumber" required placeholder="0901234567">
+                        </div>
+
+                        <div class="input-group">
+                            <label for="detailAddress">Địa chỉ chi tiết *</label>
+                            <textarea id="detailAddress" required placeholder="Số nhà, tên đường, ấp/thôn/xóm..."></textarea>
+                        </div>
+
+                        <div class="address-selects">
+                            <div class="input-group">
+                                <label for="province">Tỉnh/ Thành phố *</label>
+                                <select id="province" required>
+                                    <option value="">Chọn tỉnh/thành phố</option>
+                                </select>
+                            </div>
+
+                            <div class="input-group">
+                                <label for="district">Quận/ Huyện *</label>
+                                <select id="district" required disabled>
+                                    <option value="">Chọn quận/huyện</option>
+                                </select>
+                            </div>
+
+                            <div class="input-group">
+                                <label for="ward">Phường/ Xã *</label>
+                                <select id="ward" required disabled>
+                                    <option value="">Chọn phường/xã</option>
+                                </select>
+                            </div>
+                        </div>
+
+                    </form>
+
+                    <div class="order-summary">
+                        <h3>📦 TÓM TẮT ĐƠN HÀNG</h3>
+                        <div class="cart-items" id="cartSummary">
+                        </div>
+                        
+                        <div class="order-total">
+                            <div class="total-line">
+                                <span>Tạm tính:</span>
+                                <span id="subtotal">0₫</span>
+                            </div>
+                            <div class="total-line">
+                                <span>Phí vận chuyển (FREE cho đơn từ 300K):</span>
+                                <span class="shipping-fee">MIỄN PHÍ</span>
+                            </div>
+                            <div class="total-line total-final">
+                                <span><strong>Tổng tiền:</strong></span>
+                                <span><strong id="finalTotal">0₫</strong></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="checkout-actions">
+                        <button type="button" class="btn-back" onclick="goBackToCart()">
+                            ← Quay lại trang sản phẩm
+                        </button>
+                        <button type="button" class="btn-checkout" onclick="proceedToPayment()">
+                            Thanh toán →
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <script src="checkout-info.js"></script>
+</body>
+</html>

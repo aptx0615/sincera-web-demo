@@ -1,0 +1,280 @@
+/* Product Card */
+.product-card {
+    flex: 0 0 280px;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 3px 15px rgba(0,0,0,0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+}
+
+/* IMPORTANT: Make carousel track scrollable */
+.carousel-track {
+    display: flex;
+    gap: 30px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    padding-bottom: 10px; /* Space for scrollbar */
+}
+
+/* Hide scrollbar but keep functionality */
+.carousel-track::-webkit-scrollbar {
+    height: 0px;
+}
+
+.carousel-track::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.carousel-track::-webkit-scrollbar-thumb {
+    background: transparent;
+}
+
+/* Product Image Container */
+.product-image {
+    width: 100%;
+    height: 280px;
+    background: linear-gradient(135deg, #f5f5f5 0%, #e0e0e0 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Make sure product image fills the container */
+.product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    background-color: #f0f0f0;
+}
+
+/* Play video icon in center of image - OVERLAY ON TOP */
+.play-video-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.play-video-icon:hover {
+    transform: translate(-50%, -50%) scale(1.2);
+}
+
+.play-video-icon img {
+    width: 50px;
+    height: 50px;
+    /* Remove browser default img styling */
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+    /* Hide completely if failed to load */
+    display: block;
+}
+
+/* Product Info Container */
+.product-info {
+    padding: 20px;
+    position: relative; /* Important for absolute positioning of cart icon */
+}
+
+.product-name {
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+    color: #333;
+    font-weight: 500;
+}
+
+.product-description {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 15px;
+    line-height: 1.5;
+}
+
+.product-price {
+    font-size: 1.2rem;
+    color: #ad7101;
+    font-weight: 600;
+}
+
+/* Add to cart icon in product info area - BOTTOM RIGHT */
+.add-to-cart-icon {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 5;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.add-to-cart-icon:hover {
+    transform: scale(1.1);
+}
+
+.add-to-cart-icon img {
+    width: 24px;
+    height: 24px;
+}
+
+/* Product Badge */
+.product-badge {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    background: #ff5252;
+    color: white;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    z-index: 3;
+}
+
+/* Variant Badge */
+.variant-badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: #b11f0b;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+    z-index: 3;
+}
+
+/* Offer Card - ONLY ONE VERSION */
+.offer-card {
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    background: white;
+    box-shadow: 0 3px 15px rgba(0,0,0,0.08);
+    display: flex;
+    flex-direction: column;
+}
+
+.offer-card:hover {
+    transform: scale(1.02);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+}
+
+/* Offer Image Container - CHỈ ẢNH 4:5, KHÔNG BAO GỒM INFO */
+.offer-image-container {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4/5; /* CHỈ ẢNH thôi, không phải toàn bộ card */
+    overflow: hidden;
+    border-radius: 16px 16px 0 0;
+}
+
+.offer-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.offer-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+    padding: 30px;
+    color: white;
+}
+
+.offer-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.offer-description {
+    font-size: 1rem;
+    opacity: 0.9;
+}
+
+/* Offer Info Card - ZONE TRẮNG RIÊNG BIỆT Ở DƯỚI */
+.offer-info {
+    background: white;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 120px;
+    border-radius: 0 0 16px 16px; /* Bo góc dưới */
+}
+
+.offer-name {
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+    color: #333;
+    font-weight: 500;
+}
+
+.offer-subtitle {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 10px;
+    line-height: 1.5;
+}
+
+.offer-price {
+    font-size: 1.2rem;
+    color: #ad7101;
+    font-weight: 600;
+}
+
+/* Offer Card Mobile Optimization */
+@media (max-width: 768px) {
+    .offer-card {
+        flex: 0 0 85vw;
+        max-width: 350px;
+        scroll-snap-align: center;
+        border-radius: 12px;
+    }
+    
+    .offer-overlay {
+        padding: 20px;
+    }
+    
+    .offer-title {
+        font-size: 1.3rem;
+    }
+    
+    .offer-description {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .offer-card {
+        flex: 0 0 90vw;
+    }
+}

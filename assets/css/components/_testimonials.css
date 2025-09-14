@@ -1,0 +1,186 @@
+.testimonial-section {
+    padding: 80px 0;
+    background: #fafafa;
+    overflow: hidden;
+}
+
+.testimonial-carousel {
+    position: relative;
+    margin-top: 50px;
+    overflow: hidden;
+    width: 100%;
+}
+
+.testimonial-track {
+    display: flex;
+    gap: 30px;
+    animation: scrollTestimonials 60s linear infinite;
+    width: fit-content;
+}
+
+/* Animation băng chuyền tự chạy */
+@keyframes scrollTestimonials {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%); /* Di chuyển bằng nửa chiều rộng */
+    }
+}
+
+/* Testimonial Card */
+.testimonial-card {
+    flex: 0 0 400px; /* Fixed width */
+    background: white;
+    border-radius: 16px;
+    padding: 30px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    min-height: 280px;
+    display: flex;
+    flex-direction: column;
+}
+
+.testimonial-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+}
+
+/* Star Rating */
+.testimonial-stars {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 20px;
+}
+
+.star {
+    color: #ffd700;
+    font-size: 18px;
+}
+
+.star.empty {
+    color: #e0e0e0;
+}
+
+/* Testimonial Content */
+.testimonial-content {
+    flex: 1;
+    margin-bottom: 20px;
+}
+
+.testimonial-text {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: #555;
+    margin-bottom: 15px;
+    font-style: italic;
+}
+
+.testimonial-product {
+    font-size: 0.85rem;
+    color: #ad7101;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Product Image */
+.testimonial-image {
+    width: 80px;
+    height: 80px;
+    border-radius: 8px;
+    object-fit: cover;
+    margin-bottom: 15px;
+    border: 2px solid #f0f0f0;
+}
+
+/* Customer Info */
+.testimonial-customer {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding-top: 20px;
+    border-top: 1px solid #f0f0f0;
+}
+
+.customer-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #ad7101, #d4af37);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 600;
+    font-size: 18px;
+    flex-shrink: 0;
+}
+
+.customer-info {
+    flex: 1;
+}
+
+.customer-name {
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 4px;
+    font-size: 1rem;
+}
+
+.customer-location {
+    font-size: 0.85rem;
+    color: #888;
+}
+
+.testimonial-date {
+    font-size: 0.8rem;
+    color: #bbb;
+    text-align: right;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .testimonial-section {
+        padding: 60px 0;
+    }
+    
+    .testimonial-card {
+        flex: 0 0 320px;
+        padding: 20px; /* Giảm từ 25px → 20px */
+        min-height: 220px; /* Giảm từ 260px → 220px */
+    }
+    
+    .testimonial-track {
+        gap: 20px;
+    }
+    
+    @keyframes scrollTestimonials {
+        0% {
+            transform: translateX(0);
+        }
+        100% {
+            transform: translateX(-60%); /* Mobile cần scroll nhiều hơn */
+        }
+    }
+}
+
+@media (max-width: 480px) {
+    .testimonial-card {
+        flex: 0 0 280px;
+        padding: 20px;
+    }
+    
+    .customer-avatar {
+        width: 40px;
+        height: 40px;
+        font-size: 16px;
+    }
+    
+    .testimonial-text {
+        font-size: 0.9rem;
+    }
+}

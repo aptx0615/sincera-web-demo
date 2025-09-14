@@ -1,0 +1,16 @@
+/* 1. Base styles */
+@import url('base/_reset.css');
+@import url('base/_base.css');
+
+/* 2. Layout styles */
+@import url('layout/_sections.css');
+@import url('layout/_progress.css');
+@import url('components/_modals.css');
+@import url('components/_testimonials.css');
+
+/* 3. Component styles */
+@import url('components/_buttons.css');
+@import url('components/_cards.css');
+@import url('components/_carousel.css');
+@import url('components/_cart.css');
+@import url('components/_charm-selection.css');

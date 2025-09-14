@@ -1,0 +1,68 @@
+/* Promo Bar */
+.promo-bar {
+    background-color: #f5f5f5;
+    text-align: center;
+    padding: 12px 20px;
+    font-size: 14px;
+    color: #666;
+    position: relative;
+    z-index: 10;
+}
+
+.promo-bar strong {
+    color: #925f00;
+}
+
+/* Offers Section */
+.offers-section {
+    padding: 80px 20px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.offers-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-top: 50px;
+}
+/* Offers Section */
+.offers-section {
+    padding: 80px 20px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.offers-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    margin-top: 50px;
+}
+
+/* Mobile Carousel for Offers */
+@media (max-width: 768px) {
+    .offers-grid {
+        display: flex;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        scroll-behavior: smooth;
+        gap: 20px;
+        padding-bottom: 20px;
+        margin-top: 30px;
+    }
+    
+    .offers-grid::-webkit-scrollbar {
+        height: 6px;
+    }
+    
+    .offers-grid::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 10px;
+    }
+    
+    .offers-grid::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: 10px;
+    }
+}

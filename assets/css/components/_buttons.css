@@ -1,0 +1,96 @@
+/* CTA Button */
+.cta-button {
+    display: inline-block;
+    padding: 15px 40px;
+    background-color: white;
+    color: #7c540b;
+    text-decoration: none;
+    border-radius: 50px;
+    font-weight: 600;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.cta-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+}
+
+/* Hero Navigation Buttons */
+.hero-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255,255,255,0.3);
+    color: white;
+    border: none;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    font-size: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+    z-index: 3;
+}
+
+.hero-nav:hover {
+    background: rgba(255,255,255,0.5);
+    transform: translateY(-50%) scale(1.1);
+}
+
+.hero-prev {
+    left: 30px;
+}
+
+.hero-next {
+    right: 30px;
+}
+
+
+/* Product Carousel Buttons */
+.carousel-btn {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: white;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+    transition: all 0.3s ease;
+    pointer-events: all;
+    font-size: 20px;
+}
+
+.carousel-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+}
+
+/* Responsive Buttons */
+@media (max-width: 768px) {
+    .hero-nav {
+        width: 40px;
+        height: 40px;
+        font-size: 16px;
+    }
+    .hero-prev {
+        left: 15px;
+    }
+    .hero-next {
+        right: 15px;
+    }
+    .carousel-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 16px;
+    }
+}
+@media (max-width: 480px) {
+    .cta-button {
+        padding: 12px 30px;
+        font-size: 0.9rem;
+    }
+}

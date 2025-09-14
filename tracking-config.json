@@ -1,0 +1,55 @@
+{
+  "tracking": {
+    "enabled": true,
+    "debug": true,
+    "sessionTimeout": 1800000,
+    "cookieExpiry": 7
+  },
+  "endpoints": {
+    "track": "/api/track",
+    "analytics": "/api/analytics"
+  },
+  "pixels": {
+    "facebook": {
+      "enabled": true,
+      "pixelId": "YOUR_FB_PIXEL_ID"
+    },
+    "google": {
+      "enabled": true,
+      "measurementId": "YOUR_GA4_ID"
+    }
+  },
+  "events": {
+    "pageView": true,
+    "productView": true,
+    "productClick": true,
+    "addToCart": true,
+    "removeFromCart": true,
+    "initiateCheckout": true,
+    "purchase": true,
+    "chatClick": true,
+    "scrollDepth": [25, 50, 75, 90],
+    "sessionDuration": true
+  },
+  "products": {
+    "trackClicks": true,
+    "trackViews": true,
+    "trackCartActions": true
+  },
+  "sources": {
+    "utmTracking": true,
+    "referrerDetection": true,
+    "landingPageTracking": true
+  },
+  "device": {
+    "detectType": true,
+    "detectBrowser": true,
+    "detectOS": true,
+    "detectScreenSize": true
+  },
+  "storage": {
+    "useLocalStorage": true,
+    "dataRetention": 30,
+    "anonymizeData": true
+  }
+}

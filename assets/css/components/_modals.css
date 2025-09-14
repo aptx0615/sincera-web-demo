@@ -1,0 +1,488 @@
+/* Video Modal */
+#video-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.video-modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.8);
+}
+
+.video-modal-container {
+    position: relative;
+    background: white;
+    border-radius: 12px;
+    max-width: 90%;
+    max-height: 90%;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+}
+
+.video-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid #eee;
+    background: #f8f9fa;
+}
+
+.video-modal-header h3 {
+    margin: 0;
+    color: #333;
+    font-size: 1.2rem;
+}
+
+.video-modal-close {
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    color: #999;
+    padding: 5px;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+}
+
+.video-modal-close:hover {
+    background: #f0f0f0;
+    color: #333;
+}
+
+.video-modal-body {
+    padding: 0;
+}
+
+@media (max-width: 768px) {
+    .video-modal-container {
+        max-width: 95%;
+        max-height: 95%;
+    }
+}
+/* Thêm vào cuối file assets/css/components/_modals.css */
+
+/* Gift Charm Modal */
+.gift-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(5px);
+    animation: fadeIn 0.3s ease;
+}
+
+.gift-modal-container {
+    background: white;
+    border-radius: 20px;
+    max-width: 90%;
+    max-height: 90%;
+    width: 800px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    position: relative;
+    animation: slideUp 0.4s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from { 
+        opacity: 0;
+        transform: translateY(30px) scale(0.95);
+    }
+    to { 
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.gift-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(5px);
+    animation: fadeIn 0.3s ease;
+}
+
+.gift-modal-container {
+    background: white;
+    border-radius: 12px;
+    max-width: 90%;
+    max-height: 90%;
+    width: 800px;
+    height: 700px; /* Fixed height để enable scroll */
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    position: relative;
+    animation: slideUp 0.4s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from { 
+        opacity: 0;
+        transform: translateY(30px) scale(0.95);
+    }
+    to { 
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* COMPACT HEADER - giống footer màu nâu */
+.gift-modal-header {
+    text-align: center;
+    padding: 15px 20px;
+    background: #4d2f03; /* Màu nâu như footer */
+    color: white;
+    position: relative;
+    flex-shrink: 0; /* Không co lại */
+}
+
+.gift-icon {
+    display: none; /* Ẩn icon lớn */
+}
+
+.gift-modal-header h2 {
+    display: none; /* Ẩn heading lớn */
+}
+
+.gift-subtitle {
+    font-size: 0.9rem;
+    margin: 0;
+    font-weight: 500;
+    opacity: 1;
+    position: relative;
+    z-index: 1;
+}
+
+.gift-description {
+    display: none; /* Ẩn description dài */
+}
+
+/* SCROLLABLE BODY */
+.gift-modal-body {
+    padding: 20px;
+    background: #f8f9fa;
+    flex: 1; /* Chiếm hết không gian còn lại */
+    overflow-y: auto; /* Enable scroll dọc */
+    min-height: 0; /* Important cho flex scroll */
+}
+
+/* Grid với scroll */
+.gift-charms-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 15px;
+    padding-bottom: 20px; /* Space cho scroll */
+}
+
+/* Gift Charm Card Styles - Compact hơn */
+.gift-charm-card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 3px solid transparent;
+    position: relative;
+}
+
+.gift-charm-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    border-color: #ad7101;
+}
+
+.gift-charm-card.selected {
+    border-color: #ad7101;
+    background: linear-gradient(135deg, #f8fff9, #ffffff);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(76, 175, 80, 0.3);
+}
+
+.gift-charm-card.selected::after {
+    content: '✓';
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #ad7101;
+    color: white;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: bold;
+    z-index: 5;
+}
+
+.gift-charm-image {
+    width: 100%;
+    height: 140px; /* Nhỏ hơn */
+    background: linear-gradient(135deg, #f5f5f5, #e8e8e8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.gift-charm-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.gift-charm-info {
+    padding: 15px;
+    text-align: center;
+}
+
+.gift-charm-name {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #333;
+    margin: 0 0 6px 0;
+}
+
+.gift-charm-description {
+    font-size: 0.8rem;
+    color: #666;
+    margin: 0 0 10px 0;
+    line-height: 1.3;
+}
+
+.gift-charm-price {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+.original-price {
+    text-decoration: line-through;
+    color: #999;
+    font-size: 0.8rem;
+}
+
+.free-price {
+    color: #ad7101;
+    font-weight: 700;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* COMPACT FOOTER */
+.gift-modal-footer {
+    padding: 15px 20px;
+    background: white;
+    border-top: 1px solid #eee;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex-shrink: 0;
+}
+
+.gift-confirm-btn {
+    width: 100%;
+    background: linear-gradient(135deg, #4CAF50, #66BB6A);
+    color: white;
+    border: none;
+    padding: 14px 20px;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.gift-confirm-btn:hover:not(:disabled) {
+    background: linear-gradient(135deg, #45a049, #5cbf60);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+}
+
+.gift-confirm-btn:disabled {
+    background: #cccccc;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.btn-icon {
+    font-size: 1.1rem;
+}
+
+.gift-skip-btn {
+    background: none;
+    border: 2px solid #e0e0e0;
+    color: #666;
+    padding: 10px 16px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.gift-skip-btn:hover {
+    border-color: #ccc;
+    color: #555;
+    background: #f8f9fa;
+}
+
+/* Custom scrollbar cho modal body */
+.gift-modal-body::-webkit-scrollbar {
+    width: 6px;
+}
+
+.gift-modal-body::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+}
+
+.gift-modal-body::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 3px;
+}
+
+.gift-modal-body::-webkit-scrollbar-thumb:hover {
+    background: #999;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .gift-modal-container {
+        width: 95%;
+        height: 85%;
+    }
+    
+    .gift-modal-header {
+        padding: 12px 15px;
+    }
+    
+    .gift-subtitle {
+        font-size: 0.85rem;
+    }
+    
+    .gift-modal-body {
+        padding: 15px;
+    }
+    
+    .gift-charms-grid {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 12px;
+    }
+    
+    .gift-modal-footer {
+        padding: 15px;
+    }
+    
+    .gift-confirm-btn {
+        padding: 12px 16px;
+        font-size: 0.95rem;
+    }
+}
+
+/* Gift Button Widget - giống Rewards button */
+.gift-widget {
+    position: fixed;
+    top: 80%;
+    right: 20px;
+    transform: translateY(-50%);
+    z-index: 1001;
+    background: #000000;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 12px 20px;
+    cursor: pointer;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+    font-weight: 600;
+    display: none; 
+    align-items: center;
+    gap: 8px;
+    min-width: 120px;
+    text-align: center;
+}
+
+.gift-widget.show {
+    display: flex;
+}
+
+.gift-widget:hover {
+    background: #7a5000;
+    transform: translateY(-50%) translateX(-5px);
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.25);
+}
+
+.gift-widget-icon {
+    font-size: 1.2rem;
+}
+
+.gift-widget-text {
+    font-size: 0.85rem;
+    line-height: 1.2;
+    white-space: nowrap;
+}
+
+/* Responsive cho gift widget */
+@media (max-width: 768px) {
+    .gift-widget {
+        right: 15px;
+        padding: 10px 16px;
+        font-size: 0.8rem;
+        min-width: 100px;
+    }
+    
+    .gift-widget-icon {
+        font-size: 1rem;
+    }
+    
+    .gift-widget-text {
+        font-size: 0.75rem;
+    }
+}

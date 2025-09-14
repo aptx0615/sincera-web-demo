@@ -1,0 +1,77 @@
+/* Fixed Progress Bar - Compact Footer Style */
+.progress-footer-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #5e3b07;
+    color: white;
+    padding: 12px 20px;
+    text-align: center;
+    z-index: 999;
+    font-size: 0.9rem;
+    font-weight: 500;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+}
+
+.progress-footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column; /* Đổi thành column để bar ở dưới */
+    align-items: center;
+    justify-content: center;
+    gap: 8px; /* Giảm gap */
+}
+
+.progress-mini-bar {
+    width: 300px; /* Tăng width để dài hơn */
+    height: 6px;
+    background: rgba(255,255,255,0.3);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.progress-mini-fill {
+    height: 100%;
+    background: white;
+    border-radius: 3px;
+    transition: width 0.8s ease;
+}
+
+.progress-text {
+    white-space: nowrap;
+}
+
+/* Highlighted remaining amount */
+.remaining-amount {
+    font-weight: 700;
+    color: #000; /* Chữ đen */
+    background: #fcfcfc; /* Nền trắng */
+    padding: 2px 8px;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+/* Add bottom padding to body to avoid overlap */
+body {
+    padding-bottom: 80px; /* Tăng padding vì footer cao hơn */
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+    .progress-footer-bar {
+        padding: 10px 15px;
+        font-size: 0.85rem;
+    }
+    
+    .progress-mini-bar {
+        width: 250px;
+        height: 5px;
+    }
+    
+    body {
+        padding-bottom: 70px;
+    }
+}

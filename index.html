@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SINCERA - Trang Sức Đôi Thiết Kế</title>
+    <script src="assets/js/tracking.js" defer></script>
+    <!-- Liên kết tới file CSS chính -->
+    <link rel="stylesheet" href="assets/css/main.css">
+    <script src="assets/js/api.js" defer></script>
+    <script src="assets/js/cart-threshold.js" defer></script>
+    <script src="assets/js/charm-selection.js" defer></script>
+</head>
+<body>
+    <!-- Cart Icon -->
+    <div class="cart-icon-container" id="cart-icon" onclick="openCart()">
+        <div class="cart-icon">
+            <img src="images/add-to-cart.svg" alt="Cart" style="width: 24px; height: 24px;">
+            <span class="cart-badge" id="cart-badge">0</span>
+        </div>
+    </div>
+    <!-- Chat Button -->
+    <div class="chat-button-container" id="chat-button" onclick="openChat()">
+        <div class="chat-icon">💬</div>
+    </div>
+
+    <!-- Cart Overlay -->
+    <div class="cart-overlay" id="cart-overlay" onclick="closeCart()"></div>
+
+    <!-- Cart Sidebar -->
+    <div class="cart-sidebar" id="cart-sidebar">
+        <div class="cart-header">
+            <h3 class="cart-title">Giỏ hàng của bạn</h3>
+            <button class="cart-close" onclick="closeCart()">✕</button>
+        </div>
+        
+        <div class="cart-body" id="cart-body">
+            <div class="cart-empty">
+                <div class="cart-empty-icon">🛒</div>
+                <p>Giỏ hàng của bạn đang trống</p>
+            </div>
+        </div>
+        
+        <div class="cart-footer" id="cart-footer" style="display: none;">
+            <div class="cart-subtotal">
+                <span class="cart-subtotal-label">Tổng tiền:</span>
+                <span class="cart-subtotal-amount" id="cart-total">0₫</span>
+            </div>
+            <button class="cart-checkout-btn" onclick="checkout()">
+                Tới bước thanh toán
+            </button>
+        </div>
+    </div>
+
+    <!-- Promo Bar -->
+    <div class="promo-bar">
+        <strong>FREE SHIPPING</strong> Cho Hóa Đơn Từ 300K. | <strong>FREE CHARM cho đơn từ 339K(*)</strong>
+    </div>
+
+    <!-- Hero Banner Carousel -->
+    <section class="hero-carousel">
+        <div class="hero-slides">
+            <!-- SLIDE 1 -->
+            <div class="hero-slide active hero-slide-1">
+                <div class="hero-content">
+                    <h1 class="fade-in-up">Trang Sức Đôi Độc Đáo</h1>
+                    <p class="fade-in-up" style="animation-delay: 0.2s;">Thiết kế theo sở thích cá nhân - Chất liệu bạc s925 cao cấp</p>
+                    <a href="#products" class="cta-button fade-in-up" style="animation-delay: 0.4s;">Xem Bộ Sưu Tập</a>
+                </div>
+            </div>
+
+            <!-- SLIDE 2 -->
+            <div class="hero-slide hero-slide-2">
+                <div class="hero-content">
+                    <h1 class="fade-in-up">Infinity Love Collection</h1>
+                    <p class="fade-in-up" style="animation-delay: 0.2s;">Biểu tượng của tình yêu vĩnh cửu trong từng chi tiết</p>
+                    <a href="#products" class="cta-button fade-in-up" style="animation-delay: 0.4s;">Khám Phá Ngay</a>
+                </div>
+            </div>
+
+            <!-- SLIDE 3 -->
+            <div class="hero-slide hero-slide-3">
+                <div class="hero-content">
+                    <h1 class="fade-in-up">Personalize Your Style</h1>
+                    <p class="fade-in-up" style="animation-delay: 0.2s;">Tự do sáng tạo với 20+ loại dây và charm đa dạng</p>
+                    <a href="#products" class="cta-button fade-in-up" style="animation-delay: 0.4s;">Thiết Kế Ngay</a>
+                </div>
+            </div>
+
+            <!-- SLIDE 4 -->
+            <div class="hero-slide hero-slide-4">
+                <div class="hero-content">
+                    <h1 class="fade-in-up">Premium Silver 925</h1>
+                    <p class="fade-in-up" style="animation-delay: 0.2s;">Chất liệu cao cấp, bền đẹp theo thời gian</p>
+                    <a href="#products" class="cta-button fade-in-up" style="animation-delay: 0.4s;">Tìm Hiểu Thêm</a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="hero-indicators">
+            <span class="indicator active" data-slide-to="0"></span>
+            <span class="indicator" data-slide-to="1"></span>
+            <span class="indicator" data-slide-to="2"></span>
+            <span class="indicator" data-slide-to="3"></span>
+        </div>
+        
+        <button class="hero-nav hero-prev">⮜</button>
+        <button class="hero-nav hero-next">⮞</button>
+    </section>
+    <!-- Feedback khách hàng -->
+    <section class="testimonial-section">
+        <div class="container">
+            <h2 class="section-title">Khách hàng nói gì về SINCERA</h2>         
+            <div class="testimonial-carousel">
+                <div class="testimonial-track" id="testimonial-track">
+                    <!-- Testimonials sẽ được render bằng JavaScript -->
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Offers Section - Rendered by JavaScript -->
+    <section class="offers-section">
+        <h2 class="section-title">VÒNG THIẾT KẾ SẴN</h2>
+        <p class="section-subtitle">Một vài mẫu trang sức đôi thiết kế sẵn - bán chạy nhất tại SINCERA</p>
+        <div class="offers-grid" id="offers-grid">
+            <!-- Cards will be rendered by JavaScript -->
+        </div>
+    </section>
+
+    <!-- Product Carousel - Chọn Dây Bạc-->
+    <section class="carousel-section" id="products">
+        <h2 class="section-title">HOẶC TỰ TAY THIẾT KẾ THEO SỞ THÍCH</h2>
+        <p class="section-subtitle">*Mặc định 2 vòng sẽ giống nhau cho thiết kế bạn chọn.<br>Trong trường hợp bạn muốn 2 dây bạc khác nhau, vui lòng nhắn tin với CSKH để được hỗ trợ đặt hàng.</p>
+        <p class="section-left-label"><strong>Chọn loại dây:</strong></p>
+        <div class="carousel-container">
+            <div class="carousel-track">
+                
+            </div>
+            <div class="carousel-controls">
+                <button class="carousel-btn carousel-prev">⮜</button>
+                <button class="carousel-btn carousel-next">⮞</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Clasp Products Carousel - Chọn Khóa Bạc -->
+    <section class="carousel-section" id="clasp-products">
+        <h2 class="section-title">CHỌN KHÓA BẠC</h2>
+        <p class="section-subtitle">Khóa đóng/mở tiện lợi để thay đổi phong cách dễ dàng</p>
+        <p class="section-left-label"><strong>Chọn loại khóa:</strong></p>
+        <div class="carousel-container">
+            <div class="carousel-track" id="clasp-carousel-track">
+                
+            </div>
+            <div class="carousel-controls">
+                <button class="carousel-btn carousel-prev" id="clasp-prev">⮜</button>
+                <button class="carousel-btn carousel-next" id="clasp-next">⮞</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- NEW UNIFIED CHARM SELECTION SECTION -->
+    <section class="carousel-section" id="charm-selection">
+        <h2 class="section-title">CHỌN CHARM CHO TỪNG VÒNG</h2>
+        <p class="section-subtitle">Tùy chỉnh charm riêng biệt cho mỗi vòng hoặc để trống nếu thích vòng trơn</p>
+        
+        <!-- Dual Ring Tabs -->
+        <div class="charm-ring-tabs">
+            <button class="charm-tab active" data-ring="ring1">
+                <div class="tab-number">1</div>
+                <div class="tab-info">
+                    <div class="tab-label">Vòng số 1</div>
+                    <div class="tab-preview" id="ring1-preview">Chưa chọn</div>
+                </div>
+            </button>
+            <button class="charm-tab" data-ring="ring2">
+                <div class="tab-number">2</div>
+                <div class="tab-info">
+                    <div class="tab-label">Vòng số 2</div>
+                    <div class="tab-preview" id="ring2-preview">Chưa chọn</div>
+                </div>
+            </button>
+        </div>
+
+        <!-- Carousel Container cho Ring 1 -->
+        <div class="charm-carousel-container active" id="ring1-carousel">
+            <p class="section-left-label"><strong>Chọn charm vòng 1:</strong></p>
+            <div class="carousel-container">
+                <div class="carousel-track" id="ring1-track">
+                    <!-- Products sẽ được render bằng JavaScript -->
+                </div>
+                <div class="carousel-controls">
+                    <button class="carousel-btn carousel-prev" id="ring1-prev">⮜</button>
+                    <button class="carousel-btn carousel-next" id="ring1-next">⮞</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Carousel Container cho Ring 2 -->
+        <div class="charm-carousel-container" id="ring2-carousel">
+            <p class="section-left-label"><strong>Chọn charm vòng 2:</strong></p>
+            <div class="carousel-container">
+                <div class="carousel-track" id="ring2-track">
+                    <!-- Products sẽ được render bằng JavaScript -->
+                </div>
+                <div class="carousel-controls">
+                    <button class="carousel-btn carousel-prev" id="ring2-prev">⮜</button>
+                    <button class="carousel-btn carousel-next" id="ring2-next">⮞</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Fixed Progress Footer -->
+    <div class="progress-footer-bar" id="progress-footer" style="display: none;">
+        <div class="progress-footer-content">
+            <span class="progress-text" id="progress-text">
+                Chỉ còn <span class="remaining-amount">339.000₫</span> để nhận charm bạc miễn phí
+            </span>
+            <div class="progress-mini-bar">
+                <div class="progress-mini-fill" id="progress-mini-fill"></div>
+            </div>
+        </div>
+    </div>
+    <!-- Variant Selection Modal -->
+    <div id="variant-modal" style="display: none;">
+        <div class="video-modal-overlay" onclick="closeVariantModal()"></div>
+        <div class="video-modal-container">
+            <div class="video-modal-header">
+                <h3 id="variant-modal-title">Chọn phiên bản</h3>
+                <button class="video-modal-close" onclick="closeVariantModal()">✕</button>
+            </div>
+            <div class="video-modal-body" id="variant-modal-body">
+                <!-- Variants will be populated here -->
+            </div>
+        </div>
+    </div>
+    <!-- Gift Charm Widget -->
+    <button class="gift-widget" id="gift-widget" onclick="openGiftModal()">
+        <span class="gift-widget-icon">🎁</span>
+        <span class="gift-widget-text">Quà Tặng</span>
+    </button>
+
+    <!-- Gift Charm Popup Modal -->
+    <div id="gift-charm-modal" class="gift-modal-overlay" style="display: none;">
+        <div class="gift-modal-container">
+            <div class="gift-modal-header">
+                <p class="gift-subtitle">Bạn được FREE 01 charm trong danh sách dưới đây</p>
+            </div>
+            
+            <div class="gift-modal-body">
+                <div class="gift-charms-grid" id="gift-charms-grid">
+                    <!-- Charm cards sẽ render bằng JavaScript -->
+                </div>
+            </div>
+            
+            <div class="gift-modal-footer">
+                <button class="gift-confirm-btn" id="gift-confirm-btn" disabled>
+                    <span class="btn-icon">🎁</span>
+                    Thêm charm miễn phí vào giỏ hàng
+                </button>
+                <button class="gift-skip-btn" onclick="closeGiftModal()">
+                    Đóng
+                </button>
+            </div>
+        </div>
+    </div>
+    <!-- Liên kết tới file JavaScript, đặt ở cuối body -->
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/testimonials.js"></script>
+</body>
+</html>
