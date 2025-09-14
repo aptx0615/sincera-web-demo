@@ -3,9 +3,6 @@
   "functions": {
     "api/track.js": {
       "maxDuration": 10
-    },
-    "api/analytics.js": {
-      "maxDuration": 15
     }
   },
   "headers": [
