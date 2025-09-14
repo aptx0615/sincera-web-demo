@@ -8,16 +8,6 @@
       "maxDuration": 15
     }
   },
-  "routes": [
-    {
-      "src": "/api/track",
-      "dest": "/api/track.js"
-    },
-    {
-      "src": "/api/analytics",
-      "dest": "/api/analytics.js"
-    }
-  ],
   "headers": [
     {
       "source": "/api/(.*)",
@@ -35,12 +25,6 @@
           "value": "Content-Type, Authorization"
         }
       ]
-    }
-  ],
-  "rewrites": [
-    {
-      "source": "/tracking-config.json",
-      "destination": "/tracking-config.json"
     }
   ]
 }
