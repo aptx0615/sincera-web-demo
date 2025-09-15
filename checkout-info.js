@@ -366,14 +366,33 @@ function goBackToCart() {
     window.location.href = '/';
 }
 
-function proceedToPayment() {
+// THAY THẾ TOÀN BỘ FUNCTION proceedToPayment()
+async function proceedToPayment() {
     if (!validateAllFields()) {
         showNotification('Vui lòng điền đầy đủ thông tin!', 'error');
         return;
     }
     
-    const orderData = {
-        cart: getCartFromStorage(),
+    const cart = getCartFromStorage();
+    const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    const shippingFee = subtotal >= 300000 ? 0 : 20000;
+    const total = subtotal + shippingFee;
+
+    // Prepare checkout data
+    const checkoutData = {
+        cart: cart,
+        customerInfo: {
+            fullName: document.getElementById('fullName').value,
+            phoneNumber: document.getElementById('phoneNumber').value,
+            detailAddress: document.getElementById('detailAddress').value,
+            province: document.getElementById('province').value,
+            district: document.getElementById('district').value,
+            ward: document.getElementById('ward').value,
+            // Add name lookups for full address
+            provinceName: document.getElementById('province').selectedOptions[0]?.text || '',
+            districtName: document.getElementById('district').selectedOptions[0]?.text || '',
+            wardName: document.getElementById('ward').selectedOptions[0]?.text || ''
+        },
         sizeInfo: {
             ring1: {
                 size: document.getElementById('ring1-size').value,
@@ -385,44 +404,52 @@ function proceedToPayment() {
             },
             sameSize: document.getElementById('sameSize').checked
         },
-        shippingInfo: {
-            fullName: document.getElementById('fullName').value,
-            phoneNumber: document.getElementById('phoneNumber').value,
-            detailAddress: document.getElementById('detailAddress').value,
-            province: document.getElementById('province').value,
-            district: document.getElementById('district').value,
-            ward: document.getElementById('ward').value
-        },
-        timestamp: Date.now()
+        note: '' // Add custom note field if needed
     };
-    
-    localStorage.setItem('orderData', JSON.stringify(orderData));
-    
-    const cart = orderData.cart;
-    const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-    const shippingFee = subtotal >= 300000 ? 0 : 20000;
-    const total = subtotal + shippingFee;
-    // Track checkout initiation
-    if (window.trackCheckout) {
-        window.trackCheckout({
-            total: total,
-            items: cart
+
+    try {
+        showNotification('Đang xử lý đơn hàng...', 'info');
+        
+        // 🔐 GỌI SECURE BACKEND API
+        const response = await fetch('/api/checkout', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(checkoutData)
         });
-    }    
-    console.log('💰 Proceeding to payment:', {
-        subtotal: subtotal,
-        shippingFee: shippingFee,
-        totalAmount: total,
-        itemCount: cart.length,
-        sizeInfo: orderData.sizeInfo,
-        shippingInfo: orderData.shippingInfo
-    });
-    
-    showNotification('Đang chuyển đến trang thanh toán...', 'success');
-    
-    setTimeout(() => {
-        window.location.href = 'payment.html';
-    }, 1500);
+
+        const result = await response.json();
+
+        if (response.ok && result.success) {
+            // Track checkout success
+            if (window.trackPurchase) {
+                window.trackPurchase({
+                    total: total,
+                    items: cart,
+                    order_id: result.order?.id
+                });
+            }
+
+            // Clear cart and saved data
+            localStorage.removeItem('cart');
+            localStorage.removeItem('checkoutFormData');
+            
+            showNotification('✅ Đặt hàng thành công!', 'success');
+            
+            // Redirect to success page
+            setTimeout(() => {
+                window.location.href = `success.html?order=${result.order?.id || 'completed'}`;
+            }, 2000);
+            
+        } else {
+            throw new Error(result.message || 'Checkout failed');
+        }
+        
+    } catch (error) {
+        console.error('❌ Checkout error:', error);
+        showNotification('❌ Đặt hàng thất bại: ' + error.message, 'error');
+    }
 }
 
 function showNotification(message, type = 'info') {
