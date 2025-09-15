@@ -467,20 +467,6 @@ async function updateSessionStats(sessionId, data) {
     
     global.analytics[statsKey][sessionId] = data;
 }
-
-async function storeEvent(eventData) {
-    const today = getVietnamDate();
-    const eventsKey = `events_${today}`;
-    
-    if (!global.analytics) global.analytics = {};
-    if (!global.analytics[eventsKey]) global.analytics[eventsKey] = [];
-    
-    global.analytics[eventsKey].push({
-        ...eventData,
-        stored_at: Date.now()
-    });
-}
-
 async function updateAnalytics(eventData) {
     const today = getVietnamDate();
     const totalsKey = `daily_totals_${today}`;
@@ -505,27 +491,24 @@ async function updateAnalytics(eventData) {
     totals.unique_visitors.add(eventData.visitor_id);
     totals.unique_sessions.add(eventData.session_id);
     
-    // Increment specific counters
     switch (eventData.event_type) {
-        case 'page_view':
-            totals.page_views++;
-            break;
-        case 'product_click':
-            totals.product_clicks++;
-            break;
-        case 'add_to_cart':
-            totals.add_to_carts++;
-            break;
-        case 'initiate_checkout':
-            totals.checkouts++;
-            break;
-        case 'purchase':
-            totals.purchases++;
-            break;
-        case 'chat_click':
-            totals.chat_clicks++;
-            break;
+        case 'page_view': totals.page_views++; break;
+        case 'product_click': totals.product_clicks++; break;
+        case 'add_to_cart': totals.add_to_carts++; break;
+        case 'initiate_checkout': totals.checkouts++; break;
+        case 'purchase': totals.purchases++; break;
+        case 'chat_click': totals.chat_clicks++; break;
     }
+
+    // BACKUP TOTALS
+    console.log(`[SINCERA_ANALYTICS_BACKUP]${JSON.stringify({
+        type: 'totals',
+        date: today,
+        visitors: totals.unique_visitors.size,
+        sessions: totals.unique_sessions.size,
+        page_views: totals.page_views,
+        events: totals.total_events
+    })}`);
 }
 
 async function getAnalytics(req, res) {
@@ -650,5 +633,27 @@ async function sendToInboxBackend(inboxData) {
         console.log('[SYSTEM] Analytics persistence setup completed');
     }
 
+}
+
+async function storeEvent(eventData) {
+    const today = getVietnamDate();
+    const eventsKey = `events_${today}`;
+    
+    if (!global.analytics) global.analytics = {};
+    if (!global.analytics[eventsKey]) global.analytics[eventsKey] = [];
+    
+    global.analytics[eventsKey].push({
+        ...eventData,
+        stored_at: Date.now()
+    });
+
+    // BACKUP LOGS
+    console.log(`[SINCERA_ANALYTICS_BACKUP]${JSON.stringify({
+        type: 'event',
+        date: today,
+        event: eventData.event_type,
+        visitor: eventData.visitor_id,
+        totalEvents: global.analytics[eventsKey].length
+    })}`);
 }
 

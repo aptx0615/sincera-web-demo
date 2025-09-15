@@ -440,49 +440,52 @@ async function handleDashboardAPI(req, res) {
     }
 }
 
-// ==========================================
-// DATA RETRIEVAL FUNCTIONS
-// ==========================================
-
 async function getAnalyticsData(date) {
-    if (!global.analytics) {
-        return {
-            date: date,
-            totals: { visitors: 0, sessions: 0, page_views: 0, events: 0 },
-            conversion_rates: { cart_conversion: '0%', checkout_conversion: '0%', purchase_conversion: '0%', chat_conversion: '0%' }
-        };
+    // TRY GLOBAL FIRST
+    if (global.analytics) {
+        const totalsKey = `daily_totals_${date}`;
+        const totals = global.analytics[totalsKey];
+        
+        if (totals) {
+            return {
+                date: date,
+                totals: {
+                    visitors: totals.unique_visitors?.size || 0,
+                    sessions: totals.unique_sessions?.size || 0,
+                    page_views: totals.page_views || 0,
+                    events: totals.total_events || 0,
+                    product_clicks: totals.product_clicks || 0,
+                    add_to_carts: totals.add_to_carts || 0,
+                    checkouts: totals.checkouts || 0,
+                    purchases: totals.purchases || 0,
+                    chat_clicks: totals.chat_clicks || 0
+                },
+                conversion_rates: {
+                    cart_conversion: totals.page_views > 0 ? ((totals.add_to_carts / totals.page_views) * 100).toFixed(2) + '%' : '0%',
+                    checkout_conversion: totals.add_to_carts > 0 ? ((totals.checkouts / totals.add_to_carts) * 100).toFixed(2) + '%' : '0%',
+                    purchase_conversion: totals.checkouts > 0 ? ((totals.purchases / totals.checkouts) * 100).toFixed(2) + '%' : '0%',
+                    chat_conversion: totals.unique_visitors?.size > 0 ? ((totals.chat_clicks / totals.unique_visitors.size) * 100).toFixed(2) + '%' : '0%'
+                }
+            };
+        }
     }
 
-    const totalsKey = `daily_totals_${date}`;
-    const totals = global.analytics[totalsKey];
-
-    if (!totals) {
-        return {
-            date: date,
-            totals: { visitors: 0, sessions: 0, page_views: 0, events: 0 },
-            conversion_rates: { cart_conversion: '0%', checkout_conversion: '0%', purchase_conversion: '0%', chat_conversion: '0%' }
-        };
+    // FALLBACK: READ FROM TRACK API
+    try {
+        const response = await fetch('https://couple.sincera.vn/api/track?date=' + date);
+        if (response.ok) {
+            const data = await response.json();
+            return data;
+        }
+    } catch (error) {
+        console.error('Failed to fetch from track API:', error);
     }
 
+    // DEFAULT EMPTY
     return {
         date: date,
-        totals: {
-            visitors: totals.unique_visitors?.size || 0,
-            sessions: totals.unique_sessions?.size || 0,
-            page_views: totals.page_views || 0,
-            events: totals.total_events || 0,
-            product_clicks: totals.product_clicks || 0,
-            add_to_carts: totals.add_to_carts || 0,
-            checkouts: totals.checkouts || 0,
-            purchases: totals.purchases || 0,
-            chat_clicks: totals.chat_clicks || 0
-        },
-        conversion_rates: {
-            cart_conversion: totals.page_views > 0 ? ((totals.add_to_carts / totals.page_views) * 100).toFixed(2) + '%' : '0%',
-            checkout_conversion: totals.add_to_carts > 0 ? ((totals.checkouts / totals.add_to_carts) * 100).toFixed(2) + '%' : '0%',
-            purchase_conversion: totals.checkouts > 0 ? ((totals.purchases / totals.checkouts) * 100).toFixed(2) + '%' : '0%',
-            chat_conversion: totals.unique_visitors?.size > 0 ? ((totals.chat_clicks / totals.unique_visitors.size) * 100).toFixed(2) + '%' : '0%'
-        }
+        totals: { visitors: 0, sessions: 0, page_views: 0, events: 0 },
+        conversion_rates: { cart_conversion: '0%', checkout_conversion: '0%', purchase_conversion: '0%', chat_conversion: '0%' }
     };
 }
 
