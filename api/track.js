@@ -2,11 +2,7 @@ export default async function handler(req, res) {
     // ✅ FIXED: Comprehensive CORS setup
     const origin = req.headers.origin;
     const allowedOrigins = [
-        'https://your-domain.com',
-        'https://sincera.vercel.app', 
-        'http://localhost:3000',
-        'http://127.0.0.1:5500',
-        'http://localhost:5500'
+        'https://couple.sincera.vn'
     ];
     
     if (allowedOrigins.includes(origin) || !origin) {
@@ -377,9 +373,12 @@ async function processGenericEvent(eventData) {
         console.error('❌ processGenericEvent error:', error);
     }
 }
-
+// Add this after export default
+function getVietnamDate() {
+    return getVietnamDate();
+}
 async function updateVisitorStats(visitorId, data) {
-    const today = new Date().toISOString().split('T')[0];
+    const today = getVietnamDate();
     const statsKey = `visitor_stats_${today}`;
     
     if (!global.analytics) global.analytics = {};
@@ -393,7 +392,7 @@ async function updateVisitorStats(visitorId, data) {
 }
 
 async function updatePageStats(page, data) {
-    const today = new Date().toISOString().split('T')[0];
+    const today = getVietnamDate();
     const statsKey = `page_stats_${today}`;
     
     if (!global.analytics) global.analytics = {};
@@ -412,7 +411,7 @@ async function updatePageStats(page, data) {
 }
 
 async function updateProductStats(productId, data) {
-    const today = new Date().toISOString().split('T')[0];
+    const today = getVietnamDate();
     const statsKey = `product_stats_${today}`;
     
     if (!global.analytics) global.analytics = {};
@@ -430,7 +429,7 @@ async function updateProductStats(productId, data) {
 }
 
 async function updateFunnelStats(stage, data) {
-    const today = new Date().toISOString().split('T')[0];
+    const today = getVietnamDate();
     const statsKey = `funnel_stats_${today}`;
     
     if (!global.analytics) global.analytics = {};
@@ -444,7 +443,7 @@ async function updateFunnelStats(stage, data) {
 }
 
 async function updateChatStats(data) {
-    const today = new Date().toISOString().split('T')[0];
+    const today = getVietnamDate();
     const statsKey = `chat_stats_${today}`;
     
     if (!global.analytics) global.analytics = {};
@@ -457,7 +456,7 @@ async function updateChatStats(data) {
 }
 
 async function updateSessionStats(sessionId, data) {
-    const today = new Date().toISOString().split('T')[0];
+    const today = getVietnamDate();
     const statsKey = `session_stats_${today}`;
     
     if (!global.analytics) global.analytics = {};
@@ -467,7 +466,7 @@ async function updateSessionStats(sessionId, data) {
 }
 
 async function storeEvent(eventData) {
-    const today = new Date().toISOString().split('T')[0];
+    const today = getVietnamDate();
     const eventsKey = `events_${today}`;
     
     if (!global.analytics) global.analytics = {};
@@ -480,7 +479,7 @@ async function storeEvent(eventData) {
 }
 
 async function updateAnalytics(eventData) {
-    const today = new Date().toISOString().split('T')[0];
+    const today = getVietnamDate();
     const totalsKey = `daily_totals_${today}`;
     
     if (!global.analytics) global.analytics = {};
@@ -529,7 +528,7 @@ async function updateAnalytics(eventData) {
 async function getAnalytics(req, res) {
     try {
         const { date, metric } = req.query;
-        const targetDate = date || new Date().toISOString().split('T')[0];
+        const targetDate = date || getVietnamDate();
         
         if (!global.analytics) {
             return res.status(200).json({ 

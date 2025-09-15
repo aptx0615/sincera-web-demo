@@ -403,7 +403,7 @@ async function handleDashboardAPI(req, res) {
         return res.status(401).json({ error: 'Invalid password' });
     }
 
-    const targetDate = date || new Date().toISOString().split('T')[0];
+    const targetDate = date || new Date(Date.now() + 7*60*60*1000).toISOString().split('T')[0];
 
     try {
         switch (action) {
