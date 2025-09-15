@@ -373,9 +373,12 @@ async function processGenericEvent(eventData) {
         console.error('❌ processGenericEvent error:', error);
     }
 }
-// Add this after export default
+
 function getVietnamDate() {
-    return getVietnamDate();
+    // Vietnam timezone offset: UTC+7
+    const now = new Date();
+    const vietnamTime = new Date(now.getTime() + (7 * 60 * 60 * 1000));
+    return vietnamTime.toISOString().split('T')[0]; // Return YYYY-MM-DD format
 }
 async function updateVisitorStats(visitorId, data) {
     const today = getVietnamDate();
