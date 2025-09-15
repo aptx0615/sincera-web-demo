@@ -78,13 +78,11 @@ function initCharmSelection() {
     renderCharmCarousels();
     setupCharmEventListeners();
     updateProgressIndicator();
-    console.log('Charm Selection System with Dynamic Pricing initialized');
 }
 
 function updateCurrentCartTotal() {
     const cart = JSON.parse(localStorage.getItem('cart') || '[]');
     currentCartTotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-    console.log(`Current cart total: ${new Intl.NumberFormat('vi-VN', {style: 'currency', currency: 'VND'}).format(currentCartTotal)}`);
 }
 
 function setupCartListener() {
@@ -94,9 +92,7 @@ function setupCartListener() {
         const oldTotal = currentCartTotal;
         
         if (newTotal !== oldTotal) {
-            currentCartTotal = newTotal;
-            console.log(`Cart updated. New total: ${new Intl.NumberFormat('vi-VN', {style: 'currency', currency: 'VND'}).format(currentCartTotal)}`);
-            
+            currentCartTotal = newTotal;         
             // Always re-render carousels when cart changes (total OR items)
             renderCharmCarousels();
         }
@@ -139,8 +135,6 @@ function renderCharmCarousel(ringId) {
         const productCard = createCharmCard(charm, ringId);
         track.appendChild(productCard);
     });
-
-    console.log(`Rendered ${charmProducts.length} charms for ${ringId} with dynamic pricing`);
 }
 
 function createCharmCard(charm, ringId) {
@@ -233,8 +227,6 @@ function selectCharmForRing(charm, ringId) {
     
     // Update tab preview
     updateTabPreview(ringId);
-
-    console.log(`Selected ${charm.name} for ${ringId} - Price: ${charm.isFreePromo ? 'FREE' : new Intl.NumberFormat('vi-VN', {style: 'currency', currency: 'VND'}).format(charm.price)}`);
 }
 
 function updateCharmSelection(ringId) {
@@ -295,8 +287,6 @@ function switchCharmTab(ringId) {
         container.classList.remove('active');
     });
     document.querySelector(`#${ringId}-carousel`).classList.add('active');
-
-    console.log(`Switched to ${ringId}`);
 }
 
 function setupCharmCarouselNavigation(ringId) {
@@ -329,7 +319,6 @@ function setupCharmCarouselNavigation(ringId) {
 
 // PROGRESS INDICATOR
 function updateProgressIndicator() {
-    console.log('Progress indicator updated');
 }
 
 // NOTIFICATION SYSTEM
@@ -338,7 +327,6 @@ function showCharmNotification(message, type = 'info') {
     if (window.showNotification) {
         window.showNotification(message, type);
     } else {
-        console.log(`[${type.toUpperCase()}] ${message}`);
     }
 }
 

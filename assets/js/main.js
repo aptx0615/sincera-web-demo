@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
         price: 390000,
         description: "Bạc s925 | Nhiều size",
         image: "https://content.pancake.vn/2-25/2025/8/17/c2d906c079ec94dd7c5733d32cb08a2a54f8084a.jpg",
-        video: "images/videos/CBPC00.mp4",
+        video: "https://content.pancake.vn/2-25/2025/9/15/19f43e6531663a1dfd609bb24508a32d8b8bcef8.mp4",
         variants: [
             {
                 id: "83aecf63-b696-4859-89da-105600e93b2a",
@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
         price: 330000,
         description: "Bạc s925 | Nhiều size",
         image: "https://content.pancake.vn/2-25/2025/8/17/3b9a852cfdcee5f5b018e0f3ead18f12f3f89412.jpg",
-        video: "images/videos/CBBC00.mp4",
+        video: "https://content.pancake.vn/2-25/2025/9/15/ba5c36e91b1b2d018497cefad178ed1ce0a0a968.mp4",
         variants: [
             {
                 id: "33cc2dee-abd3-4d64-b32a-95a587399f97",
@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
         price: 360000,
         description: "Bạc s925 | Size 0.8mm",
         image: "https://content.pancake.vn/2-25/2025/8/17/b9901c386298d77ae693185f8bb0ae2caab1faac.jpg",
-        video: "images/videos/CBBOX00.mp4"
+        video: "https://content.pancake.vn/2-25/2025/9/15/b3afcc57aa1edbbd84649019a7dceb17e101f7f1.mp4"
     },
     {
         id: "2976bcd0-8ed4-4640-94c0-08c620546356",
@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
         price: 590000,
         description: "Bạc s925 | Size [xx] mm",
         image: "https://content.pancake.vn/2-25/2025/8/17/769b66c9f72eb1f3b00414426239d2ae9fd901d5.jpg",
-        video: "images/videos/CBFISH00.mp4"
+        video: "https://content.pancake.vn/2-25/2025/9/15/f74597b578e9cfd05996a4de2b6948e1a394ccc5.mp4"
 
     },
     {
@@ -89,7 +89,7 @@ document.addEventListener('DOMContentLoaded', () => {
         price: 580000,
         description: "Bạc s925 | Size 1.5mm",
         image: "https://content.pancake.vn/2-25/2025/8/17/9b5da9db46b5219575b01169eb05911f81d5bc11.jpg",
-        video: "images/videos/CBSN00.mp4"
+        video: "https://content.pancake.vn/2-25/2025/9/15/9499a00233e5879898dabd58de0eab0a841377e5.mp4"
     },
     {
         id: "f20aa9cb-b5a9-4ba2-af7f-cf5f46d78fb1",
@@ -97,7 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
         price: 399000,
         description: "Bạc s925 | Size 1.5mm",
         image: "https://content.pancake.vn/2-25/2025/8/17/06c58609e74da8157a4dc26e028afb4f05f934b4.jpg",
-        video: "images/videos/CBBB00.mp4"
+        video: "https://content.pancake.vn/2-25/2025/9/15/9adfb72d8b5755be031d5ea545652d3aeda9688d.mp4"
     },
     {
         id: "1aa56d69-7ebe-4f45-a21d-284495ef8b53",
@@ -105,7 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
         price: 325000,
         description: "Bạc s925 | Size 0.8mm",
         image: "https://content.pancake.vn/2-25/2025/8/17/7ccce87e0a30628b4973c8d5e4ddd9dec797c13f.jpg",
-        video: "images/videos/CBDH00.mp4"
+        video: "https://content.pancake.vn/2-25/2025/9/15/88ecffc364e2ec5e9b90a9a3e2e260aea794254d.mp4"
     },
     {
         id: "de9da097-3832-4f8e-84fa-75cb478a3235",
@@ -113,14 +113,14 @@ document.addEventListener('DOMContentLoaded', () => {
         price: 360000,
         description: "Bạc s925 | Size 2.4mm",
         image: "https://content.pancake.vn/2-25/2025/8/17/77f70c214718d6ff7fa1376de4a22822e8a97e42.jpg",
-        video: "images/videos/CBHL00.mp4"
+        video: "https://content.pancake.vn/2-25/2025/9/15/58079a07406f66dd39ddfe376c06b076bf2012de.mp4"
     },
     {
         name: "Dây Curb",
         price: 490000,
         description: "Bạc s925 | Nhiều size",
         image: "https://content.pancake.vn/2-25/2025/8/17/ddad2298244cd08fc177fdc0c80182ef03b03856.jpg",
-        video: "images/videos/CBCURB00.mp4",
+        video: "https://content.pancake.vn/2-25/2025/9/15/1b46c1fc308f381205c794465a9bf99cabf45a07.mp4",
         variants: [
             {
                 id: "26c0b07f-e1fa-4161-983b-a43fb2ba9ea3",
@@ -142,6 +142,7 @@ document.addEventListener('DOMContentLoaded', () => {
         price: 0,
         description: "Bạc s925 | Size 2.0mm",
         image: "https://content.pancake.vn/2-25/2025/8/17/19b2704c5fcb707572bbabdc4ac68d7ac3d5604f.jpg",
+        video: "https://content.pancake.vn/2-25/2025/9/15/58079a07406f66dd39ddfe376c06b076bf2012de.mp4"
     },
     {
         id: "e4e251ad-327a-4b47-baa9-ea2d1f1e94f5",
@@ -149,7 +150,7 @@ document.addEventListener('DOMContentLoaded', () => {
         price: 570000,
         description: "Bạc s925 | Size 2.5mm",
         image: "https://content.pancake.vn/2-25/2025/8/17/028fa20a2e190951e90b88472202663877ae38f4.jpg",
-        video: "images/videos/CBBY00.mp4"
+        video: "https://content.pancake.vn/2-25/2025/9/15/4ccb4da6016b560331cddacc39d9ea03803d782b.mp4"
     },
     {
         id: "4357d4a2-fb71-484f-a009-c92bd9134cc8",
@@ -157,14 +158,14 @@ document.addEventListener('DOMContentLoaded', () => {
         price: 690000,
         description: "Bạc s925 | Size 3.5mm",
         image: "https://content.pancake.vn/2-25/2025/8/17/80647390d3a8e00e144e775e0b822bb6f0951474.jpg",
-        video: "images/videos/CBRL00.mp4"
+        video: "https://content.pancake.vn/2-25/2025/9/15/49ad8cffd4ae56703aa2f678e3c518aaffab9d91.mp4"
     },
     {
         name: "Dây Sequin",
         price: 330000,
         description: "Bạc s925 | Nhiều size",
         image: "https://content.pancake.vn/2-25/2025/8/17/7552f1b46f01712b154fa54d4f3bd99f5c2f335e.jpg",
-        video: "images/videos/CBSQ00.mp4",
+        video: "https://content.pancake.vn/2-25/2025/9/15/6565b42248baf0c3db736b231e8029a6eafa0079.mp4",
         variants: [
             {
                 id: "31a2fb94-010e-4ec6-aa25-599d0cb57ab9",
@@ -186,7 +187,7 @@ document.addEventListener('DOMContentLoaded', () => {
         price: 999000,
         description: "[Mẫu giới hạn] Dây Sincera #02",
         image: "https://content.pancake.vn/2-25/2025/8/17/3af76d6a118f32c911fa5befb25e405ecd725e09.jpg",
-        video: "images/videos/CBSCR200.mp4"
+        video: "https://content.pancake.vn/2-25/2025/9/15/3ac3a26bbcd7fb507fe980e0ad96c610488d3edf.mp4"
     },
     {
         id: "20a9e9d3-03e6-4aed-88c0-00f7bf795505",
@@ -194,7 +195,7 @@ document.addEventListener('DOMContentLoaded', () => {
         price: 690000,
         description: "[Mẫu giới hạn] Dây Sincera #01",
         image: "https://content.pancake.vn/2-25/2025/8/17/1157fce5de22ad69e752fc700004c0bff4be8e88.jpg",
-        video: "images/videos/CBSCR100.mp4"
+        video: "https://content.pancake.vn/2-25/2025/9/15/f95030a7db5dee7a854b6316ff9db22cb4bfc471.mp4"
     },
     {
         id: "43aa9ea6-538f-40ed-a174-9c4be1bec273",
@@ -202,7 +203,7 @@ document.addEventListener('DOMContentLoaded', () => {
         price: 330000,
         description: "Bạc s925 | Size 1.5mm",
         image: "https://content.pancake.vn/2-25/2025/8/17/0f4c54371260b93ee4b70bff59367135396a3add.jpg",
-        video: "images/videos/CBSO00.mp4"
+        video: "https://content.pancake.vn/2-25/2025/9/15/06edc76956cfe2fb3df00692efbdebd2dac2ff57.mp4"
     },
     {
         id: "1d57bd57-7251-4b0a-931a-d0ea120213d5",
@@ -488,9 +489,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }).format(total);
     }
 
-    function addToCart(product) {
-        console.log(`🛒 Adding to cart: ${product.name}`);
-        
+    function addToCart(product) {      
         // SPECIAL LOGIC FOR CHARMS: Free vs Paid charms are different items
         let existingIndex = -1;
         
@@ -677,8 +676,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
             offersGrid.appendChild(offerCard);
         });
-
-        console.log(`✅ Rendered ${OFFER_PRODUCTS.length} offer products (fixed)`);
     }
 
     function renderStaticChainProducts() {
@@ -692,8 +689,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const hasNoVariants = !product.variants || product.variants.length === 0;
             const isSingleVariant = product.variants && product.variants.length === 1;
             const isMultiVariant = product.variants && product.variants.length > 1;
-            
-            console.log(`Product ${product.name}: hasNoVariants=${hasNoVariants}, isSingleVariant=${isSingleVariant}, isMultiVariant=${isMultiVariant}`);
             
             // PRICE DISPLAY LOGIC
             let priceDisplay, productName, productPrice;
@@ -749,7 +744,6 @@ document.addEventListener('DOMContentLoaded', () => {
             carouselTrack.appendChild(productCard);
         });
 
-        console.log(`✅ Rendered ${CHAIN_PRODUCTS.length} chain products (fixed structure)`);
     }
 
     function renderClaspProducts() {
@@ -757,7 +751,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const claspCarouselControls = document.querySelector('#clasp-products .carousel-controls');
 
         if (!claspCarouselTrack) {
-            console.log('Không tìm thấy clasp carousel track');
             return;
         }
 
@@ -796,7 +789,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 e.preventDefault();
                 e.stopPropagation();
                 const videoUrl = this.getAttribute('data-video-url');
-                console.log('Play video icon clicked for:', product.name, 'Video URL:', videoUrl);
                 playProductVideo(videoUrl, product.name);
             });
 
@@ -804,7 +796,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         if (claspCarouselControls) claspCarouselControls.style.display = 'flex';
-        console.log(`✅ Đã hiển thị ${CLASP_PRODUCTS.length} sản phẩm khóa`);
     }
 
     // PLAY VIDEO FUNCTION
@@ -812,11 +803,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!videoUrl || videoUrl === "điền url video") {
             showNotification(`Video chưa có sẵn cho sản phẩm "${productName}"`, 'info');
             return;
-        }
-
-        console.log(`🎬 Playing video for: ${productName}`);
-        console.log(`🎬 Video URL: ${videoUrl}`);
-        
+        }        
         createVideoModal(videoUrl, productName);
     }
 
@@ -893,8 +880,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const productIndex = icon.getAttribute('data-product-index');
             const productId = icon.getAttribute('data-product-id');
             
-            console.log('Add to cart clicked:', { productIndex, productId });
-            
             // HANDLE CHAIN_PRODUCTS with productIndex (both variants and non-variants)
             if (productIndex !== null && productIndex !== undefined) {
                 const product = CHAIN_PRODUCTS[parseInt(productIndex)];
@@ -903,8 +888,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     console.error('Product not found at index:', productIndex);
                     return;
                 }
-                
-                console.log('Processing chain product:', product.name, 'Variants:', product.variants?.length || 0);
                 
                 // Check product structure
                 const hasNoVariants = !product.variants || product.variants.length === 0;
@@ -919,7 +902,6 @@ document.addEventListener('DOMContentLoaded', () => {
                         return;
                     }
                     
-                    console.log('Adding product without variants:', product.id);
                     addToCart({
                         id: product.id,
                         name: product.name,
@@ -931,7 +913,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 } else if (isSingleVariant) {
                     // Single variant in array - use variant data
                     const variant = product.variants[0];
-                    console.log('Adding single variant:', variant.id);
                     addToCart({
                         id: variant.id,
                         name: product.name, // Use parent name
@@ -942,16 +923,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     
                 } else if (isMultiVariant) {
                     // Multiple variants - show modal
-                    console.log('Showing variant modal for:', product.name);
                     showVariantModal(product);
                 }
             } 
             // HANDLE OTHER PRODUCTS with productId (CLASP, CHARM, OFFER)
             else if (productId) {
-                console.log('Processing other product by ID:', productId);
                 const product = ALL_PRODUCTS.get(productId);
                 if (product) {
-                    console.log('Found product:', product.name);
                     addToCart(product);
                 } else {
                     console.error('Product not found in ALL_PRODUCTS map:', productId);

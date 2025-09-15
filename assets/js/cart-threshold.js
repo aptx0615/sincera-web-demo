@@ -21,8 +21,6 @@ class CartThresholdManager {
         
         // Hiện footer ngay khi init
         this.initProgressFooter();
-        
-        console.log(`🎯 CartThresholdManager initialized with threshold: ${new Intl.NumberFormat('vi-VN', {style: 'currency', currency: 'VND'}).format(this.thresholdAmount)}`);
     }
 
     hideSections() {
@@ -31,7 +29,6 @@ class CartThresholdManager {
             if (section) {
                 section.style.display = 'none';
                 section.setAttribute('data-threshold-hidden', 'true');
-                console.log(`🙈 Hiding section: ${selector}`);
             }
         });
     }
@@ -52,8 +49,6 @@ class CartThresholdManager {
                     section.style.opacity = '1';
                     section.style.transform = 'translateY(0)';
                 }, 50);
-                
-                console.log(`👁️ Showing section: ${selector}`);
             }
         });
     }
@@ -80,14 +75,11 @@ class CartThresholdManager {
     }
 
     checkThreshold(cartTotal) {
-        console.log(`🛒 Cart total: ${new Intl.NumberFormat('vi-VN', {style: 'currency', currency: 'VND'}).format(cartTotal)}`);
         
         if (cartTotal >= this.thresholdAmount) {
-            console.log('✅ Threshold reached! Showing completion message...');
             this.showThresholdReached();
             this.showGiftWidget();
         } else {
-            console.log('📊 Showing progress footer...');
             this.showProgressTeaser(cartTotal);
             // Ẩn widget nếu cart drop below threshold
             this.hideGiftWidget();
@@ -98,14 +90,12 @@ class CartThresholdManager {
         const widget = document.getElementById('gift-widget');
         if (widget) {
             widget.classList.add('show');
-            console.log('🎁 Gift widget shown');
         }
     }    
     hideGiftWidget() {
         const widget = document.getElementById('gift-widget');
         if (widget) {
             widget.classList.remove('show');
-            console.log('🎁 Gift widget hidden');
         }
     }
     closeGiftPopup() {
@@ -139,8 +129,6 @@ class CartThresholdManager {
         
         // Luôn hiện footer
         progressFooter.style.display = 'block';
-        
-        console.log(`📊 Footer Progress: ${percentage.toFixed(1)}% | Remaining: ${new Intl.NumberFormat('vi-VN', {style: 'currency', currency: 'VND'}).format(remaining)}`);
     }
     initProgressFooter() {
         const cart = JSON.parse(localStorage.getItem('cart') || '[]');
@@ -301,12 +289,9 @@ class CartThresholdManager {
 
     updateThreshold(newAmount) {
         this.thresholdAmount = newAmount;
-        console.log(`🎯 Threshold updated to: ${new Intl.NumberFormat('vi-VN', {style: 'currency', currency: 'VND'}).format(newAmount)}`);
         this.checkCurrentCart();
     }
-        showGiftPopup() {
-        console.log('🎁 Showing gift popup...');
-        
+        showGiftPopup() {       
         // Lấy free charms từ main.js
         const freeCharms = this.getFreeCharms();
         if (freeCharms.length === 0) {
@@ -397,8 +382,6 @@ class CartThresholdManager {
             confirmBtn.disabled = false;
             confirmBtn.onclick = () => this.confirmGiftCharm(charm);
         }
-        
-        console.log('🎁 Selected gift charm:', charm.name);
     }
 
     // 7. THÊM FUNCTION confirmGiftCharm:
@@ -440,7 +423,6 @@ class CartThresholdManager {
         // Dispatch event để update UI
         const removedItems = oldCart.filter(item => item.isFreePromo === true);
         if (removedItems.length > 0) {
-            console.log('🗑️ Removed free charms:', removedItems.map(item => item.name));
             
             // Update cart UI
             if (window.updateCartIcon) window.updateCartIcon();
@@ -531,7 +513,6 @@ class CartThresholdManager {
         
         const removedItems = oldCart.filter(item => item.isFreePromo === true);
         if (removedItems.length > 0) {
-            console.log('Removed free charms:', removedItems.map(item => item.name));
             if (window.updateCartIcon) window.updateCartIcon();
             if (window.updateCartSidebar) window.updateCartSidebar();
         }
@@ -552,8 +533,6 @@ window.skipGiftPopup = function() {
     }
 };
 window.openGiftModal = function() {
-    console.log('🎁 Opening gift modal...');
-    
     // Access manager qua global reference
     const manager = window.cartThresholdManager;
     if (!manager) {
@@ -563,7 +542,6 @@ window.openGiftModal = function() {
     
     // Lấy free charms
     const freeCharms = manager.getFreeCharms();
-    console.log('🎁 Free charms found:', freeCharms.length);
     
     if (freeCharms.length > 0) {
         // Render popup content
@@ -574,7 +552,6 @@ window.openGiftModal = function() {
         if (modal) {
             modal.style.display = 'flex';
             document.body.style.overflow = 'hidden';
-            console.log('✅ Gift modal opened');
         } else {
             console.error('❌ Gift modal element not found');
         }
@@ -588,6 +565,5 @@ window.closeGiftModal = function() {
     if (modal) {
         modal.style.display = 'none';
         document.body.style.overflow = 'auto';
-        console.log('✅ Gift modal closed');
     }
 };
