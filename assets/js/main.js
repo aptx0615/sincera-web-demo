@@ -345,42 +345,40 @@ document.addEventListener('DOMContentLoaded', () => {
     // OFFER PRODUCTS
     const OFFER_PRODUCTS = [
     {
-        "web-id": "offer-infinity-love-001", // Frontend display ID
-        id: ["1d57bd57-7251-4b0a-931a-d0ea120213d5", "de9da097-3832-4f8e-84fa-75cb478a3235", "THAY ID CỦA CÁC ITEMS VÔ ĐÂY"], // Array các ID thực gửi backend
-        name: "Vòng Infinity Love",
-        price: 339000,
-        description: "Bạc s925 | Thiết kế sẵn",
-        image: "images/infinity-rings.jpg",
+        id: "4dd5e24a-420c-4dd5-97ac-7a3b2d3e6ee1",
+        name: "Vòng Sincera Infinity Heart",
+        price: 550000,
+        description: "Bạc s925 | Ảnh Đã Bao Gồm Free Charm Mặc Định",
+        image: "https://content.pancake.vn/2-25/2025/9/16/a5acc95775954fc84e88d85e13034bdcefed1c32.jpg",
         title: "INFINITY LOVE",
         overlay_description: "Biểu tượng của tình yêu/ tình bạn vĩnh cửu"
     },
     {
-        "web-id": "offer-infinity-rings-001",
-        id: ["6453bd17-1d4d-4df2-aeda-5f19c838e5db", "charm-b", "charm-c"],
-        name: "Nhẫn Infinity Đôi",
-        price: 289000,
-        description: "Bạc s925 | Thiết kế sẵn",
-        image: "images/infinity-rings.jpg",
+        id: "477eec37-deaf-49aa-8e81-0afbed9d9424",
+        name: "Nhẫn Sincera Infinity Love",
+        price: 300000,
+        description: "Bạc s925 | Theo Size Tay Cá Nhân",
+        image: "https://content.pancake.vn/2-25/2025/9/16/ee931e4f3fc2e3815f7e11de3b3af7741bdd1968.jpg",
         title: "INFINITY RINGS",
         overlay_description: "Lời ước hẹn tay trong tay mãi mãi"
     },
     {
         id: "offer-two-as-one-001",
-        name: "Nhẫn Two As One", 
-        price: 359000,
-        description: "Bạc s925 | Thiết kế sẵn",
-        image: "images/two-as-one.jpg",
+        name: "Vòng Two As One", 
+        price: 1250000,
+        description: "Bạc s925 | Giá Đã Bao Gồm 4 Charms Bạc Như Ảnh",
+        image: "https://content.pancake.vn/2-25/2025/9/16/fea50fc478c864896203b5a005679809b45cf102.jpg",
         title: "TWO AS ONE",
         overlay_description: "Hai mảnh ghép tuy khác nhau, nhưng hoàn hảo không thể tách rời"
     },
     {
         id: "offer-safety-pin-001",
-        name: "Charm Safety Pin",
-        price: 199000,
-        description: "Bạc s925 | Thiết kế sẵn", 
-        image: "images/safety-together.jpg",
+        name: "Safety Pin - Lucky and Loving",
+        price: 590000,
+        description: "Bạc s925 | 2 Viên Đá May Mắn Về Tình Yêu & Sự Nghiệp", 
+        image: "https://content.pancake.vn/2-25/s600x600/2025/9/16/c5c3308c05bf80a7f1c28ab982ee2700661ea96e.jpg",
         title: "SAFETY TOGETHER",
-        overlay_description: "Một chiếc ghim băng chứa là lạnh, lời nhắc luôn yêu thương bản thân"
+        overlay_description: "Một chiếc ghim băng cùng 2 viên đá may mắn, lời nhắc nhở hãy luôn yêu thương bản thân"
     }
     ];
 

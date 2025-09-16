@@ -29,12 +29,11 @@
                 <div class="size-section">
                     <h2 class="section-title">📏 NHẬP SIZE TAY CỦA BẠN</h2>
                     
-                    <div class="size-guide-btn" onclick="toggleSizeGuide()">
-                        <span>📖 Xem hướng dẫn đo size</span>
-                        <span class="toggle-icon">▼</span>
+                    <div class="size-guide-header">
+                        <span>📖 Hướng dẫn đo size</span>
                     </div>
-                    
-                    <div class="size-guide" id="sizeGuide" style="display: none;">
+
+                    <div class="size-guide" id="sizeGuide">
                         <div class="guide-content">
                             <img src="images/huong-dan-do-size-tay.jpg" alt="Hướng dẫn đo size ni tay" style="width: 100%; max-width: 500px; border-radius: 8px; display: block; margin: 0 auto 15px auto;">
                         </div>
@@ -42,38 +41,38 @@
 
                     <div class="size-inputs">
                         <div class="ring-input">
-                            <h3>🔵 VÒNG SỐ 1</h3>
+                            <h3> VÒNG SỐ 1</h3>
                             <div class="input-group">
                                 <label for="ring1-size">Size cổ tay (cm):</label>
                                 <input type="number" id="ring1-size" step="0.1" placeholder="16.5">
                             </div>
                             <div class="input-group">
-                                <label for="ring1-name">Tên người đeo (tùy chọn):</label>
-                                <input type="text" id="ring1-name" placeholder="Ví dụ: Anh Minh">
+                                <label for="ring1-name">Ghi chú:</label>
+                                <input type="text" id="ring1-name" placeholder="Bỏ qua nếu không có ghi chú cho sản phẩm">
                             </div>
                         </div>
 
                         <div class="ring-input">
-                            <h3>🔵 VÒNG SỐ 2</h3>
+                            <h3> VÒNG SỐ 2</h3>
                             <div class="input-group">
                                 <label for="ring2-size">Size cổ tay (cm):</label>
                                 <input type="number" id="ring2-size" step="0.1" placeholder="15.0">
                             </div>
                             <div class="input-group">
-                                <label for="ring2-name">Tên người đeo (tùy chọn):</label>
-                                <input type="text" id="ring2-name" placeholder="Ví dụ: Em Lan">
+                                <label for="ring2-name">Ghi chú:</label>
+                                <input type="text" id="ring2-name" placeholder="Bỏ qua nếu không có ghi chú cho sản phẩm">
                             </div>
                         </div>
 
                         <div class="same-size-option">
                             <input type="checkbox" id="sameSize" onchange="toggleSameSize()">
-                            <label for="sameSize">Cả 2 vòng cùng size</label>
+                            <label for="sameSize">2 vòng cùng size</label>
                         </div>
                     </div>
                 </div>
 
                 <div class="info-section">
-                    <h2 class="section-title">📋 THÔNG TIN GIAO HÀNG</h2>
+                    <h2 class="section-title"> THÔNG TIN GIAO HÀNG</h2>
                         <h3 class="address-note">
                             <em>Khách hàng vui lòng điền địa chỉ cũ trước sát nhập</em>
                         </h3>

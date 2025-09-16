@@ -1,5 +1,5 @@
 // ==========================================
-// SECURE CHECKOUT API - BACKEND ONLY
+// SECURE CHECKOUT API - BACKEND ONLY  
 // API keys được bảo vệ trong Vercel Environment Variables
 // ==========================================
 
@@ -35,12 +35,12 @@ export default async function handler(req, res) {
 
 async function handleCheckoutRequest(req, res) {
     // 🔐 API CREDENTIALS FROM ENVIRONMENT VARIABLES
-    const SHOP_ID = process.env.PANCAKE_SHOP_ID;
-    const API_KEY = process.env.PANCAKE_API_KEY;
-    const WAREHOUSE_ID = process.env.PANCAKE_WAREHOUSE_ID;
+    const SHOP_ID = process.env.PANCAKE_SHOP_ID || '1328295561';
+    const API_KEY = process.env.PANCAKE_API_KEY || 'd7e2687c391244b590ea95b4ae34b386';
+    const WAREHOUSE_ID = process.env.PANCAKE_WAREHOUSE_ID || 'KHO1';
 
     // Validate environment variables
-    if (!SHOP_ID || !API_KEY || !WAREHOUSE_ID) {
+    if (!SHOP_ID || !API_KEY) {
         console.error('❌ Missing environment variables');
         return res.status(500).json({
             error: 'Server configuration error',
@@ -48,71 +48,72 @@ async function handleCheckoutRequest(req, res) {
         });
     }
 
-    const { cart, customerInfo, sizeInfo, note } = req.body;
+    const payload = req.body;
+    console.log('📥 Received checkout payload:', JSON.stringify(payload, null, 2));
 
-    // Validate request data
-    if (!cart || !customerInfo) {
+    // Validate payload structure
+    if (!payload || !payload.items || !Array.isArray(payload.items) || payload.items.length === 0) {
         return res.status(400).json({
-            error: 'Missing required data',
-            required: ['cart', 'customerInfo']
+            error: 'Invalid payload',
+            message: 'Items array is required and cannot be empty'
         });
     }
 
-    // Build order payload
-    const orderPayload = {
-        shop_id: Number(SHOP_ID),
+    if (!payload.bill_full_name || !payload.bill_phone_number) {
+        return res.status(400).json({
+            error: 'Missing customer info',
+            message: 'Customer name and phone are required'
+        });
+    }
+
+    // Build Pancake API payload
+    const pancakePayload = {
+        shop_id: parseInt(SHOP_ID),
         warehouse_id: WAREHOUSE_ID,
         
-        // Customer info
-        bill_full_name: customerInfo.fullName || '',
-        bill_phone_number: customerInfo.phoneNumber || '',
+        // Customer billing info
+        bill_full_name: payload.bill_full_name,
+        bill_phone_number: payload.bill_phone_number,
         
-        // Items - Convert cart items to Pancake format
-        items: cart.map(item => ({
-            variation_id: String(item.id),
-            quantity: Number(item.quantity) || 1,
-            discount_each_product: 0,
-            is_bonus_product: item.isFreePromo || false,
-            is_discount_percent: false,
-            is_wholesale: false,
-            one_time_product: false
-        })),
+        // Items - already in correct format from frontend
+        items: payload.items,
         
         // Shipping address
         shipping_address: {
-            full_name: customerInfo.fullName || '',
-            phone_number: customerInfo.phoneNumber || '',
-            address: customerInfo.detailAddress || '',
-            commune_id: customerInfo.ward || null,
-            district_id: customerInfo.district || null,
-            province_id: customerInfo.province || null,
-            full_address: buildFullAddress(customerInfo)
+            full_name: payload.shipping_address?.full_name || payload.bill_full_name,
+            phone_number: payload.shipping_address?.phone_number || payload.bill_phone_number,
+            address: payload.shipping_address?.address || '',
+            commune_id: payload.shipping_address?.commune_id || null,
+            district_id: payload.shipping_address?.district_id || null,
+            province_id: payload.shipping_address?.province_id || null,
+            full_address: payload.shipping_address?.full_address || ''
         },
         
-        // Calculate shipping and totals
-        shipping_fee: calculateShippingFee(cart),
-        total_discount: 0,
-        is_free_shipping: calculateShippingFee(cart) === 0,
-        received_at_shop: false,
+        // Fees and settings
+        shipping_fee: payload.shipping_fee || 0,
+        total_discount: payload.total_discount || 0,
+        is_free_shipping: payload.is_free_shipping || false,
+        received_at_shop: payload.received_at_shop || false,
         
-        // Order note with size info
-        note: buildOrderNote(sizeInfo, note),
-        
-        // Custom order ID
-        custom_id: `WEB_${Date.now()}`
+        // Order notes
+        note: payload.note || '',
+        custom_id: payload.custom_id || `WEB_${Date.now()}`
     };
 
+    console.log('📤 Sending to Pancake API:', JSON.stringify(pancakePayload, null, 2));
+
     try {
-        console.log('📤 Creating Pancake order...');
-        
         // Call Pancake API
-        const pancakeResponse = await createPancakeOrder(orderPayload, API_KEY, SHOP_ID);
+        const pancakeResponse = await createPancakeOrder(pancakePayload, API_KEY, SHOP_ID);
         
         if (pancakeResponse) {
-            console.log('✅ Order created successfully');
+            console.log('✅ Order created successfully:', pancakeResponse);
             
             // Track purchase for analytics
-            await trackPurchaseEvent(cart, customerInfo);
+            await trackPurchaseEvent(payload.items, {
+                name: payload.bill_full_name,
+                phone: payload.bill_phone_number
+            });
             
             res.status(200).json({
                 success: true,
@@ -120,14 +121,15 @@ async function handleCheckoutRequest(req, res) {
                 message: 'Order created successfully'
             });
         } else {
-            throw new Error('Pancake API returned null');
+            throw new Error('Pancake API returned null response');
         }
         
     } catch (error) {
         console.error('❌ Order creation failed:', error);
         res.status(500).json({
             error: 'Order creation failed',
-            message: 'Please try again or contact support'
+            message: error.message || 'Please try again or contact support',
+            details: process.env.NODE_ENV === 'development' ? error.stack : undefined
         });
     }
 }
@@ -144,11 +146,20 @@ async function createPancakeOrder(payload, apiKey, shopId) {
         
         const response = await fetch(url, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 
+                'Content-Type': 'application/json',
+                'User-Agent': 'Sincera-Web/1.0'
+            },
             body: JSON.stringify(payload)
         });
         
         const result = await response.json();
+        console.log('📥 Pancake API response:', {
+            status: response.status,
+            success: result?.success,
+            data: result?.data ? 'Present' : 'Missing',
+            error: result?.error || result?.message
+        });
         
         if (response.ok && result?.success !== false) {
             return result.data || result;
@@ -157,67 +168,19 @@ async function createPancakeOrder(payload, apiKey, shopId) {
                 status: response.status, 
                 error: result 
             });
-            return null;
+            throw new Error(`Pancake API error: ${result?.message || result?.error || 'Unknown error'}`);
         }
     } catch (error) {
         console.error('💥 Pancake API request failed:', error);
-        return null;
+        throw error;
     }
-}
-
-// ==========================================
-// HELPER FUNCTIONS
-// ==========================================
-
-function buildFullAddress(customerInfo) {
-    const parts = [
-        customerInfo.detailAddress,
-        customerInfo.wardName,
-        customerInfo.districtName,
-        customerInfo.provinceName
-    ].filter(Boolean);
-    
-    return parts.join(', ');
-}
-
-function buildOrderNote(sizeInfo, customerNote = '') {
-    let note = '';
-    
-    if (sizeInfo) {
-        if (sizeInfo.ring1?.size) {
-            note += `Vòng 1: ${sizeInfo.ring1.size}cm`;
-            if (sizeInfo.ring1.name) note += ` (${sizeInfo.ring1.name})`;
-            note += '\n';
-        }
-        
-        if (sizeInfo.ring2?.size) {
-            note += `Vòng 2: ${sizeInfo.ring2.size}cm`;
-            if (sizeInfo.ring2.name) note += ` (${sizeInfo.ring2.name})`;
-            note += '\n';
-        }
-        
-        if (sizeInfo.sameSize) {
-            note += 'Ghi chú: Cả 2 vòng cùng size\n';
-        }
-    }
-    
-    if (customerNote) {
-        note += `\nGhi chú khách hàng: ${customerNote}`;
-    }
-    
-    return note.trim();
-}
-
-function calculateShippingFee(cart) {
-    const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-    return subtotal >= 300000 ? 0 : 20000;
 }
 
 // ==========================================
 // ANALYTICS TRACKING
 // ==========================================
 
-async function trackPurchaseEvent(cart, customerInfo) {
+async function trackPurchaseEvent(items, customerInfo) {
     try {
         const purchaseData = {
             event_type: 'purchase',
@@ -225,25 +188,29 @@ async function trackPurchaseEvent(cart, customerInfo) {
             visitor_id: `customer_${Date.now()}`,
             timestamp: Date.now(),
             data: {
-                order_total: cart.reduce((sum, item) => sum + (item.price * item.quantity), 0),
-                items: cart,
+                order_total: items.reduce((sum, item) => {
+                    // Estimate price from variation_id (fallback logic)
+                    const estimatedPrice = 300000; // Default price for calculation
+                    return sum + (estimatedPrice * (item.quantity || 1));
+                }, 0),
+                items: items,
                 customer_info: {
-                    name: customerInfo.fullName,
-                    phone: customerInfo.phoneNumber
+                    name: customerInfo.name,
+                    phone: customerInfo.phone
                 }
             }
         };
 
-        // Send to tracking API
-        await fetch('/api/track', {
+        // Send to tracking API (don't await to avoid blocking checkout)
+        fetch('/api/track', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(purchaseData)
-        });
+        }).catch(err => console.warn('⚠️ Purchase tracking failed:', err.message));
         
-        console.log('📊 Purchase tracked');
+        console.log('📊 Purchase tracking initiated');
     } catch (error) {
-        console.error('⚠️ Purchase tracking failed:', error);
+        console.error('⚠️ Purchase tracking error:', error);
         // Don't fail checkout if tracking fails
     }
 }

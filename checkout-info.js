@@ -366,7 +366,6 @@ function goBackToCart() {
     window.location.href = '/';
 }
 
-// THAY THẾ TOÀN BỘ FUNCTION proceedToPayment()
 async function proceedToPayment() {
     if (!validateAllFields()) {
         showNotification('Vui lòng điền đầy đủ thông tin!', 'error');
@@ -374,58 +373,36 @@ async function proceedToPayment() {
     }
     
     const cart = getCartFromStorage();
-    const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-    const shippingFee = subtotal >= 300000 ? 0 : 20000;
-    const total = subtotal + shippingFee;
-
-    // Prepare checkout data
-    const checkoutData = {
-        cart: cart,
-        customerInfo: {
-            fullName: document.getElementById('fullName').value,
-            phoneNumber: document.getElementById('phoneNumber').value,
-            detailAddress: document.getElementById('detailAddress').value,
-            province: document.getElementById('province').value,
-            district: document.getElementById('district').value,
-            ward: document.getElementById('ward').value,
-            // Add name lookups for full address
-            provinceName: document.getElementById('province').selectedOptions[0]?.text || '',
-            districtName: document.getElementById('district').selectedOptions[0]?.text || '',
-            wardName: document.getElementById('ward').selectedOptions[0]?.text || ''
-        },
-        sizeInfo: {
-            ring1: {
-                size: document.getElementById('ring1-size').value,
-                name: document.getElementById('ring1-name').value
-            },
-            ring2: {
-                size: document.getElementById('ring2-size').value,
-                name: document.getElementById('ring2-name').value
-            },
-            sameSize: document.getElementById('sameSize').checked
-        },
-        note: '' // Add custom note field if needed
-    };
+    if (!cart || cart.length === 0) {
+        showNotification('Giỏ hàng trống!', 'error');
+        return;
+    }
 
     try {
         showNotification('Đang xử lý đơn hàng...', 'info');
         
-        // 🔐 GỌI SECURE BACKEND API
+        // Build complete payload
+        const payload = buildCheckoutPayload(cart);
+        
+        console.log('📤 Sending checkout payload:', payload);
+        
+        // Call backend API
         const response = await fetch('/api/checkout', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(checkoutData)
+            body: JSON.stringify(payload)
         });
 
         const result = await response.json();
+        console.log('📥 Checkout response:', result);
 
         if (response.ok && result.success) {
-            // Track checkout success
+            // Track purchase success
             if (window.trackPurchase) {
                 window.trackPurchase({
-                    total: total,
+                    total: payload.shipping_fee + cart.reduce((sum, item) => sum + (item.price * item.quantity), 0),
                     items: cart,
                     order_id: result.order?.id
                 });
@@ -443,13 +420,115 @@ async function proceedToPayment() {
             }, 2000);
             
         } else {
-            throw new Error(result.message || 'Checkout failed');
+            throw new Error(result.message || result.error || 'Checkout failed');
         }
         
     } catch (error) {
         console.error('❌ Checkout error:', error);
         showNotification('❌ Đặt hàng thất bại: ' + error.message, 'error');
     }
+}
+
+// BUILD CHECKOUT PAYLOAD
+function buildCheckoutPayload(cart) {
+    // Transform cart items to backend format
+    const items = cart.map(item => ({
+        variation_id: item.id,  // Direct mapping: cart.id → variation_id
+        quantity: item.quantity || 1,
+        discount_each_product: 0,
+        is_bonus_product: item.isFreePromo || false,  // Free charm support
+        is_discount_percent: false,
+        is_wholesale: false,
+        one_time_product: false
+    }));
+
+    // Calculate totals
+    const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    const shippingFee = subtotal >= 300000 ? 0 : 20000;
+
+    // Customer info from form
+    const customerInfo = {
+        fullName: document.getElementById('fullName').value.trim(),
+        phoneNumber: document.getElementById('phoneNumber').value.trim(),
+        detailAddress: document.getElementById('detailAddress').value.trim(),
+        province: document.getElementById('province').value,
+        district: document.getElementById('district').value,
+        ward: document.getElementById('ward').value,
+        provinceName: document.getElementById('province').selectedOptions[0]?.text || '',
+        districtName: document.getElementById('district').selectedOptions[0]?.text || '',
+        wardName: document.getElementById('ward').selectedOptions[0]?.text || ''
+    };
+
+    // Build full address
+    const fullAddress = [
+        customerInfo.detailAddress,
+        customerInfo.wardName,
+        customerInfo.districtName,
+        customerInfo.provinceName
+    ].filter(Boolean).join(', ');
+
+    // Size info for notes
+    const sizeNote = buildSizeNote();
+
+    // Complete payload structure
+    return {
+        // Customer billing info
+        bill_full_name: customerInfo.fullName,
+        bill_phone_number: customerInfo.phoneNumber,
+        
+        // Items array
+        items: items,
+        
+        // Shipping address
+        shipping_address: {
+            full_name: customerInfo.fullName,
+            phone_number: customerInfo.phoneNumber,
+            address: customerInfo.detailAddress,
+            commune_id: customerInfo.ward,
+            district_id: customerInfo.district,
+            province_id: customerInfo.province,
+            full_address: fullAddress
+        },
+        
+        // Fees and settings
+        shipping_fee: shippingFee,
+        total_discount: 0,
+        is_free_shipping: shippingFee === 0,
+        received_at_shop: false,
+        
+        // Order notes
+        note: sizeNote,
+        custom_id: `WEB_${Date.now()}`
+    };
+}
+
+// BUILD SIZE NOTE FROM FORM
+function buildSizeNote() {
+    const ring1Size = document.getElementById('ring1-size').value.trim();
+    const ring1Name = document.getElementById('ring1-name').value.trim();
+    const ring2Size = document.getElementById('ring2-size').value.trim();
+    const ring2Name = document.getElementById('ring2-name').value.trim();
+    const sameSize = document.getElementById('sameSize').checked;
+    
+    let note = '';
+    
+    if (ring1Size) {
+        note += `Vòng 1: ${ring1Size}cm`;
+        if (ring1Name) note += ` (${ring1Name})`;
+        note += '\n';
+    }
+    
+    if (ring2Size) {
+        note += `Vòng 2: ${ring2Size}cm`;
+        if (ring2Name) note += ` (${ring2Name})`;
+        note += '\n';
+    }
+    
+    if (sameSize) {
+        note += 'Ghi chú: Cả 2 vòng cùng size\n';
+    }
+    
+    return note.trim();
 }
 
 function showNotification(message, type = 'info') {
