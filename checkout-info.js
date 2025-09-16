@@ -387,7 +387,7 @@ async function proceedToPayment() {
         console.log('📤 Sending checkout payload:', payload);
         
         // Call backend API
-        const response = await fetch('/api/checkout', {
+        const response = await fetch('https://couple.sincera.vn/api/checkout', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -429,24 +429,24 @@ async function proceedToPayment() {
     }
 }
 
-// BUILD CHECKOUT PAYLOAD
+// BUILD CHECKOUT PAYLOAD - SỬA LẠI CHO ĐÚNG
 function buildCheckoutPayload(cart) {
-    // Transform cart items to backend format
+    // Transform cart items theo đúng format Pancake API
     const items = cart.map(item => ({
-        variation_id: item.id,  // Direct mapping: cart.id → variation_id
-        quantity: item.quantity || 1,
+        variation_id: String(item.id), // ID sản phẩm từ pos.json
+        quantity: Number(item.quantity) || 1,
         discount_each_product: 0,
-        is_bonus_product: item.isFreePromo || false,  // Free charm support
+        is_bonus_product: Boolean(item.isFreePromo), // Free charm
         is_discount_percent: false,
         is_wholesale: false,
         one_time_product: false
     }));
 
-    // Calculate totals
+    // Tính toán
     const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
     const shippingFee = subtotal >= 300000 ? 0 : 20000;
 
-    // Customer info from form
+    // Lấy thông tin từ form
     const customerInfo = {
         fullName: document.getElementById('fullName').value.trim(),
         phoneNumber: document.getElementById('phoneNumber').value.trim(),
@@ -459,7 +459,6 @@ function buildCheckoutPayload(cart) {
         wardName: document.getElementById('ward').selectedOptions[0]?.text || ''
     };
 
-    // Build full address
     const fullAddress = [
         customerInfo.detailAddress,
         customerInfo.wardName,
@@ -467,41 +466,34 @@ function buildCheckoutPayload(cart) {
         customerInfo.provinceName
     ].filter(Boolean).join(', ');
 
-    // Size info for notes
     const sizeNote = buildSizeNote();
 
-    // Complete payload structure
+    // Payload theo đúng format payload-api.js
     return {
-        // Customer billing info
         bill_full_name: customerInfo.fullName,
         bill_phone_number: customerInfo.phoneNumber,
         
-        // Items array
-        items: items,
+        items: items, // Đã format đúng ở trên
         
-        // Shipping address
         shipping_address: {
             full_name: customerInfo.fullName,
             phone_number: customerInfo.phoneNumber,
             address: customerInfo.detailAddress,
             commune_id: customerInfo.ward,
-            district_id: customerInfo.district,
+            district_id: customerInfo.district, 
             province_id: customerInfo.province,
             full_address: fullAddress
         },
         
-        // Fees and settings
         shipping_fee: shippingFee,
         total_discount: 0,
         is_free_shipping: shippingFee === 0,
         received_at_shop: false,
         
-        // Order notes
         note: sizeNote,
         custom_id: `WEB_${Date.now()}`
     };
 }
-
 // BUILD SIZE NOTE FROM FORM
 function buildSizeNote() {
     const ring1Size = document.getElementById('ring1-size').value.trim();

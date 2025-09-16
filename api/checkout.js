@@ -34,7 +34,7 @@ export default async function handler(req, res) {
 // ==========================================
 
 async function handleCheckoutRequest(req, res) {
-    // 🔐 API CREDENTIALS FROM ENVIRONMENT VARIABLES
+    // 🔐 API CREDENTIALS FROM ENVIRONMENT VARIABLES - ĐÚNG RỒI!
     const SHOP_ID = process.env.PANCAKE_SHOP_ID;
     const API_KEY = process.env.PANCAKE_API_KEY;
     const WAREHOUSE_ID = process.env.PANCAKE_WAREHOUSE_ID;
@@ -77,17 +77,25 @@ async function handleCheckoutRequest(req, res) {
         });
     }
 
-    // Build Pancake API payload
+    // Build Pancake API payload matching your pos.json structure
     const pancakePayload = {
         shop_id: parseInt(SHOP_ID),
-        warehouse_id: WAREHOUSE_ID || 'KHO1',
+        warehouse_id: WAREHOUSE_ID,
         
         // Customer billing info
         bill_full_name: payload.bill_full_name,
         bill_phone_number: payload.bill_phone_number,
         
-        // Items - already in correct format from frontend
-        items: payload.items,
+        // Transform items to match Pancake API format
+        items: payload.items.map(item => ({
+            variation_id: item.variation_id, // Use variation_id directly
+            quantity: parseInt(item.quantity) || 1,
+            discount_each_product: item.discount_each_product || 0,
+            is_bonus_product: item.is_bonus_product || false,
+            is_discount_percent: item.is_discount_percent || false,
+            is_wholesale: item.is_wholesale || false,
+            one_time_product: item.one_time_product || false
+        })),
         
         // Shipping address
         shipping_address: {
@@ -101,8 +109,8 @@ async function handleCheckoutRequest(req, res) {
         },
         
         // Fees and settings
-        shipping_fee: payload.shipping_fee || 0,
-        total_discount: payload.total_discount || 0,
+        shipping_fee: parseInt(payload.shipping_fee) || 0,
+        total_discount: parseInt(payload.total_discount) || 0,
         is_free_shipping: payload.is_free_shipping || false,
         received_at_shop: payload.received_at_shop || false,
         
@@ -119,6 +127,12 @@ async function handleCheckoutRequest(req, res) {
         
         if (pancakeResponse) {
             console.log('✅ Order created successfully:', pancakeResponse);
+            
+            // Track purchase event
+            await trackPurchaseEvent(pancakePayload.items, {
+                name: pancakePayload.bill_full_name,
+                phone: pancakePayload.bill_phone_number
+            });
             
             res.status(200).json({
                 success: true,
@@ -202,9 +216,9 @@ async function trackPurchaseEvent(items, customerInfo) {
             timestamp: Date.now(),
             data: {
                 order_total: items.reduce((sum, item) => {
-                    // Estimate price from variation_id (fallback logic)
-                    const estimatedPrice = 300000; // Default price for calculation
-                    return sum + (estimatedPrice * (item.quantity || 1));
+                    // Use actual price if available, otherwise estimate
+                    const price = item.price || 300000; // Default price
+                    return sum + (price * (item.quantity || 1));
                 }, 0),
                 items: items,
                 customer_info: {
