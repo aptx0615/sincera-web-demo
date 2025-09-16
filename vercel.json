@@ -3,12 +3,6 @@
   "functions": {
     "api/track.js": {
       "maxDuration": 10
-    },
-    "api/checkout.js": {
-      "maxDuration": 30
-    },
-    "api/dashboard.js": {
-      "maxDuration": 15
     }
   },
   "headers": [
@@ -26,18 +20,8 @@
         {
           "key": "Access-Control-Allow-Headers",
           "value": "Content-Type, Authorization"
-        },
-        {
-          "key": "Access-Control-Max-Age",
-          "value": "86400"
         }
       ]
     }
-  ],
-  "env": {
-    "PANCAKE_SHOP_ID": "@pancake_shop_id",
-    "PANCAKE_API_KEY": "@pancake_api_key", 
-    "PANCAKE_WAREHOUSE_ID": "@pancake_warehouse_id",
-    "DASHBOARD_PASSWORD": "@dashboard_password"
-  }
+  ]
 }
