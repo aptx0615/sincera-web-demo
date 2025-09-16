@@ -35,9 +35,15 @@ export default async function handler(req, res) {
 
 async function handleCheckoutRequest(req, res) {
     // 🔐 API CREDENTIALS FROM ENVIRONMENT VARIABLES
-    const SHOP_ID = process.env.PANCAKE_SHOP_ID || '1328295561';
-    const API_KEY = process.env.PANCAKE_API_KEY || 'd7e2687c391244b590ea95b4ae34b386';
-    const WAREHOUSE_ID = process.env.PANCAKE_WAREHOUSE_ID || 'KHO1';
+    const SHOP_ID = process.env.PANCAKE_SHOP_ID;
+    const API_KEY = process.env.PANCAKE_API_KEY;
+    const WAREHOUSE_ID = process.env.PANCAKE_WAREHOUSE_ID;
+
+    console.log('🔍 Environment check:', {
+        SHOP_ID: SHOP_ID ? 'Present' : 'Missing',
+        API_KEY: API_KEY ? 'Present' : 'Missing', 
+        WAREHOUSE_ID: WAREHOUSE_ID ? 'Present' : 'Missing'
+    });
 
     // Validate environment variables
     if (!SHOP_ID || !API_KEY) {
@@ -53,6 +59,7 @@ async function handleCheckoutRequest(req, res) {
 
     // Validate payload structure
     if (!payload || !payload.items || !Array.isArray(payload.items) || payload.items.length === 0) {
+        console.error('❌ Invalid payload structure:', payload);
         return res.status(400).json({
             error: 'Invalid payload',
             message: 'Items array is required and cannot be empty'
@@ -60,6 +67,10 @@ async function handleCheckoutRequest(req, res) {
     }
 
     if (!payload.bill_full_name || !payload.bill_phone_number) {
+        console.error('❌ Missing customer info:', {
+            name: payload.bill_full_name,
+            phone: payload.bill_phone_number
+        });
         return res.status(400).json({
             error: 'Missing customer info',
             message: 'Customer name and phone are required'
@@ -69,7 +80,7 @@ async function handleCheckoutRequest(req, res) {
     // Build Pancake API payload
     const pancakePayload = {
         shop_id: parseInt(SHOP_ID),
-        warehouse_id: WAREHOUSE_ID,
+        warehouse_id: WAREHOUSE_ID || 'KHO1',
         
         // Customer billing info
         bill_full_name: payload.bill_full_name,
@@ -100,7 +111,7 @@ async function handleCheckoutRequest(req, res) {
         custom_id: payload.custom_id || `WEB_${Date.now()}`
     };
 
-    console.log('📤 Sending to Pancake API:', JSON.stringify(pancakePayload, null, 2));
+    console.log('📤 Pancake payload prepared:', JSON.stringify(pancakePayload, null, 2));
 
     try {
         // Call Pancake API
@@ -108,12 +119,6 @@ async function handleCheckoutRequest(req, res) {
         
         if (pancakeResponse) {
             console.log('✅ Order created successfully:', pancakeResponse);
-            
-            // Track purchase for analytics
-            await trackPurchaseEvent(payload.items, {
-                name: payload.bill_full_name,
-                phone: payload.bill_phone_number
-            });
             
             res.status(200).json({
                 success: true,
@@ -125,11 +130,19 @@ async function handleCheckoutRequest(req, res) {
         }
         
     } catch (error) {
-        console.error('❌ Order creation failed:', error);
+        console.error('❌ Order creation failed:', {
+            message: error.message,
+            stack: error.stack,
+            response: error.response
+        });
+        
         res.status(500).json({
             error: 'Order creation failed',
             message: error.message || 'Please try again or contact support',
-            details: process.env.NODE_ENV === 'development' ? error.stack : undefined
+            debug: process.env.NODE_ENV === 'development' ? {
+                stack: error.stack,
+                payload: pancakePayload
+            } : undefined
         });
     }
 }
