@@ -1,5 +1,5 @@
 .testimonial-section {
-    padding: 80px 0;
+    padding: 60px 0;
     background: #fafafa;
     overflow: hidden;
 }
@@ -30,7 +30,7 @@
 
 /* Testimonial Card */
 .testimonial-card {
-    flex: 0 0 400px; /* Fixed width */
+    flex: 0 0 300px; /* Fixed width */
     background: white;
     border-radius: 16px;
     padding: 30px;
@@ -78,8 +78,8 @@
 }
 
 .testimonial-product {
-    font-size: 0.85rem;
-    color: #ad7101;
+    font-size: 0.79rem;
+    color: #000000;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.5px;
@@ -87,8 +87,8 @@
 
 /* Product Image */
 .testimonial-image {
-    width: 80px;
-    height: 80px;
+    width: 120px;
+    height: 120px;
     border-radius: 8px;
     object-fit: cover;
     margin-bottom: 15px;
@@ -105,16 +105,16 @@
 }
 
 .customer-avatar {
-    width: 50px;
-    height: 50px;
+    width: 39px;
+    height: 39px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #ad7101, #d4af37);
+    background: linear-gradient(135deg, #644305, #644305);
     display: flex;
     align-items: center;
     justify-content: center;
     color: white;
-    font-weight: 600;
-    font-size: 18px;
+    font-weight: 397;
+    font-size: 12px;
     flex-shrink: 0;
 }
 
@@ -131,7 +131,7 @@
 
 .customer-location {
     font-size: 0.85rem;
-    color: #888;
+    color: #3a3a3a;
 }
 
 .testimonial-date {
@@ -150,8 +150,8 @@
     
     .testimonial-card {
         flex: 0 0 320px;
-        padding: 20px; /* Giảm từ 25px → 20px */
-        min-height: 220px; /* Giảm từ 260px → 220px */
+        padding: 20px; 
+        min-height: 220px;
     }
     
     .testimonial-track {
@@ -163,7 +163,7 @@
             transform: translateX(0);
         }
         100% {
-            transform: translateX(-60%); /* Mobile cần scroll nhiều hơn */
+            transform: translateX(-60%);
         }
     }
 }

@@ -1,107 +1,107 @@
 const TESTIMONIAL_DATA = [
     {
         id: 1,
-        text: "Perfect length. Your products are very easy to navigate and use. I'm very satisfied with my purchase!",
-        product: "925 Sterling Silver Chain",
-        image: "https://content.pancake.vn/2-25/2025/8/17/ddad2298244cd08fc177fdc0c80182ef03b03856.jpg",
+        text: "Shop ơi cảm ơn vì đã kiên nhẫn tư vấn dù mình hỏi rất nhiều ạ. Sản phẩm đẹp lắm ạ, giao hàng nhanh nữa.",
+        product: "Vòng Tay Infinity Heart",
+        image: "https://content.pancake.vn/2-25/2025/9/17/4a63eb21952f0251351522295f1aa4c6c074829b.jpg",
         customer: {
-            name: "Sonya C.",
-            location: "Wardona, WA",
-            avatar: "SC"
+            name: "@Niep****",
+            location: "Ha Tinh",
+            avatar: "NP"
         },
-        rating: 4,
-        date: "5 DAYS AGO"
+        rating: 5,
+        date: "15/08/2025"
     },
     {
         id: 2,
-        text: "It's soft enough to go around sea glass without scratching it. Great quality and fast shipping!",
-        product: "925 Sterling Silver Wire",
-        image: "https://content.pancake.vn/2-25/2025/9/13/504c96dfc212978ade6fb85b33e892caa64786f7.jpg",
+        text: "Mình cần gấp cho anni. SG-HN 3 ngày trộm vía vẫn giao kịp, cảm ơn shop nhiều ạaaaaa",
+        product: "Vòng Sincera Couple Paperclip x Charm Keys & Lock",
+        image: "https://content.pancake.vn/2-25/2025/9/17/46b82dc95f07a44731fb81031d518c8728de936f.jpg",
         customer: {
-            name: "Margaret H.",
-            location: "Sydney, NSW",
+            name: "@Minnie.H**",
+            location: "Ha Noi",
             avatar: "MH"
         },
         rating: 5,
-        date: "6 DAYS AGO"
+        date: "20/07/2025"
     },
     {
         id: 3,
-        text: "Advice, suggestions & help to resolve my problem. Customer service was exceptional!",
-        product: "925 Sterling Silver Clasp",
-        image: "https://content.pancake.vn/2-25/2025/9/13/0cb6c339d539cbb4ff7f6d8a815b23cb139d8084.jpg",
+        text: "Người yêu mình thích lắm, hi vọng tình cảm của tụi mình sẽ \"forever\" như vòng này ạ hehe",
+        product: "Vòng Tay Sincera Infinity Heart",
+        image: "https://content.pancake.vn/2-25/2025/9/17/c088111aedea635280719788a141f23c1ccb06e1.jpg",
         customer: {
-            name: "Sherif I.",
-            location: "Düsseldorf, Germany",
-            avatar: "SI"
+            name: "maika.fo**",
+            location: "Tp. Ho Chi Minh",
+            avatar: "MF"
         },
         rating: 5,
-        date: "6 DAYS AGO"
+        date: "06/05/2025"
     },
     {
         id: 4,
-        text: "Despite it took more than three weeks to deliver, items as promised with good quality. Worth the wait!",
-        product: "925 Sterling Silver Charm",
-        image: "https://content.pancake.vn/2-25/2025/8/17/19b2704c5fcb707572bbabdc4ac68d7ac3d5604f.jpg",
+        text: "Shop rep tin nhắn hơi chậm nhưng bù lại sản phẩm rất đẹp, hỗ trợ mình đổi dây theo yêu cầu.",
+        product: "Vòng Sincera Couple Infinity Heart",
+        image: "https://content.pancake.vn/2-25/2025/9/17/073dc0f98f6988e9b6434877ffdfac9085106a8f.jpg",
         customer: {
-            name: "Alec B.",
-            location: "Wallaville, QLD",
-            avatar: "AB"
+            name: "T.Bun**",
+            location: "Tp. Ho Chi Minh",
+            avatar: "TB"
         },
-        rating: 5,
-        date: "6 DAYS AGO"
+        rating: 4,
+        date: "12/09/2025"
     },
     {
         id: 5,
-        text: "Works great! Beautiful design and excellent craftsmanship. Highly recommend!",
-        product: "925 Sterling Silver Bracelet",
-        image: "https://content.pancake.vn/2-25/2025/8/17/ddad2298244cd08fc177fdc0c80182ef03b03856.jpg",
+        text: "Cảm ơn shop vì làm cho em mẫu vòng thật ý nghĩa, bạn trai em rất thích luôn ạ!",
+        product: "Sincera rolo Chain x Carabiner Lock",
+        image: "https://content.pancake.vn/2-25/2025/9/17/843bd19fed37f6d1bc3ab11d31bf738d916dd1a5.jpg",
         customer: {
-            name: "Jessica M.",
-            location: "Melbourne, VIC",
-            avatar: "JM"
+            name: "Hannie**",
+            location: "Vung Tau",
+            avatar: "HL"
         },
         rating: 5,
-        date: "1 WEEK AGO"
+        date: "20/08/2025"
     },
     {
         id: 6,
-        text: "Amazing quality and fast delivery. The charm is exactly as described. Love it!",
-        product: "Heart Charm Silver",
-        image: "https://content.pancake.vn/2-25/2025/9/13/0cb6c339d539cbb4ff7f6d8a815b23cb139d8084.jpg",
+        text: "Shop ơi vòng đẹp lắm, vừa y luôn. Có bạn bè mua mình sẽ giới thiệu shop ạ. Cảm ơn shop nhiều.",
+        product: "Vòng Sincera Paper Clip x Charm Keys & Lock",
+        image: "https://content.pancake.vn/2-25/2025/9/17/37ca40161bc7cac76b7b4fd797d039b80ff44b6c.jpg",
         customer: {
-            name: "David L.",
-            location: "Perth, WA",
-            avatar: "DL"
+            name: "Jasm**",
+            location: "Hung Yen",
+            avatar: "JM"
         },
-        rating: 4,
-        date: "1 WEEK AGO"
+        rating: 5,
+        date: "13/08/2025"
     },
     {
         id: 7,
-        text: "Perfect for my jewelry making project. Great value for money and excellent service!",
-        product: "Silver Wire 0.8mm",
-        image: "https://content.pancake.vn/2-25/2025/9/13/504c96dfc212978ade6fb85b33e892caa64786f7.jpg",
+        text: "Dây bên ngoài lấp lánh em up story mà không cần chỉnh gì luôn ạ 😍😍😍",
+        product: "Vòng Sincera Safety Pin Charm Bạc x Đá Tự Nhiên",
+        image: "https://content.pancake.vn/2-25/2025/9/17/f83bdbaa5a73aa5b52b8bd8c4014b1e62be9852f.jpg",
         customer: {
-            name: "Emma T.",
-            location: "Auckland, NZ",
-            avatar: "ET"
+            name: "Huong Ng**",
+            location: "Binh Duong",
+            avatar: "HN"
         },
         rating: 5,
-        date: "2 WEEKS AGO"
+        date: "08/09/2025"
     },
     {
         id: 8,
-        text: "Beautiful silver chain, exactly what I was looking for. Will definitely order again!",
-        product: "Snake Chain Silver",
-        image: "https://content.pancake.vn/2-25/2025/8/17/9b5da9db46b5219575b01169eb05911f81d5bc11.jpg",
+        text: "Em tỏ tình thành công rồi shop ơi!!! Bạn ý rất thích mẫu shop tư vấn cho em luôn ạaa",
+        product: "Vòng Tay/ Nhẫn Sincera Infinity",
+        image: "https://content.pancake.vn/2-25/2025/9/17/b151ab89767fa7edc9d783c4fb686c5db9bac953.jpg",
         customer: {
-            name: "Michael R.",
-            location: "Brisbane, QLD",
-            avatar: "MR"
+            name: "Lieu.M**",
+            location: "Tp. Ho Chi Minh",
+            avatar: "LM"
         },
         rating: 5,
-        date: "2 WEEKS AGO"
+        date: "31/03/2025"
     }
 ];
 
@@ -142,7 +142,7 @@ function createTestimonialCard(testimonial) {
         <div class="testimonial-content">
             <p class="testimonial-text">"${testimonial.text}"</p>
             ${testimonial.image ? `<img src="${testimonial.image}" alt="${testimonial.product}" class="testimonial-image" onerror="this.style.display='none';">` : ''}
-            <div class="testimonial-product">Product: ${testimonial.product}</div>
+            <div class="testimonial-product">Sản phẩm: ${testimonial.product}</div>
         </div>
         <div class="testimonial-customer">
             <div class="customer-avatar">

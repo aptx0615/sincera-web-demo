@@ -222,7 +222,7 @@ document.addEventListener('DOMContentLoaded', () => {
         price: 0,
         description: "Bạc s925 | FREE & MẶC ĐỊNH cho mọi vòng nếu bạn không chọn khóa",
         image: "https://content.pancake.vn/2-25/2025/9/11/9f82378a71f66c6317d35ff803443bd22682c40c.jpg",
-        video: "images/videos/locks.mp4"
+        video: "https://content.pancake.vn/2-25/2025/9/17/b53caf98400360c48241f0446b740ffb5d1de2df.mp4"
     },
     {
         id: "6453bd17-1d4d-4df2-aeda-5f19c838e5db",
@@ -230,7 +230,7 @@ document.addEventListener('DOMContentLoaded', () => {
         price: 60000,
         description: "Bạc s925 | Có Thể Thêm/ Bớt Charm Tùy Ý",
         image: "https://content.pancake.vn/2-25/2025/9/11/7a62746c0569e97d203d0b345f9fd94e7107d18e.jpg",
-        video: "images/videos/locks.mp4"
+        video: "https://content.pancake.vn/2-25/2025/9/17/b53caf98400360c48241f0446b740ffb5d1de2df.mp4"
     },
     {
         id: "006c372b-264c-4412-8275-bdad8232f3aa",
@@ -238,7 +238,7 @@ document.addEventListener('DOMContentLoaded', () => {
         price: 60000,
         description: "Bạc s925 | Có Thể Thêm/ Bớt Charm Tùy Ý",
         image: "https://content.pancake.vn/2-25/2025/9/11/f99466a4c3cc98504f94384cfe9cb2876d6a062b.jpg",
-        video: "images/videos/locks.mp4"
+        video: "https://content.pancake.vn/2-25/2025/9/17/b53caf98400360c48241f0446b740ffb5d1de2df.mp4"
     },
     {
         id: "1a9234d0-f565-4b0d-bdbf-83ef31359442",
@@ -246,7 +246,7 @@ document.addEventListener('DOMContentLoaded', () => {
         price: 180000,
         description: "Bạc s925 | Có Thể Thêm/ Bớt Charm Tùy Ý | Cao Cấp Và Chắc Chắn",
         image: "https://content.pancake.vn/2-25/2025/9/11/996f7d1ec6cdb87846ac8506c76f75a08f8a790a.jpg",
-        video: "images/videos/locks.mp4"
+        video: "https://content.pancake.vn/2-25/2025/9/17/b53caf98400360c48241f0446b740ffb5d1de2df.mp4"
     },
     {
         id: "f6e85bae-d285-4722-97c5-fbd7edd6bd47",
@@ -254,7 +254,7 @@ document.addEventListener('DOMContentLoaded', () => {
         price: 100000,
         description: "Bạc s925 | Có Thể Thêm/ Bớt Charm Tùy Ý | Cao Cấp Và Tinh Tế",
         image: "https://content.pancake.vn/2-25/2025/9/11/8ce769721f5db738bbf19dc3ae03fb6822ed6c06.jpg",
-        video: "images/videos/locks.mp4"
+        video: "https://content.pancake.vn/2-25/2025/9/17/b53caf98400360c48241f0446b740ffb5d1de2df.mp4"
     },
     {
         id: "755ff0b4-14b3-4ea9-b3ed-0cdfdda1f897",
@@ -262,7 +262,7 @@ document.addEventListener('DOMContentLoaded', () => {
         price: 200000,
         description: "Bạc s925 | Có Thể Thêm/ Bớt Charm Tùy Ý | Cao Cấp Và Chắc Chắn",
         image: "https://content.pancake.vn/2-25/2025/9/11/d11440cf3c6f273aa6691a5b74976ce250bca302.jpg",
-        video: "images/videos/locks.mp4"
+        video: "https://content.pancake.vn/2-25/2025/9/17/b53caf98400360c48241f0446b740ffb5d1de2df.mp4"
     },
     ];
 
@@ -348,7 +348,7 @@ document.addEventListener('DOMContentLoaded', () => {
         id: "4dd5e24a-420c-4dd5-97ac-7a3b2d3e6ee1",
         name: "Vòng Sincera Infinity Heart",
         price: 550000,
-        description: "Bạc s925 | Ảnh Đã Bao Gồm Free Charm Mặc Định",
+        description: "Bạc s925 | Ảnh Đã Bao Gồm Free Charm",
         image: "https://content.pancake.vn/2-25/2025/9/16/a5acc95775954fc84e88d85e13034bdcefed1c32.jpg",
         title: "INFINITY LOVE",
         overlay_description: "Biểu tượng của tình yêu/ tình bạn vĩnh cửu"
@@ -363,22 +363,22 @@ document.addEventListener('DOMContentLoaded', () => {
         overlay_description: "Lời ước hẹn tay trong tay mãi mãi"
     },
     {
-        id: "offer-two-as-one-001",
+        id: "0c961708-f477-4a1e-a803-0ed5f2dbc50e",
         name: "Vòng Two As One", 
         price: 1250000,
-        description: "Bạc s925 | Giá Đã Bao Gồm 4 Charms Bạc Như Ảnh",
+        description: "Bạc s925 | Gồm 4 Charms Bạc Như Ảnh",
         image: "https://content.pancake.vn/2-25/2025/9/16/fea50fc478c864896203b5a005679809b45cf102.jpg",
         title: "TWO AS ONE",
         overlay_description: "Hai mảnh ghép tuy khác nhau, nhưng hoàn hảo không thể tách rời"
     },
     {
-        id: "offer-safety-pin-001",
+        id: "7c3a13fe-89f5-497b-85a2-fd234f6ad272",
         name: "Safety Pin - Lucky and Loving",
-        price: 590000,
-        description: "Bạc s925 | 2 Viên Đá May Mắn Về Tình Yêu & Sự Nghiệp", 
+        price: 690000,
+        description: "Bạc s925 | Gồm 4 Charm Như Ảnh",
         image: "https://content.pancake.vn/2-25/s600x600/2025/9/16/c5c3308c05bf80a7f1c28ab982ee2700661ea96e.jpg",
         title: "SAFETY TOGETHER",
-        overlay_description: "Một chiếc ghim băng cùng 2 viên đá may mắn, lời nhắc nhở hãy luôn yêu thương bản thân"
+        overlay_description: "Một chiếc ghim băng cùng 2 viên đá may mắn, lời nhắc nhở hãy luôn yêu thương bản thân",
     }
     ];
 
