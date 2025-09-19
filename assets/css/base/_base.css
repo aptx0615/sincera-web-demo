@@ -3,12 +3,15 @@ body {
     line-height: 1.6;
     color: #333;
     background-color: #ffffff;
+    width: 100%;
+    overflow-x: hidden;
 }
 
 .container {
     max-width: 1400px;
     margin: 0 auto;
     padding: 0 20px;
+    width: 100%;
 }
 
 /* Section Titles */

@@ -200,7 +200,7 @@ class CartThresholdManager {
             position: fixed;
             top: 80px;
             right: 20px;
-            background: linear-gradient(135deg, #4CAF50, #45a049);
+            background: #603b11;
             color: white;
             padding: 20px;
             border-radius: 12px;
@@ -342,7 +342,7 @@ class CartThresholdManager {
             charmCard.innerHTML = `
                 <div class="gift-charm-image">
                     <img src="${charm.image}" alt="${charm.name}" 
-                         onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\\'font-size: 60px; color: #4CAF50; display: flex; align-items: center; justify-content: center; height: 100%;\\'>💎</div>';">
+                         onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\\'font-size: 60px; color: #603b11; display: flex; align-items: center; justify-content: center; height: 100%;\\'>💎</div>';">
                 </div>
                 <div class="gift-charm-info">
                     <h3 class="gift-charm-name">${charm.name}</h3>

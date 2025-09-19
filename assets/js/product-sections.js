@@ -94,7 +94,7 @@ class ProductSection {
         
         productCard.innerHTML = `
             <div class="product-image">
-                <img src="${product.image}" alt="${product.name}" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\\'font-size: 60px; color: #4CAF50; display: flex; align-items: center; justify-content: center; height: 100%;\\'>📦</div>';">
+                <img src="${product.image}" alt="${product.name}" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\\'font-size: 60px; color: #603b11; display: flex; align-items: center; justify-content: center; height: 100%;\\'>📦</div>';">
                 <div class="play-video-icon" data-video-url="${product.video}">
                     <img src="images/play.png" alt="Play video">
                 </div>

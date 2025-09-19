@@ -95,27 +95,32 @@
     margin: 0 auto;
     width: 100%;
 }
-
+.carousel-section .carousel-controls {
+    position: absolute !important;
+    top: 50% !important;
+    left: 0 !important;
+    right: 0 !important;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 20px;
+    transform: translateY(-50%) !important;
+    pointer-events: none !important;
+    z-index: 5 !important;
+}
 .carousel-track {
     display: flex;
     gap: 30px;
     overflow-x: auto;
     scroll-behavior: smooth;
     padding-bottom: 10px;
-    width: 100%;
+    width: 100%; 
 }
 
-.carousel-controls {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    padding: 0 20px;
-    pointer-events: none;
-    z-index: 10;
+.carousel-section {
+    position: relative;
+    overflow: hidden;
 }
+
 .section-left-label {
     text-align: left;
     font-size: 1.1rem; 
@@ -195,10 +200,4 @@
         background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
                     url('../../../images/main-banner-mobile-4.jpg') center/cover no-repeat;
     }
-}
-
-/* HIDE CAROUSEL CONTROLS IN HERO */
-.hero-carousel .carousel-controls,
-.hero-carousel .carousel-btn {
-    display: none !important;
 }

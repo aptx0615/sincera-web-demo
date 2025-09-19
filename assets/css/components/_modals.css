@@ -323,7 +323,7 @@
 
 .gift-confirm-btn {
     width: 100%;
-    background: linear-gradient(135deg, #4CAF50, #66BB6A);
+    background: #603b11;
     color: white;
     border: none;
     padding: 14px 20px;
@@ -339,9 +339,9 @@
 }
 
 .gift-confirm-btn:hover:not(:disabled) {
-    background: linear-gradient(135deg, #45a049, #5cbf60);
+    background: #603b11;
     transform: translateY(-1px);
-    box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+    box-shadow: 0 1px 10px #573616;
 }
 
 .gift-confirm-btn:disabled {

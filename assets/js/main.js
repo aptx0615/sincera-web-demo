@@ -715,7 +715,7 @@ document.addEventListener('DOMContentLoaded', () => {
             
             productCard.innerHTML = `
                 <div class="product-image">
-                    <img src="${product.image}" alt="${productName}" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\\'font-size: 60px; color: #4CAF50; display: flex; align-items: center; justify-content: center; height: 100%;\\'>🔗</div>';">
+                    <img src="${product.image}" alt="${productName}" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\\'font-size: 60px; color: #603b11; display: flex; align-items: center; justify-content: center; height: 100%;\\'>🔗</div>';">
                     ${product.video ? `<div class="play-video-icon" data-video-url="${product.video}"><img src="images/play.png" alt="Play video"></div>` : ''}
                     ${isMultiVariant ? `<div class="variant-badge">${product.variants.length} tùy chọn</div>` : ''}
                 </div>
@@ -766,7 +766,7 @@ document.addEventListener('DOMContentLoaded', () => {
             
             productCard.innerHTML = `
                 <div class="product-image">
-                    <img src="${product.image}" alt="${product.name}" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\\'font-size: 60px; color: #4CAF50; display: flex; align-items: center; justify-content: center; height: 100%;\\'>🔒</div>';">
+                    <img src="${product.image}" alt="${product.name}" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\\'font-size: 60px; color: #603b11; display: flex; align-items: center; justify-content: center; height: 100%;\\'>🔒</div>';">
                     <div class="play-video-icon" data-video-url="${product.video}">
                         <img src="images/play.png" alt="Play video">
                     </div>
@@ -974,7 +974,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <div style="font-weight: 600; margin-bottom: 4px;">${variant.name}</div>
                         <div style="font-size: 0.9rem; color: #666;">${variant.description}</div>
                     </div>
-                    <div style="font-weight: 600; color: #4CAF50;">${formattedPrice}</div>
+                    <div style="font-weight: 600; color: #603b11;">${formattedPrice}</div>
                 </div>
             `;
         });
@@ -1005,7 +1005,6 @@ document.addEventListener('DOMContentLoaded', () => {
         closeVariantModal();
     };
 
-    // Add CSS for variant hover effect - Đã có ở cuối file, đảm bảo không bị comment
     const variantCSS = document.createElement('style');
     variantCSS.textContent = `
         #variant-modal {
@@ -1020,7 +1019,7 @@ document.addEventListener('DOMContentLoaded', () => {
             justify-content: center;
         }
         .variant-option:hover {
-            border-color: #4CAF50 !important;
+            border-color: #603b11 !important;
             background: #f8fff9 !important;
             transform: translateY(-1px);
         }
@@ -1047,8 +1046,6 @@ renderClaspProducts();
     if (heroCarousel) {
         const slides = heroCarousel.querySelectorAll('.hero-slide');
         const indicators = heroCarousel.querySelectorAll('.hero-indicators .indicator');
-        const nextBtn = heroCarousel.querySelector('.hero-next');
-        const prevBtn = heroCarousel.querySelector('.hero-prev');
         let currentSlide = 0;
         let slideInterval;
 
@@ -1070,16 +1067,6 @@ renderClaspProducts();
                 goToSlide(nextSlideIndex);
             }, 5000);
         };
-
-        nextBtn.addEventListener('click', () => {
-            const nextSlideIndex = (currentSlide + 1) % slides.length;
-            goToSlide(nextSlideIndex);
-        });
-
-        prevBtn.addEventListener('click', () => {
-            const prevSlideIndex = (currentSlide - 1 + slides.length) % slides.length;
-            goToSlide(prevSlideIndex);
-        });
 
         indicators.forEach(indicator => {
             indicator.addEventListener('click', (e) => {

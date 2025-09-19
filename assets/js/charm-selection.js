@@ -168,7 +168,7 @@ function createCharmCard(charm, ringId) {
         productCard.innerHTML = `
             <div class="product-image">
                 <img src="${charm.image}" alt="${charm.name}" 
-                     onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\\'font-size: 60px; color: #4CAF50; display: flex; align-items: center; justify-content: center; height: 100%;\\'>💎</div>';">
+                     onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\\'font-size: 60px; color: #603b11; display: flex; align-items: center; justify-content: center; height: 100%;\\'>💎</div>';">
             </div>
             <div class="product-info">
                 <h3 class="product-name">${charm.name}</h3>

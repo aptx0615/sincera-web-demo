@@ -91,7 +91,7 @@
 /* Product Info Container */
 .product-info {
     padding: 20px;
-    position: relative; /* Important for absolute positioning of cart icon */
+    position: relative; 
 }
 
 .product-name {
