@@ -364,31 +364,201 @@
     }
 }
 
-/* Chat Button */
+/* Chat Button Container - FIXED FOR BOTH PC & MOBILE */
 .chat-button-container {
     position: fixed;
-    top: 90px;
-    right: 20px;
-    z-index: 1000;
-    background: #25D366;
-    border-radius: 50%;
-    padding: 12px;
+    bottom: 150px;
+    right: 24px;
+    z-index: 10001;
+    display: relative;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Main Chat Button - RECTANGLE WITH TEXT */
+.chat-main-button {
+    background: #603b11;
+    border: none;
+    border-radius: 25px; /* Bo tròn nhẹ thay vì 50% */
+    padding: 12px 20px; /* Tăng padding ngang */
     box-shadow: 0 4px 20px rgba(0,0,0,0.15);
     cursor: pointer;
     transition: all 0.3s ease;
-    width: 60px;
-    height: 60px;
+    width: auto; /* Thay vì 60px fixed */
+    height: 50px; /* Giảm chiều cao */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px; /* Khoảng cách giữa icon và text */
+    position: relative;
+    color: white;
+    font-size: 14px;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.chat-main-button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 25px rgba(0,0,0,0.2);
+    background: #7a5000;
+}
+
+.chat-icon {
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.chat-button-container:hover {
-    transform: scale(1.1);
-    box-shadow: 0 6px 25px rgba(0,0,0,0.2);
+.chat-icon img {
+    width: 20px;
+    height: 20px;
 }
 
-.chat-icon {
-    font-size: 24px;
-    color: white;
+/* Chat Options - CURVE LAYOUT */
+.chat-options {
+    position: absolute;
+    top: 50%;
+    right: 100%;
+    transform: translateY(-50%);
+    display: none;
+    pointer-events: none;
+    z-index: 10002;
+}
+
+.chat-options.show {
+    display: block;
+    pointer-events: all;
+    animation: fadeIn 0.3s ease;
+}
+
+.chat-option {
+    position: absolute;
+    background: none;
+    border: none;
+    border-radius: 0; 
+    padding: 0;
+    box-shadow: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    transform-origin: center;
+}
+
+.chat-option:nth-child(1) {
+    top: -80px;
+    right: 25px;
+    animation: slideInCurve1 0.3s ease 0.1s both;
+}
+
+.chat-option:nth-child(2) {
+    top: -25px;
+    right: 25px;
+    animation: slideInCurve2 0.3s ease 0.2s both;
+}
+
+.chat-option:nth-child(3) {
+    top: 35px;
+    right: 25px;
+    animation: slideInCurve3 0.3s ease 0.3s both;
+}
+
+.chat-option:hover {
+    transform: scale(1.1);
+}
+
+.chat-option.zalo,
+.chat-option.instagram,
+.chat-option.messenger {
+    background: none;
+}
+
+.chat-option img {
+    width: 39px !important;
+    height: 39px !important;
+    object-fit: contain;
+    filter: none; 
+}
+
+/* CURVE ANIMATIONS */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideInCurve1 {
+    from {
+        opacity: 0;
+        transform: translate(20px, 10px) scale(0.5);
+    }
+    to {
+        opacity: 1;
+        transform: translate(0, 0) scale(1);
+    }
+}
+
+@keyframes slideInCurve2 {
+    from {
+        opacity: 0;
+        transform: translate(30px, 0px) scale(0.5);
+    }
+    to {
+        opacity: 1;
+        transform: translate(0, 0) scale(1);
+    }
+}
+
+@keyframes slideInCurve3 {
+    from {
+        opacity: 0;
+        transform: translate(20px, -10px) scale(0.5);
+    }
+    to {
+        opacity: 1;
+        transform: translate(0, 0) scale(1);
+    }
+}
+
+@media (max-width: 768px) {
+    .chat-button-container {
+        bottom: 180px;
+        right: 15px;
+    }
+    
+    .chat-main-button {
+        height: 45px;
+        padding: 10px 16px;
+        font-size: 13px;
+    }
+    
+    .chat-icon img {
+        width: 18px;
+        height: 18px;
+    }
+    
+    .chat-option {
+        width: 40px;
+        height: 40px;
+        padding: 6px;
+    }
+    
+    /* Adjust curve positions */
+    .chat-option:nth-child(1) {
+        top: -100px;
+        right: 12px;
+    }
+    
+    .chat-option:nth-child(2) {
+        top: -20px;
+        right: 25px;
+    }
+    
+    .chat-option:nth-child(3) {
+        top: 60px;
+        right: 12px;
+    }
 }

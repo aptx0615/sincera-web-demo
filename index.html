@@ -19,8 +19,27 @@
         </div>
     </div>
     <!-- Chat Button -->
-    <div class="chat-button-container" id="chat-button" onclick="openChat()">
-        <div class="chat-icon">💬</div>
+    <div class="chat-button-container" id="chat-button-container">
+        <div class="chat-options" id="chat-options">
+            <a href="https://zalo.me/0906634756" target="_blank" class="chat-option zalo" onclick="trackChatClick('zalo')">
+                <img src="images/zalo-icon.png" alt="Zalo" style="width: 20px; height: 20px;">
+            </a>
+            <a href="https://www.instagram.com/direct/t/sincera.vn" target="_blank" class="chat-option instagram" onclick="trackChatClick('instagram')">
+                <img src="images/instagram-icon.png" alt="Instagram">
+            </a>
+            <a href="https://m.me/sincera.vn" target="_blank" class="chat-option messenger" onclick="trackChatClick('messenger')">
+                <img src="images/messenger-icon.png" alt="Messenger" style="width: 20px; height: 20px;">
+            </a>
+        </div>
+        
+        <!-- Main Chat Button -->
+        <button class="chat-main-button" id="chat-main-button" onclick="toggleChatOptions()">
+            <div class="chat-icon">
+                <img src="images/chat.svg" alt="Chat" style="width: 20px; height: 20px;" 
+                    onerror="this.parentElement.innerHTML='💬';">
+            </div>
+            <span>Liên hệ</span>
+        </button>
     </div>
 
     <!-- Cart Overlay -->

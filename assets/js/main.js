@@ -1182,21 +1182,41 @@ renderClaspProducts();
         });
     }
     // Chat function
-    window.openChat = function() {
-        // Track chat click
+    window.toggleChatOptions = function() {
+        const chatOptions = document.getElementById('chat-options');
+        const isVisible = chatOptions.classList.contains('show');
+        
+        if (isVisible) {
+            chatOptions.classList.remove('show');
+        } else {
+            chatOptions.classList.add('show');
+            // Auto-hide after 5 seconds
+            setTimeout(() => {
+                chatOptions.classList.remove('show');
+            }, 60000);
+        }
+    };
+
+    window.trackChatClick = function(platform) {
+        // Track chat click với platform info
         if (window.trackChatClick) {
             window.trackChatClick();
         }
         
-        // Redirect to your inbox (customize these URLs)
-        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        console.log(`📱 Chat opened via: ${platform}`);
         
-        if (isMobile) {
-            // Mobile - open Zalo/Facebook Messenger
-            window.open('https://zalo.me/0906634756', '_blank');
-        } else {
-            // Desktop - open Facebook Messenger
-            window.open('https://m.me/sincera.vn', '_blank');
-        }
+        // Hide options after click
+        const chatOptions = document.getElementById('chat-options');
+        chatOptions.classList.remove('show');
     };
+
+    // Close chat options when clicking outside
+    document.addEventListener('click', function(e) {
+        const chatContainer = document.getElementById('chat-button-container');
+        const chatOptions = document.getElementById('chat-options');
+        
+        if (chatContainer && !chatContainer.contains(e.target)) {
+            chatOptions.classList.remove('show');
+        }
+    });
 });
