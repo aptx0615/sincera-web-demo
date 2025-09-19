@@ -15,37 +15,9 @@
     box-shadow: 0 10px 30px rgba(0,0,0,0.15);
 }
 
-/* Hero Navigation Buttons */
 .hero-nav {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background: rgba(255,255,255,0.3);
-    color: white;
-    border: none;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    font-size: 20px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    backdrop-filter: blur(5px);
-    z-index: 3;
+    display: none !important;
 }
-
-.hero-nav:hover {
-    background: rgba(255,255,255,0.5);
-    transform: translateY(-50%) scale(1.1);
-}
-
-.hero-prev {
-    left: 30px;
-}
-
-.hero-next {
-    right: 30px;
-}
-
 
 /* Product Carousel Buttons */
 .carousel-btn {
@@ -71,17 +43,6 @@
 
 /* Responsive Buttons */
 @media (max-width: 768px) {
-    .hero-nav {
-        width: 40px;
-        height: 40px;
-        font-size: 16px;
-    }
-    .hero-prev {
-        left: 15px;
-    }
-    .hero-next {
-        right: 15px;
-    }
     .carousel-btn {
         width: 40px;
         height: 40px;
