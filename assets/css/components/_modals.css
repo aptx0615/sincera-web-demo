@@ -425,7 +425,6 @@
     }
 }
 
-/* Gift Button Widget - giống Rewards button */
 .gift-widget {
     position: fixed;
     bottom: 30%;
@@ -472,7 +471,7 @@
 /* Responsive cho gift widget */
 @media (max-width: 768px) {
     .gift-widget {
-        bottom: 220px;
+        bottom: 30px;
         right: 15px;
         padding: 10px 16px;
         font-size: 0.8rem;

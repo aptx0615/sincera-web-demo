@@ -1336,3 +1336,117 @@ renderClaspProducts();
         }
     });
 });
+
+// Draggable Chat Button - MOBILE ONLY
+document.addEventListener('DOMContentLoaded', () => {
+    if (window.innerWidth <= 768) {
+        setupDraggableChat();
+    }
+});
+
+function setupDraggableChat() {
+    const chatContainer = document.getElementById('chat-button-container');
+    if (!chatContainer) return;
+    
+    let isDragging = false;
+    let startX, startY, initialX, initialY;
+    let currentX = 0, currentY = 0;
+    
+    // Touch events
+    chatContainer.addEventListener('touchstart', handleStart, { passive: false });
+    chatContainer.addEventListener('touchmove', handleMove, { passive: false });
+    chatContainer.addEventListener('touchend', handleEnd, { passive: false });
+    
+    function handleStart(e) {
+        if (e.target.closest('.chat-options')) return;
+        
+        const touch = e.touches[0];
+        startX = touch.clientX;
+        startY = touch.clientY;
+        
+        const rect = chatContainer.getBoundingClientRect();
+        initialX = rect.left;
+        initialY = rect.top;
+        
+        isDragging = false;
+        chatContainer.style.transition = 'none';
+    }
+    
+    function handleMove(e) {
+        if (!startX || !startY) return;
+        
+        e.preventDefault();
+        const touch = e.touches[0];
+        const deltaX = touch.clientX - startX;
+        const deltaY = touch.clientY - startY;
+        
+        // Threshold to start dragging
+        if (!isDragging && (Math.abs(deltaX) > 10 || Math.abs(deltaY) > 10)) {
+            isDragging = true;
+            chatContainer.classList.add('dragging');
+        }
+        
+        if (isDragging) {
+            currentX = initialX + deltaX;
+            currentY = initialY + deltaY;
+            
+            // Boundaries
+            const maxX = window.innerWidth - chatContainer.offsetWidth;
+            const maxY = window.innerHeight - chatContainer.offsetHeight;
+            
+            currentX = Math.max(0, Math.min(currentX, maxX));
+            currentY = Math.max(0, Math.min(currentY, maxY));
+            
+            chatContainer.style.left = currentX + 'px';
+            chatContainer.style.top = currentY + 'px';
+            chatContainer.style.right = 'auto';
+            chatContainer.style.bottom = 'auto';
+        }
+    }
+    
+    function handleEnd(e) {
+        if (isDragging) {
+            // Snap to edges
+            const centerX = currentX + chatContainer.offsetWidth / 2;
+            const snapToRight = centerX > window.innerWidth / 2;
+            
+            chatContainer.style.transition = 'all 0.3s ease';
+            
+            if (snapToRight) {
+                chatContainer.style.right = '15px';
+                chatContainer.style.left = 'auto';
+            } else {
+                chatContainer.style.left = '15px';
+                chatContainer.style.right = 'auto';
+            }
+            
+            setTimeout(() => {
+                chatContainer.classList.remove('dragging');
+                chatContainer.style.transition = '';
+            }, 300);
+        } else {
+            // Normal click - toggle chat options
+            if (!e.target.closest('.chat-options')) {
+                toggleChatOptions();
+            }
+        }
+        
+        isDragging = false;
+        startX = startY = initialX = initialY = null;
+    }
+    
+    // Prevent default click when dragging
+    chatContainer.addEventListener('click', (e) => {
+        if (isDragging) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+    });
+}
+
+// Update on window resize
+window.addEventListener('resize', () => {
+    if (window.innerWidth <= 768) {
+        setupDraggableChat();
+    }
+});

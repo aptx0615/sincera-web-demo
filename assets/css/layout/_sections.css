@@ -45,7 +45,9 @@
         gap: 20px;
         padding-bottom: 20px;
         margin-top: 30px;
+        padding-right: 40px;
     }
+}
     
     .offers-grid::-webkit-scrollbar {
         height: 6px;
@@ -56,8 +58,7 @@
         border-radius: 10px;
     }
     
-    .offers-grid::-webkit-scrollbar-thumb {
-        background: #888;
-        border-radius: 10px;
-    }
+.offers-grid::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 10px;
 }

@@ -291,13 +291,17 @@ function switchCharmTab(ringId) {
 
 function setupCharmCarouselNavigation(ringId) {
     const track = document.querySelector(`#${ringId}-track`);
-    const nextBtn = document.querySelector(`#${ringId}-next`);
-    const prevBtn = document.querySelector(`#${ringId}-prev`);
+    const nextBtn = document.querySelector(`#${ringId}-carousel .carousel-next`);
+    const prevBtn = document.querySelector(`#${ringId}-carousel .carousel-prev`);
 
-    if (!track || !nextBtn || !prevBtn) return;
+    if (!track || !nextBtn || !prevBtn) {
+        console.warn(`Navigation elements not found for ${ringId}`);
+        return;
+    }
 
     nextBtn.addEventListener('click', (e) => {
         e.preventDefault();
+        e.stopPropagation();
         const cards = track.children;
         if (cards.length > 0) {
             const cardWidth = cards[0].offsetWidth;
@@ -308,6 +312,7 @@ function setupCharmCarouselNavigation(ringId) {
 
     prevBtn.addEventListener('click', (e) => {
         e.preventDefault();
+        e.stopPropagation();
         const cards = track.children;
         if (cards.length > 0) {
             const cardWidth = cards[0].offsetWidth;
