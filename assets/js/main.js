@@ -1043,9 +1043,9 @@ function animateToCart(productElement, product) {
                         image: product.image
                     }, productCard); // Pass element for animation
                     
-                } else if (isMultiVariant) {
-                    showVariantModal(product);
-                }
+                    } else if (isMultiVariant) {
+                        showVariantModal(product, productCard);
+                    }
             } 
             else if (productId) {
                 const product = ALL_PRODUCTS.get(productId);
@@ -1058,8 +1058,7 @@ function animateToCart(productElement, product) {
         }
     });
 
-    // VARIANT MODAL FUNCTIONS
-    function showVariantModal(product) {
+    function showVariantModal(product, sourceElement = null) {
         const modal = document.getElementById('variant-modal');
         const title = document.getElementById('variant-modal-title');
         const body = document.getElementById('variant-modal-body');
@@ -1085,7 +1084,7 @@ function animateToCart(productElement, product) {
                     margin-bottom: 10px;
                     cursor: pointer;
                     transition: all 0.3s ease;
-                " onclick="selectVariant('${variant.id}', '${variant.name}', ${variant.price}, '${product.image}', '${variant.description}')">
+                    " onclick="selectVariant('${variant.id}', '${variant.name}', ${variant.price}, '${product.image}', '${variant.description}')">
                     <div>
                         <div style="font-weight: 600; margin-bottom: 4px;">${variant.name}</div>
                         <div style="font-size: 0.9rem; color: #666;">${variant.description}</div>
@@ -1097,6 +1096,12 @@ function animateToCart(productElement, product) {
         
         variantsHTML += '</div>';
         body.innerHTML = variantsHTML;
+        
+        // Store sourceElement for animation
+        modal.setAttribute('data-source-element', sourceElement ? 'true' : 'false');
+        if (sourceElement) {
+            window._variantSourceElement = sourceElement;
+        }
         
         modal.style.display = 'flex';
         document.body.style.overflow = 'hidden';
@@ -1116,8 +1121,9 @@ function animateToCart(productElement, product) {
             image: image,
             description: description
         };
-        
-        addToCart(variantProduct);
+        const sourceElement = window._variantSourceElement || null;
+        addToCart(variantProduct, sourceElement);
+        window._variantSourceElement = null;
         closeVariantModal();
     };
 
@@ -1335,118 +1341,4 @@ renderClaspProducts();
             chatOptions.classList.remove('show');
         }
     });
-});
-
-// Draggable Chat Button - MOBILE ONLY
-document.addEventListener('DOMContentLoaded', () => {
-    if (window.innerWidth <= 768) {
-        setupDraggableChat();
-    }
-});
-
-function setupDraggableChat() {
-    const chatContainer = document.getElementById('chat-button-container');
-    if (!chatContainer) return;
-    
-    let isDragging = false;
-    let startX, startY, initialX, initialY;
-    let currentX = 0, currentY = 0;
-    
-    // Touch events
-    chatContainer.addEventListener('touchstart', handleStart, { passive: false });
-    chatContainer.addEventListener('touchmove', handleMove, { passive: false });
-    chatContainer.addEventListener('touchend', handleEnd, { passive: false });
-    
-    function handleStart(e) {
-        if (e.target.closest('.chat-options')) return;
-        
-        const touch = e.touches[0];
-        startX = touch.clientX;
-        startY = touch.clientY;
-        
-        const rect = chatContainer.getBoundingClientRect();
-        initialX = rect.left;
-        initialY = rect.top;
-        
-        isDragging = false;
-        chatContainer.style.transition = 'none';
-    }
-    
-    function handleMove(e) {
-        if (!startX || !startY) return;
-        
-        e.preventDefault();
-        const touch = e.touches[0];
-        const deltaX = touch.clientX - startX;
-        const deltaY = touch.clientY - startY;
-        
-        // Threshold to start dragging
-        if (!isDragging && (Math.abs(deltaX) > 10 || Math.abs(deltaY) > 10)) {
-            isDragging = true;
-            chatContainer.classList.add('dragging');
-        }
-        
-        if (isDragging) {
-            currentX = initialX + deltaX;
-            currentY = initialY + deltaY;
-            
-            // Boundaries
-            const maxX = window.innerWidth - chatContainer.offsetWidth;
-            const maxY = window.innerHeight - chatContainer.offsetHeight;
-            
-            currentX = Math.max(0, Math.min(currentX, maxX));
-            currentY = Math.max(0, Math.min(currentY, maxY));
-            
-            chatContainer.style.left = currentX + 'px';
-            chatContainer.style.top = currentY + 'px';
-            chatContainer.style.right = 'auto';
-            chatContainer.style.bottom = 'auto';
-        }
-    }
-    
-    function handleEnd(e) {
-        if (isDragging) {
-            // Snap to edges
-            const centerX = currentX + chatContainer.offsetWidth / 2;
-            const snapToRight = centerX > window.innerWidth / 2;
-            
-            chatContainer.style.transition = 'all 0.3s ease';
-            
-            if (snapToRight) {
-                chatContainer.style.right = '15px';
-                chatContainer.style.left = 'auto';
-            } else {
-                chatContainer.style.left = '15px';
-                chatContainer.style.right = 'auto';
-            }
-            
-            setTimeout(() => {
-                chatContainer.classList.remove('dragging');
-                chatContainer.style.transition = '';
-            }, 300);
-        } else {
-            // Normal click - toggle chat options
-            if (!e.target.closest('.chat-options')) {
-                toggleChatOptions();
-            }
-        }
-        
-        isDragging = false;
-        startX = startY = initialX = initialY = null;
-    }
-    
-    // Prevent default click when dragging
-    chatContainer.addEventListener('click', (e) => {
-        if (isDragging) {
-            e.preventDefault();
-            e.stopPropagation();
-        }
-    });
-}
-
-// Update on window resize
-window.addEventListener('resize', () => {
-    if (window.innerWidth <= 768) {
-        setupDraggableChat();
-    }
 });
