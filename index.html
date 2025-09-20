@@ -24,7 +24,7 @@
             <a href="https://zalo.me/0906634756" target="_blank" class="chat-option zalo" onclick="trackChatClick('zalo')">
                 <img src="images/zalo-icon.png" alt="Zalo" style="width: 20px; height: 20px;">
             </a>
-            <a href="https://www.instagram.com/direct/t/sincera.vn" target="_blank" class="chat-option instagram" onclick="trackChatClick('instagram')">
+            <a href="https://ig.me/m/sincera.vn" target="_blank" class="chat-option instagram" onclick="trackChatClick('instagram')">
                 <img src="images/instagram-icon.png" alt="Instagram">
             </a>
             <a href="https://m.me/sincera.vn" target="_blank" class="chat-option messenger" onclick="trackChatClick('messenger')">
@@ -224,14 +224,24 @@
         </div>
     </section>
 
-    <!-- Fixed Progress Footer -->
+    <!-- Fixed Progress Footer với Mobile Cart -->
     <div class="progress-footer-bar" id="progress-footer" style="display: none;">
         <div class="progress-footer-content">
-            <span class="progress-text" id="progress-text">
-                Chỉ còn <span class="remaining-amount">339.000₫</span> để nhận charm bạc miễn phí
-            </span>
-            <div class="progress-mini-bar">
-                <div class="progress-mini-fill" id="progress-mini-fill"></div>
+            <div class="progress-content">
+                <span class="progress-text" id="progress-text">
+                    Chỉ còn <span class="remaining-amount">339.000₫</span> để nhận charm bạc miễn phí
+                </span>
+                <div class="progress-mini-bar">
+                    <div class="progress-mini-fill" id="progress-mini-fill"></div>
+                </div>
+            </div>
+            
+            <!-- Mobile Cart Button - CHỈ HIỆN TRÊN MOBILE -->
+            <div class="mobile-cart-section" style="display: none;" id="mobile-cart-section">
+                <button class="mobile-cart-button" onclick="openCart()">
+                    <span>Giỏ hàng</span>
+                    <span class="mobile-cart-badge" id="mobile-cart-badge">0</span>
+                </button>
             </div>
         </div>
     </div>
@@ -278,6 +288,10 @@
             </div>
         </div>
     </div>
+    <!-- Existing scripts -->
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/testimonials.js"></script>
+    </body>
     <!-- Liên kết tới file JavaScript, đặt ở cuối body -->
     <script src="assets/js/main.js"></script>
     <script src="assets/js/testimonials.js"></script>

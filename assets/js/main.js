@@ -421,19 +421,34 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // CART FUNCTIONS
     function updateCartIcon() {
         const cartIcon = document.getElementById('cart-icon');
         const cartBadge = document.getElementById('cart-badge');
+        const mobileCartSection = document.getElementById('mobile-cart-section');
+        const mobileCartBadge = document.getElementById('mobile-cart-badge');
         
         const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
         
-        if (totalItems > 0) {
-            cartIcon.classList.add('show');
-            cartBadge.textContent = totalItems;
+        // Desktop cart icon
+        if (window.innerWidth > 768) {
+            if (totalItems > 0) {
+                cartIcon.classList.add('show');
+                cartBadge.textContent = totalItems;
+            } else {
+                cartIcon.classList.remove('show');
+                cartBadge.textContent = '0';
+            }
+            // Hide mobile cart
+            if (mobileCartSection) {
+                mobileCartSection.style.display = 'none';
+            }
         } else {
+            // Mobile: hide desktop cart, FORCE SHOW mobile cart
             cartIcon.classList.remove('show');
-            cartBadge.textContent = '0';
+            if (mobileCartSection) {
+                mobileCartSection.style.display = 'flex !important';
+                mobileCartBadge.textContent = totalItems;
+            }
         }
     }
 
@@ -540,6 +555,118 @@ document.addEventListener('DOMContentLoaded', () => {
         // If added item was a charm, re-render charm selection
         if (product.isFreePromo === true || (product.id && product.id.toString().startsWith('charm-'))) {
             // Trigger charm re-render after a short delay
+            if (window.charmSelection && window.charmSelection.rerender) {
+                setTimeout(() => {
+                    window.charmSelection.rerender();
+                }, 100);
+            }
+        }
+    }
+
+// Cart Animation Effect
+function animateToCart(productElement, product) {
+    // Get product image
+    const productImg = productElement.querySelector('img');
+    if (!productImg) return;
+    
+    // Get cart icon position
+    const cartIcon = window.innerWidth <= 768 ? 
+        document.querySelector('#mobile-cart-section') : 
+        document.querySelector('#cart-icon');
+    
+    if (!cartIcon) return;
+    
+    // Create animation element
+    const animElement = document.createElement('div');
+    animElement.className = 'cart-animation';
+    animElement.innerHTML = `<img src="${productImg.src}" alt="${product.name}">`;
+    
+    // Get start position
+    const startRect = productImg.getBoundingClientRect();
+    const endRect = cartIcon.getBoundingClientRect();
+    
+    // Set initial position
+    animElement.style.left = startRect.left + 'px';
+    animElement.style.top = startRect.top + 'px';
+    
+    document.body.appendChild(animElement);
+    
+    // Animate to cart
+    requestAnimationFrame(() => {
+        animElement.style.left = endRect.left + 'px';
+        animElement.style.top = endRect.top + 'px';
+        animElement.style.transform = 'scale(0.3)';
+        animElement.style.opacity = '0';
+    });
+    
+    // Remove after animation
+    setTimeout(() => {
+        animElement.remove();
+    }, 800);
+}
+
+    // Enhanced addToCart with animation
+    function addToCart(product, sourceElement = null) {
+        let existingIndex = -1;
+        
+        if (product.id && product.id.toString().startsWith('charm-')) {
+            existingIndex = cart.findIndex(item => 
+                item.id === product.id && 
+                item.isFreePromo === product.isFreePromo
+            );
+        } else {
+            existingIndex = cart.findIndex(item => item.id === product.id);
+        }
+        
+        if (existingIndex >= 0) {
+            cart[existingIndex].quantity += 1;
+        } else {
+            cart.push({
+                ...product,
+                quantity: 1
+            });
+        }
+        
+        localStorage.setItem('cart', JSON.stringify(cart));
+        
+        // Trigger animation if source element provided
+        if (sourceElement) {
+            animateToCart(sourceElement, product);
+        }
+        
+        // Calculate new total
+        const cartTotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+        
+        // Dispatch custom event
+        const cartUpdateEvent = new CustomEvent('cartUpdated', {
+            detail: {
+                cart: cart,
+                cartTotal: cartTotal,
+                action: 'add',
+                product: product,
+                isFreeCharm: product.isFreePromo === true
+            }
+        });
+        document.dispatchEvent(cartUpdateEvent);
+        
+        updateCartIcon();
+        updateCartSidebar();
+        
+        if (window.trackAddToCart) {
+            window.trackAddToCart(product);
+        }
+        
+        // Cart icon shake effect
+        const cartIconContainer = document.getElementById('cart-icon');
+        if (cartIconContainer && window.innerWidth > 768) {
+            cartIconContainer.style.animation = 'cartShake 0.6s ease';
+            setTimeout(() => {
+                cartIconContainer.style.animation = '';
+            }, 600);
+        }
+        
+        // Re-render charm selection if needed
+        if (product.isFreePromo === true || (product.id && product.id.toString().startsWith('charm-'))) {
             if (window.charmSelection && window.charmSelection.rerender) {
                 setTimeout(() => {
                     window.charmSelection.rerender();
@@ -868,17 +995,18 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 3000);
     }
 
-    // UNIVERSAL ADD TO CART HANDLER - COMPLETELY REWRITTEN
+    // UNIVERSAL ADD TO CART HANDLER - With Animation
     document.addEventListener('click', function(e) {
         if (e.target.closest('.add-to-cart-icon')) {
             e.preventDefault();
             e.stopPropagation();
             
             const icon = e.target.closest('.add-to-cart-icon');
+            const productCard = icon.closest('.product-card') || icon.closest('.offer-card');
             const productIndex = icon.getAttribute('data-product-index');
             const productId = icon.getAttribute('data-product-id');
             
-            // HANDLE CHAIN_PRODUCTS with productIndex (both variants and non-variants)
+            // Rest of existing logic but pass productCard for animation
             if (productIndex !== null && productIndex !== undefined) {
                 const product = CHAIN_PRODUCTS[parseInt(productIndex)];
                 
@@ -887,16 +1015,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     return;
                 }
                 
-                // Check product structure
                 const hasNoVariants = !product.variants || product.variants.length === 0;
                 const isSingleVariant = product.variants && product.variants.length === 1;
                 const isMultiVariant = product.variants && product.variants.length > 1;
                 
                 if (hasNoVariants) {
-                    // Product without variants - use product.id directly
                     if (!product.id) {
                         console.error('Product missing ID:', product);
-                        showNotification('Sản phẩm thiếu thông tin!', 'error');
                         return;
                     }
                     
@@ -906,38 +1031,29 @@ document.addEventListener('DOMContentLoaded', () => {
                         price: product.price,
                         description: product.description,
                         image: product.image
-                    });
+                    }, productCard); // Pass element for animation
                     
                 } else if (isSingleVariant) {
-                    // Single variant in array - use variant data
                     const variant = product.variants[0];
                     addToCart({
                         id: variant.id,
-                        name: product.name, // Use parent name
+                        name: product.name,
                         price: variant.price,
                         description: variant.description,
-                        image: product.image // Use parent image
-                    });
+                        image: product.image
+                    }, productCard); // Pass element for animation
                     
                 } else if (isMultiVariant) {
-                    // Multiple variants - show modal
                     showVariantModal(product);
                 }
             } 
-            // HANDLE OTHER PRODUCTS with productId (CLASP, CHARM, OFFER)
             else if (productId) {
                 const product = ALL_PRODUCTS.get(productId);
                 if (product) {
-                    addToCart(product);
+                    addToCart(product, productCard); // Pass element for animation
                 } else {
                     console.error('Product not found in ALL_PRODUCTS map:', productId);
-                    showNotification('Không tìm thấy sản phẩm!', 'error');
                 }
-            }
-            // ERROR CASE
-            else {
-                console.error('No product identifier found on add-to-cart icon', icon);
-                showNotification('Lỗi: Không xác định được sản phẩm!', 'error');
             }
         }
     });

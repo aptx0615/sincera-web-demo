@@ -119,7 +119,7 @@ class CartThresholdManager {
         
         // FIX: Reset lại text về trạng thái "còn thiếu" khi cart < threshold
         if (progressText) {
-            progressText.innerHTML = `Chỉ còn <span class="remaining-amount">${new Intl.NumberFormat('vi-VN', {style: 'currency', currency: 'VND'}).format(remaining)}</span> để nhận charm bạc miễn phí`;
+            progressText.innerHTML = `Thêm <span class="remaining-amount">${new Intl.NumberFormat('vi-VN', {style: 'currency', currency: 'VND'}).format(remaining)}</span> nhận FREE CHARM`;
         }
         
         // Update progress bar
@@ -151,10 +151,10 @@ class CartThresholdManager {
         
         if (hasFreeCharm) {
             // Đã chọn free charm - hiện message hoàn thành
-            progressText.innerHTML = 'Charm miễn phí đã có ở giỏ hàng, từ giờ bạn có thể mua thêm charm theo ý thích';
+            progressText.innerHTML = 'ĐÃ NHẬN FREE CHARM! 🎉';
         } else {
             // Chưa chọn free charm - mời chọn
-            progressText.innerHTML = 'Mời bạn chọn charm miễn phí trong danh sách (số lượng: 1 charm)';
+            progressText.innerHTML = 'MỜI BẠN CHỌN FREE CHARM 🎁';
         }
         
         const progressFill = document.querySelector('#progress-mini-fill');
@@ -192,89 +192,6 @@ class CartThresholdManager {
         if (valueSection) {
             valueSection.style.display = 'none';
         }
-    }
-
-    showThresholdNotification() {
-        const notification = document.createElement('div');
-        notification.style.cssText = `
-            position: fixed;
-            top: 80px;
-            right: 20px;
-            background: #603b11;
-            color: white;
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 6px 25px rgba(76, 175, 80, 0.3);
-            z-index: 10001;
-            font-weight: 500;
-            max-width: 320px;
-            transition: all 0.3s ease;
-            transform: translateX(100%);
-        `;
-        
-        notification.innerHTML = `
-            <div style="display: flex; align-items: center; gap: 12px;">
-                <span style="font-size: 24px;">🎁</span>
-                <div>
-                    <div style="font-weight: 600; margin-bottom: 4px;">Chúc mừng!</div>
-                    <div style="font-size: 14px; opacity: 0.9;">Bạn đã đủ điều kiện nhận FREE CHARM!</div>
-                </div>
-            </div>
-        `;
-        
-        document.body.appendChild(notification);
-        
-        setTimeout(() => {
-            notification.style.transform = 'translateX(0)';
-        }, 100);
-        
-        setTimeout(() => {
-            notification.style.opacity = '0';
-            notification.style.transform = 'translateX(100%)';
-            setTimeout(() => notification.remove(), 300);
-        }, 5000);
-    }
-
-    showThresholdLostNotification() {
-        const notification = document.createElement('div');
-        notification.style.cssText = `
-            position: fixed;
-            top: 80px;
-            right: 20px;
-            background: white;
-            color: black;
-            padding: 15px;
-            border-radius: 12px;
-            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.15);
-            z-index: 10001;
-            font-weight: 500;
-            max-width: 280px;
-            transition: all 0.3s ease;
-            transform: translateX(100%);
-            border: 1px solid #e0e0e0;
-        `;
-        
-        notification.innerHTML = `
-            <div style="display: flex; align-items: center; gap: 12px;">
-                <span style="font-size: 24px;">⚠️</span>
-                <div>
-                    <div style="font-weight: 600; margin-bottom: 4px;">Thông báo!</div>
-                    <div style="font-size: 14px; opacity: 0.9;">Giỏ hàng dưới 339K - Không đủ điều kiện FREE CHARM</div>
-                </div>
-            </div>
-        `;
-        
-        document.body.appendChild(notification);
-        
-        setTimeout(() => {
-            notification.style.transform = 'translateX(0)';
-        }, 100);
-        
-        setTimeout(() => {
-            notification.style.opacity = '0';
-            notification.style.transform = 'translateX(100%)';
-            setTimeout(() => notification.remove(), 300);
-        }, 4000);
     }
 
     calculateCartTotal(cart) {

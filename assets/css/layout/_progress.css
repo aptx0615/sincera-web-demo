@@ -1,9 +1,9 @@
-/* Fixed Progress Bar - Compact Footer Style */
+/* Fixed Progress Bar - Mobile Cart Footer */
 .progress-footer-bar {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
+    position: fixed !important;
+    bottom: 0px !important;
+    left: 0px !important;
+    right: 0px !important;
     background: #5e3b07;
     color: white;
     padding: 12px 20px;
@@ -13,20 +13,22 @@
     font-weight: 500;
     box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
     transition: all 0.3s ease;
+    margin: 0px !important;
+    margin-bottom: 0px !important;
 }
 
 .progress-footer-content {
     max-width: 1200px;
     margin: 0 auto;
     display: flex;
-    flex-direction: column; /* Đổi thành column để bar ở dưới */
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 8px; /* Giảm gap */
+    gap: 8px;
 }
 
 .progress-mini-bar {
-    width: 300px; /* Tăng width để dài hơn */
+    width: 300px;
     height: 6px;
     background: rgba(255,255,255,0.3);
     border-radius: 3px;
@@ -44,34 +46,152 @@
     white-space: nowrap;
 }
 
-/* Highlighted remaining amount */
 .remaining-amount {
     font-weight: 700;
-    color: #000; /* Chữ đen */
-    background: #fcfcfc; /* Nền trắng */
+    color: #000;
+    background: #fcfcfc;
     padding: 2px 8px;
     border-radius: 4px;
     box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 }
 
-/* Add bottom padding to body to avoid overlap */
-body {
-    padding-bottom: 80px; /* Tăng padding vì footer cao hơn */
+/* PC: Có khoảng cách để không bị che content */
+@media (min-width: 769px) {
+    body {
+        padding-bottom: 80px !important;
+        margin-bottom: 0px !important;
+    }
+    
+    .mobile-cart-section {
+        display: none !important;
+    }
 }
 
-/* Mobile responsive */
+/* MOBILE: Footer dính sát đáy + Cart button */
 @media (max-width: 768px) {
+    body {
+        padding-bottom: 0px !important;
+        margin-bottom: 0px !important;
+    }
+    
     .progress-footer-bar {
         padding: 10px 15px;
+        bottom: 0px !important;
+    }
+    
+    .progress-footer-content {
+        flex-direction: row !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        gap: 10px !important;
+    }
+    
+    .progress-content {
+        width: 80%;
+        flex-shrink: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    .mobile-cart-section {
+        width: 20%;
+        flex-shrink: 0;
+        display: flex !important;
+        justify-content: flex-end;
+    }
+    
+    .mobile-cart-button {
+        background: #000000;
+        color: white;
+        border: none;
+        padding: 8px 12px;
+        border-radius: 18px;
         font-size: 0.85rem;
+        font-weight: 600;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        transition: all 0.3s ease;
+        white-space: nowrap;
+        min-width: 80px;
+        justify-content: center;
+    }
+    
+    .mobile-cart-button:hover {
+        background: #333333;
+        transform: translateY(-1px);
+    }
+    
+    .mobile-cart-badge {
+        background: #ff5252;
+        color: white;
+        border-radius: 50%;
+        width: 16px;
+        height: 16px;
+        font-size: 10px;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 16px;
+    }
+    
+    .progress-text {
+        font-size: 1rem !important;
+        text-align: left !important;
+        line-height: 1.2;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        max-width: 100%;
     }
     
     .progress-mini-bar {
-        width: 250px;
-        height: 5px;
+        width: 100% !important;
+        max-width: 180px !important;
+        height: 4px !important;
     }
     
-    body {
-        padding-bottom: 70px;
+    .remaining-amount {
+        font-size: 1rem !important;
+        padding: 1px 4px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .progress-footer-bar {
+        padding: 8px 12px;
+        bottom: 0px !important;
+    }
+    
+    .progress-content {
+        width: 60%;
+    }
+    
+    .mobile-cart-section {
+        width: 40%;
+    }
+    
+    .mobile-cart-button {
+        padding: 6px 10px;
+        font-size: 0.8rem;
+        min-width: 70px;
+    }
+    
+    .mobile-cart-badge {
+        width: 14px;
+        height: 14px;
+        font-size: 9px;
+    }
+    
+    .progress-text {
+        font-size: 0.7rem !important;
+    }
+    
+    .progress-mini-bar {
+        max-width: 140px !important;
     }
 }
