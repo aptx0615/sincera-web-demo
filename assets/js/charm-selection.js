@@ -86,20 +86,15 @@ function updateCurrentCartTotal() {
 }
 
 function setupCartListener() {
-    // Listen for cart update events
     document.addEventListener('cartUpdated', (event) => {
         const newTotal = event.detail.cartTotal;
         const oldTotal = currentCartTotal;
         
         if (newTotal !== oldTotal) {
-            currentCartTotal = newTotal;         
-            // Always re-render carousels when cart changes (total OR items)
-            renderCharmCarousels();
+            currentCartTotal = newTotal;
         }
         
-        // Also re-render if cart items changed (not just total)
         const cartHasFreeCharm = hasAnyFreeCharmInCart();
-        renderCharmCarousels();
     });
 }
 
@@ -204,8 +199,9 @@ function createCharmCard(charm, ringId) {
             
             const charmForCart = {
                 ...charm,
-                price: dynamicPrice,
-                isFreePromo: false // KHÔNG free từ carousel
+                price: dynamicPrice, 
+                isFreePromo: false,
+                originalPrice: charm.originalPrice || charm.price
             };
             
             // Gọi addToCart function từ main.js
@@ -219,13 +215,8 @@ function createCharmCard(charm, ringId) {
     return productCard;
 }
 function selectCharmForRing(charm, ringId) {
-    // Update state
     charmSelections[ringId] = charm;
-
-    // Update visual selection
-    updateCharmSelection(ringId);
-    
-    // Update tab preview
+    updateCharmSelection(ringId);    
     updateTabPreview(ringId);
 }
 
@@ -245,14 +236,18 @@ function updateCharmSelection(ringId) {
 
 function updateTabPreview(ringId) {
     const preview = document.querySelector(`#${ringId}-preview`);
+    if (!preview) {
+        console.error(`Preview element not found: #${ringId}-preview`);
+        return;
+    }
+    
     const charm = charmSelections[ringId];
 
-    if (charm) {
+    if (charm && charm.id) {
         if (charm.isBlank) {
             preview.textContent = 'Không charm';
         } else {
-            const freeText = charm.isFreePromo ? ' (MIỄN PHÍ)' : '';
-            preview.textContent = charm.name + freeText;
+            preview.textContent = charm.name;
         }
     } else {
         preview.textContent = 'Chưa chọn';

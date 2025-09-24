@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="assets/css/main.css">
     <script src="assets/js/cart-threshold.js" defer></script>
     <script src="assets/js/charm-selection.js" defer></script>
+    <link rel="stylesheet" href="assets/css/layout/footer.css">
 </head>
 <body>
     <!-- Cart Icon -->
@@ -63,6 +64,12 @@
                 <span class="cart-subtotal-label">Tổng tiền:</span>
                 <span class="cart-subtotal-amount" id="cart-total">0₫</span>
             </div>
+            
+            <!-- Nút QUÀ TẶNG -->
+            <button class="cart-gift-btn" id="cart-gift-btn" onclick="openGiftModal()" style="display: none;">
+                🎁 QUÀ TẶNG - CHỌN CHARM MIỄN PHÍ
+            </button>
+            
             <button class="cart-checkout-btn" onclick="checkout()">
                 Tới bước thanh toán
             </button>
@@ -134,7 +141,7 @@
     <!-- Product Carousel - Chọn Dây Bạc-->
     <section class="carousel-section" id="products">
         <h2 class="section-title">HOẶC TỰ TAY THIẾT KẾ THEO SỞ THÍCH</h2>
-        <p class="section-subtitle">*Mặc định 2 vòng sẽ giống nhau cho thiết kế bạn chọn.Trong trường hợp bạn muốn 2 dây bạc khác nhau, vui lòng nhắn tin với CSKH để được hỗ trợ đặt hàng.</p>
+        <p class="section-subtitle">*Mặc định 2 vòng sẽ giống nhau cho thiết kế bạn chọn.<br>Trong trường hợp bạn muốn 2 dây bạc khác nhau, vui lòng nhắn tin với CSKH để được hỗ trợ đặt hàng.</p>
         <div class="carousel-container">
             <div class="carousel-track">
                 
@@ -169,7 +176,7 @@
 
     <!-- NEW UNIFIED CHARM SELECTION SECTION -->
     <section class="carousel-section" id="charm-selection">
-        <h2 class="section-title">CHỌN CHARM TỪNG VÒNG</h2>
+        <h2 class="section-title">CHỌN CHARM CHO TỪNG VÒNG</h2>
         <p class="section-subtitle">Tùy chỉnh charm riêng biệt cho mỗi vòng hoặc để trống nếu thích vòng trơn</p>
         
         <!-- Dual Ring Tabs -->
@@ -177,14 +184,14 @@
             <button class="charm-tab active" data-ring="ring1">
                 <div class="tab-number">1</div>
                 <div class="tab-info">
-                    <div class="tab-label">Vòng số 1</div>
+                    <div class="tab-label">Vòng 1</div>
                     <div class="tab-preview" id="ring1-preview">Chưa chọn</div>
                 </div>
             </button>
             <button class="charm-tab" data-ring="ring2">
                 <div class="tab-number">2</div>
                 <div class="tab-info">
-                    <div class="tab-label">Vòng số 2</div>
+                    <div class="tab-label">Vòng 2</div>
                     <div class="tab-preview" id="ring2-preview">Chưa chọn</div>
                 </div>
             </button>
@@ -258,11 +265,6 @@
             </div>
         </div>
     </div>
-    <!-- Gift Charm Widget -->
-    <button class="gift-widget" id="gift-widget" onclick="openGiftModal()">
-        <span class="gift-widget-icon">🎁</span>
-        <span class="gift-widget-text">Quà Tặng</span>
-    </button>
 
     <!-- Gift Charm Popup Modal -->
     <div id="gift-charm-modal" class="gift-modal-overlay" style="display: none;">
@@ -288,13 +290,8 @@
             </div>
         </div>
     </div>
-    <!-- Existing scripts -->
     <script src="assets/js/main.js"></script>
     <script src="assets/js/testimonials.js"></script>
-    </body>
-    <!-- Liên kết tới file JavaScript, đặt ở cuối body -->
-    <script src="assets/js/main.js"></script>
-    <script src="assets/js/testimonials.js"></script>
+    <script src="assets/js/footer.js"></script>
 </body>
-
 </html>

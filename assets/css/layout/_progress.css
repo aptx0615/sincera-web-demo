@@ -47,10 +47,10 @@
 }
 
 .remaining-amount {
-    font-weight: 700;
+    font-weight: 650;
     color: #000;
     background: #fcfcfc;
-    padding: 2px 8px;
+    padding: 2px 6px;
     border-radius: 4px;
     box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 }
@@ -142,7 +142,7 @@
     .progress-text {
         font-size: 1rem !important;
         text-align: left !important;
-        line-height: 1.2;
+        line-height: 1.5rem !important;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
@@ -157,7 +157,7 @@
     
     .remaining-amount {
         font-size: 1rem !important;
-        padding: 1px 4px !important;
+        padding: 1px 3px !important;
     }
 }
 

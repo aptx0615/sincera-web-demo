@@ -5,6 +5,7 @@
 /* 2. Layout styles */
 @import url('layout/_sections.css');
 @import url('layout/_progress.css');
+@import url('layout/footer.css');
 @import url('components/_modals.css');
 @import url('components/_testimonials.css');
 

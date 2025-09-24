@@ -476,17 +476,23 @@ document.addEventListener('DOMContentLoaded', () => {
         cart.forEach((item, index) => {
             total += item.price * item.quantity;
             
+            // Tạo display name để phân biệt free và paid
+            let displayName = item.name;
+            if (item.isFreePromo === true) {
+                displayName += ' (MIỄN PHÍ)';
+            }
+            
             cartHTML += `
-                <div class="cart-item">
+                <div class="cart-item" data-free="${item.isFreePromo === true}">
                     <img src="${item.image}" alt="${item.name}" class="cart-item-image" onerror="this.style.display='none';">
                     <div class="cart-item-details">
-                        <div class="cart-item-name">${item.name}</div>
+                        <div class="cart-item-name">${displayName}</div>
                         <div class="cart-item-price">${new Intl.NumberFormat('vi-VN', {style: 'currency', currency: 'VND'}).format(item.price)}</div>
                         <div class="cart-item-controls">
                             <div class="qty-controls">
-                                <button class="qty-btn" onclick="updateQuantity(${index}, -1)" ${item.quantity <= 1 ? 'disabled' : ''}>-</button>
+                                <button class="qty-btn" onclick="updateQuantity(${index}, -1)" ${item.quantity <= 1 || item.isFreePromo === true ? 'disabled' : ''}>-</button>
                                 <span class="qty-number">${item.quantity}</span>
-                                <button class="qty-btn" onclick="updateQuantity(${index}, 1)">+</button>
+                                <button class="qty-btn" onclick="updateQuantity(${index}, 1)" ${item.isFreePromo === true ? 'disabled' : ''}>+</button>
                             </div>
                             <button class="remove-btn" onclick="removeFromCart(${index})" title="Xóa sản phẩm">🗑️</button>
                         </div>
@@ -500,22 +506,34 @@ document.addEventListener('DOMContentLoaded', () => {
             style: 'currency',
             currency: 'VND'
         }).format(total);
+        
+        // Logic hiển thị nút QUÀ TẶNG
+        const giftBtn = document.getElementById('cart-gift-btn');
+        const hasGift = cart.some(item => item.isFreePromo === true);
+        const isEligible = total >= 339000;
+        
+        if (giftBtn) {
+            if (isEligible && !hasGift) {
+                giftBtn.style.display = 'block';
+                giftBtn.textContent = '🎁 QUÀ TẶNG - CHỌN CHARM MIỄN PHÍ';
+            } else if (isEligible && hasGift) {
+                giftBtn.style.display = 'block';
+                giftBtn.textContent = '🎁 ĐỔI CHARM KHÁC';
+            } else {
+                giftBtn.style.display = 'none';
+            }
+        }
     }
 
     function addToCart(product) {      
-        // SPECIAL LOGIC FOR CHARMS: Free vs Paid charms are different items
+        // CRITICAL: Free charms và paid charms PHẢI tách riêng hoàn toàn
         let existingIndex = -1;
         
-        if (product.id && product.id.toString().startsWith('charm-')) {
-            // For charms: match by id AND isFreePromo status
-            existingIndex = cart.findIndex(item => 
-                item.id === product.id && 
-                item.isFreePromo === product.isFreePromo
-            );
-        } else {
-            // For non-charms: use original logic
-            existingIndex = cart.findIndex(item => item.id === product.id);
-        }
+        // Tìm existing item dựa trên ID + FREE STATUS
+        existingIndex = cart.findIndex(item => 
+            item.id === product.id && 
+            Boolean(item.isFreePromo) === Boolean(product.isFreePromo)
+        );
         
         if (existingIndex >= 0) {
             cart[existingIndex].quantity += 1;
@@ -605,75 +623,91 @@ function animateToCart(productElement, product) {
     }, 800);
 }
 
-    // Enhanced addToCart with animation
-    function addToCart(product, sourceElement = null) {
-        let existingIndex = -1;
-        
-        if (product.id && product.id.toString().startsWith('charm-')) {
-            existingIndex = cart.findIndex(item => 
-                item.id === product.id && 
-                item.isFreePromo === product.isFreePromo
-            );
-        } else {
-            existingIndex = cart.findIndex(item => item.id === product.id);
+function addToCart(product, sourceElement = null) {
+    // CRITICAL BUG FIX: Tách hoàn toàn free và paid items
+    let existingIndex = -1;
+    
+    // Tìm existing item dựa trên ID + isFreePromo status
+    existingIndex = cart.findIndex(item => 
+        item.id === product.id && 
+        Boolean(item.isFreePromo) === Boolean(product.isFreePromo)
+    );
+    
+    // SPECIAL HANDLING: Free charm chỉ được có 1 loại duy nhất
+    if (product.isFreePromo === true) {
+        const existingFreeCharms = cart.filter(item => item.isFreePromo === true);
+        if (existingFreeCharms.length > 0) {
+            console.log('🗑️ Removing existing free charms before adding new one');
+            cart = cart.filter(item => item.isFreePromo !== true);
+            existingIndex = -1; // Reset vì đã xóa
         }
         
+        // Free charm luôn là item mới, quantity = 1
+        cart.push({
+            ...product,
+            quantity: 1,
+            isFreePromo: true,
+            price: 0 // FORCE price = 0 cho free charm
+        });
+        
+    } else {
+        // PAID ITEM LOGIC
         if (existingIndex >= 0) {
+            // Tăng quantity cho paid item existing
             cart[existingIndex].quantity += 1;
         } else {
+            // Thêm paid item mới
             cart.push({
                 ...product,
-                quantity: 1
+                quantity: 1,
+                isFreePromo: false // Explicit set false
             });
         }
-        
-        localStorage.setItem('cart', JSON.stringify(cart));
-        
-        // Trigger animation if source element provided
-        if (sourceElement) {
-            animateToCart(sourceElement, product);
+    }
+    
+    localStorage.setItem('cart', JSON.stringify(cart));
+    
+    if (sourceElement) {
+        animateToCart(sourceElement, product);
+    }
+
+    const cartTotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    const cartUpdateEvent = new CustomEvent('cartUpdated', {
+        detail: {
+            cart: cart,
+            cartTotal: cartTotal,
+            action: 'add',
+            product: product,
+            isFreeCharm: product.isFreePromo === true
         }
-        
-        // Calculate new total
-        const cartTotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-        
-        // Dispatch custom event
-        const cartUpdateEvent = new CustomEvent('cartUpdated', {
-            detail: {
-                cart: cart,
-                cartTotal: cartTotal,
-                action: 'add',
-                product: product,
-                isFreeCharm: product.isFreePromo === true
-            }
-        });
-        document.dispatchEvent(cartUpdateEvent);
-        
-        updateCartIcon();
-        updateCartSidebar();
-        
-        if (window.trackAddToCart) {
-            window.trackAddToCart(product);
-        }
-        
-        // Cart icon shake effect
-        const cartIconContainer = document.getElementById('cart-icon');
-        if (cartIconContainer && window.innerWidth > 768) {
-            cartIconContainer.style.animation = 'cartShake 0.6s ease';
+    });
+    document.dispatchEvent(cartUpdateEvent);
+    
+    updateCartIcon();
+    updateCartSidebar();
+    
+    if (window.trackAddToCart) {
+        window.trackAddToCart(product);
+    }
+    
+    // Cart shake effect
+    const cartIconContainer = document.getElementById('cart-icon');
+    if (cartIconContainer && window.innerWidth > 768) {
+        cartIconContainer.style.animation = 'cartShake 0.6s ease';
+        setTimeout(() => {
+            cartIconContainer.style.animation = '';
+        }, 600);
+    }
+    
+    // Re-render charm selection
+    if (product.id && (product.id.toString().includes('charm') || product.isFreePromo === true)) {
+        if (window.charmSelection && window.charmSelection.rerender) {
             setTimeout(() => {
-                cartIconContainer.style.animation = '';
-            }, 600);
-        }
-        
-        // Re-render charm selection if needed
-        if (product.isFreePromo === true || (product.id && product.id.toString().startsWith('charm-'))) {
-            if (window.charmSelection && window.charmSelection.rerender) {
-                setTimeout(() => {
-                    window.charmSelection.rerender();
-                }, 100);
-            }
+                window.charmSelection.rerender();
+            }, 100);
         }
     }
+}
 
     // GLOBAL CART FUNCTIONS
     window.openCart = function() {
@@ -690,9 +724,22 @@ function animateToCart(productElement, product) {
 
     window.updateQuantity = function(index, change) {
         if (cart[index]) {
-            cart[index].quantity += change;
-            if (cart[index].quantity <= 0) {
-                cart.splice(index, 1);
+            // Prevent thay đổi quantity của free items
+            if (cart[index].isFreePromo === true) {
+                if (change > 0) {
+                    showNotification('Không thể tăng số lượng charm miễn phí!', 'info');
+                    return;
+                }
+                if (change < 0 && cart[index].quantity <= 1) {
+                    // Xóa free item nếu giảm xuống 0
+                    cart.splice(index, 1);
+                }
+            } else {
+                // Normal logic cho paid items
+                cart[index].quantity += change;
+                if (cart[index].quantity <= 0) {
+                    cart.splice(index, 1);
+                }
             }
             localStorage.setItem('cart', JSON.stringify(cart));
             

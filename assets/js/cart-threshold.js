@@ -78,26 +78,11 @@ class CartThresholdManager {
         
         if (cartTotal >= this.thresholdAmount) {
             this.showThresholdReached();
-            this.showGiftWidget();
         } else {
             this.showProgressTeaser(cartTotal);
-            // Ẩn widget nếu cart drop below threshold
-            this.hideGiftWidget();
         }
     }
 
-    showGiftWidget() {
-        const widget = document.getElementById('gift-widget');
-        if (widget) {
-            widget.classList.add('show');
-        }
-    }    
-    hideGiftWidget() {
-        const widget = document.getElementById('gift-widget');
-        if (widget) {
-            widget.classList.remove('show');
-        }
-    }
     closeGiftPopup() {
         const modal = document.getElementById('gift-charm-modal');
         if (modal) {
@@ -301,7 +286,6 @@ class CartThresholdManager {
         }
     }
 
-    // 7. THÊM FUNCTION confirmGiftCharm:
     confirmGiftCharm(charm) {
         if (charm.price !== 0) {
             console.error('FRAUD ATTEMPT: Trying to add paid charm as free!', charm);
@@ -309,54 +293,39 @@ class CartThresholdManager {
             return;
         }
 
+        // XÓA TẤT CẢ CHARM FREE TRƯỚC KHI THÊM MỚI
         this.removeAllFreeCharms();
         
         const freeCharm = {
             ...charm,
-            price: 0, // FORCE price = 0
+            price: 0,
             isFreePromo: true
         };
         
         if (window.addToCart) {
             window.addToCart(freeCharm);
             this.closeGiftPopup();
-            this.showSwapSuccessNotification(charm.name);
+            
+            // Update UI ngay lập tức
+            if (window.updateCartIcon) window.updateCartIcon();
+            if (window.updateCartSidebar) window.updateCartSidebar();
+            
+            console.log('✅ Replaced free charm successfully');
         } else {
             console.error('addToCart function not found');
         }
     }
 
     removeAllFreeCharms() {
-        // Lấy cart hiện tại
         let cart = JSON.parse(localStorage.getItem('cart') || '[]');
-        
-        // Lọc bỏ tất cả items có isFreePromo = true
         const oldCart = [...cart];
         cart = cart.filter(item => item.isFreePromo !== true);
-        
-        // Lưu cart mới
-        localStorage.setItem('cart', JSON.stringify(cart));
-        
-        // Dispatch event để update UI
-        const removedItems = oldCart.filter(item => item.isFreePromo === true);
-        if (removedItems.length > 0) {
-            
-            // Update cart UI
-            if (window.updateCartIcon) window.updateCartIcon();
-            if (window.updateCartSidebar) window.updateCartSidebar();
-            
-            // Dispatch cart update event
-            const newCartTotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-            const cartUpdateEvent = new CustomEvent('cartUpdated', {
-                detail: {
-                    cart: cart,
-                    cartTotal: newCartTotal,
-                    action: 'remove_free_charms',
-                    removedItems: removedItems
-                }
-            });
-            document.dispatchEvent(cartUpdateEvent);
-        }
+        if (window.cart) {
+            window.cart = cart;
+        }       
+        localStorage.setItem('cart', JSON.stringify(cart));       
+        const removedItems = oldCart.filter(item => item.isFreePromo === true);       
+        return removedItems;
     }
 
     // 8. THÊM FUNCTION closeGiftPopup:
