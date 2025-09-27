@@ -109,9 +109,9 @@ async function handleCheckoutRequest(req, res) {
         is_free_shipping: payload.is_free_shipping || false,
         received_at_shop: payload.received_at_shop || false,
         
-        // PAYMENT METHOD FIELDS
-        prepaid: parseInt(payload.prepaid) || 0,
-        cod: parseInt(payload.cod) || 0,
+        prepaid: 0, 
+        cod: parseInt(payload.cod) + parseInt(payload.prepaid) || 0,
+        pending_prepaid: parseInt(payload.prepaid) || 0,
         
         // Order notes
         note: payload.note || '',
@@ -296,3 +296,4 @@ async function trackPurchaseEvent(items, customerInfo) {
         // Don't fail checkout if tracking fails
     }
 }
+
