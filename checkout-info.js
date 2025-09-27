@@ -328,6 +328,7 @@ function saveFormData() {
         province: document.getElementById('province').value,
         district: document.getElementById('district').value,
         ward: document.getElementById('ward').value,
+        orderNote: document.getElementById('orderNote') ? document.getElementById('orderNote').value : '',
         
         timestamp: Date.now()
     };
@@ -354,6 +355,7 @@ function loadSavedData() {
         if (data.province) document.getElementById('province').value = data.province;
         if (data.district) document.getElementById('district').value = data.district;
         if (data.ward) document.getElementById('ward').value = data.ward;
+        if (data.orderNote && document.getElementById('orderNote')) document.getElementById('orderNote').value = data.orderNote;
         
         console.log('📝 Loaded saved form data');
     } catch (error) {
@@ -429,7 +431,7 @@ async function proceedToPayment() {
     }
 }
 
-// BUILD CHECKOUT PAYLOAD - SỬA LẠI CHO ĐÚNG
+// BUILD CHECKOUT PAYLOAD - FIXED với ghi chú đơn hàng
 function buildCheckoutPayload(cart) {
     // Transform cart items theo đúng format Pancake API
     const items = cart.map(item => ({
@@ -466,7 +468,10 @@ function buildCheckoutPayload(cart) {
         customerInfo.provinceName
     ].filter(Boolean).join(', ');
 
+    // FIXED: Combine cả size note và order note
     const sizeNote = buildSizeNote();
+    const orderNote = buildOrderNote();
+    const fullNote = [sizeNote, orderNote].filter(Boolean).join('\n\n');
 
     // Payload theo đúng format payload-api.js
     return {
@@ -490,10 +495,11 @@ function buildCheckoutPayload(cart) {
         is_free_shipping: shippingFee === 0,
         received_at_shop: false,
         
-        note: sizeNote,
+        note: fullNote, // FIXED: Sử dụng fullNote thay vì chỉ sizeNote
         custom_id: `WEB_${Date.now()}`
     };
 }
+
 // BUILD SIZE NOTE FROM FORM
 function buildSizeNote() {
     const ring1Size = document.getElementById('ring1-size').value.trim();
@@ -521,6 +527,15 @@ function buildSizeNote() {
     }
     
     return note.trim();
+}
+
+// BUILD ORDER NOTE FROM FORM - FIXED function
+function buildOrderNote() {
+    const orderNote = document.getElementById('orderNote');
+    if (orderNote && orderNote.value.trim()) {
+        return `Ghi chú đơn hàng: ${orderNote.value.trim()}`;
+    }
+    return '';
 }
 
 function showNotification(message, type = 'info') {
