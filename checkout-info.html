@@ -119,7 +119,40 @@
                         <div class="input-group">
                             <label for="orderNote">Ghi chú đơn hàng (tùy chọn)</label>
                             <textarea id="orderNote" placeholder="Ghi chú thêm cho đơn hàng (màu sắc, yêu cầu đặc biệt...)"></textarea>
-                        </div>                        
+                        </div>
+
+                        <!-- PAYMENT METHOD SELECTION -->
+                        <div class="payment-method-section">
+                            <h3>💳 PHƯƠNG THỨC THANH TOÁN</h3>
+                            <div class="payment-options">
+                                <div class="payment-option">
+                                    <input type="radio" name="paymentMethod" id="deposit50" value="deposit50" checked>
+                                    <label for="deposit50">
+                                        <div class="option-content">
+                                            <div class="option-title">Cọc 50% - COD 50%</div>
+                                            <div class="option-desc">Chuyển khoản 50% trước, 50% khi nhận hàng</div>
+                                            <div class="option-amounts">
+                                                <span>Cọc: <span class="deposit-amount">0₫</span></span>
+                                                <span>COD: <span class="cod-amount">0₫</span></span>
+                                            </div>
+                                        </div>
+                                    </label>
+                                </div>
+                                
+                                <div class="payment-option">
+                                    <input type="radio" name="paymentMethod" id="banking100" value="banking100">
+                                    <label for="banking100">
+                                        <div class="option-content">
+                                            <div class="option-title">Chuyển khoản 100%</div>
+                                            <div class="option-desc">Thanh toán toàn bộ qua chuyển khoản</div>
+                                            <div class="option-amounts">
+                                                <span>Chuyển khoản: <span class="banking-amount">0₫</span></span>
+                                            </div>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
 
                     </form>
 

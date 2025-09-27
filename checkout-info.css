@@ -507,3 +507,153 @@ body {
     color: #2c3e50;
     font-weight: 500;
 }
+
+/* Payment Method Section */
+.payment-method-section {
+    margin-top: 30px;
+    padding: 25px;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-radius: 12px;
+    border: 2px solid #e0e0e0;
+    transition: all 0.3s ease;
+}
+
+.payment-method-section h3 {
+    color: #2c3e50;
+    margin-bottom: 20px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-align: center;
+}
+
+.payment-options {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.payment-option {
+    background: white;
+    border: 2px solid #e0e0e0;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.payment-option:hover {
+    border-color: #ad7101;
+    box-shadow: 0 3px 15px rgba(173, 113, 1, 0.1);
+    transform: translateY(-1px);
+}
+
+.payment-option input[type="radio"] {
+    display: none;
+}
+
+.payment-option input[type="radio"]:checked + label {
+    background: linear-gradient(135deg, #f8fff9 0%, #ffffff 100%);
+}
+
+.payment-option input[type="radio"]:checked + label::before {
+    content: "✓";
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: #ad7101;
+    color: white;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: bold;
+    z-index: 5;
+}
+
+.payment-option label {
+    display: block;
+    padding: 20px;
+    cursor: pointer;
+    margin: 0;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.option-content {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.option-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #2c3e50;
+}
+
+.option-desc {
+    font-size: 0.85rem;
+    color: #666;
+    line-height: 1.4;
+}
+
+.option-amounts {
+    display: flex;
+    gap: 20px;
+    font-size: 0.9rem;
+    margin-top: 5px;
+}
+
+.option-amounts span {
+    color: #333;
+}
+
+.deposit-amount,
+.cod-amount,
+.banking-amount {
+    color: #ad7101;
+    font-weight: 600;
+}
+
+/* Responsive for Payment Method */
+@media (max-width: 768px) {
+    .payment-method-section {
+        padding: 20px;
+        margin-top: 20px;
+    }
+    
+    .payment-option label {
+        padding: 15px;
+    }
+    
+    .option-title {
+        font-size: 0.95rem;
+    }
+    
+    .option-desc {
+        font-size: 0.8rem;
+    }
+    
+    .option-amounts {
+        flex-direction: column;
+        gap: 5px;
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .payment-method-section {
+        padding: 15px;
+    }
+    
+    .payment-method-section h3 {
+        font-size: 1rem;
+    }
+    
+    .option-title {
+        font-size: 0.9rem;
+    }
+}
