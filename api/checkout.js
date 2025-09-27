@@ -1,8 +1,3 @@
-// ==========================================
-// SECURE CHECKOUT API - BACKEND ONLY  
-// API keys được bảo vệ trong Vercel Environment Variables
-// ==========================================
-
 export default async function handler(req, res) {
     // CORS headers
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -34,7 +29,7 @@ export default async function handler(req, res) {
 // ==========================================
 
 async function handleCheckoutRequest(req, res) {
-    // 🔐 API CREDENTIALS FROM ENVIRONMENT VARIABLES - ĐÚNG RỒI!
+    // 🔐 API CREDENTIALS FROM ENVIRONMENT VARIABLES
     const SHOP_ID = process.env.PANCAKE_SHOP_ID;
     const API_KEY = process.env.PANCAKE_API_KEY;
     const WAREHOUSE_ID = process.env.PANCAKE_WAREHOUSE_ID;
@@ -88,7 +83,7 @@ async function handleCheckoutRequest(req, res) {
         
         // Transform items to match Pancake API format
         items: payload.items.map(item => ({
-            variation_id: item.variation_id, // Use variation_id directly
+            variation_id: item.variation_id,
             quantity: parseInt(item.quantity) || 1,
             discount_each_product: item.discount_each_product || 0,
             is_bonus_product: item.is_bonus_product || false,
@@ -114,6 +109,10 @@ async function handleCheckoutRequest(req, res) {
         is_free_shipping: payload.is_free_shipping || false,
         received_at_shop: payload.received_at_shop || false,
         
+        // PAYMENT METHOD FIELDS
+        prepaid: parseInt(payload.prepaid) || 0,
+        cod: parseInt(payload.cod) || 0,
+        
         // Order notes
         note: payload.note || '',
         custom_id: payload.custom_id || `WEB_${Date.now()}`
@@ -122,23 +121,39 @@ async function handleCheckoutRequest(req, res) {
     console.log('📤 Pancake payload prepared:', JSON.stringify(pancakePayload, null, 2));
 
     try {
-        // Call Pancake API
+        // Step 1: Create Pancake order
         const pancakeResponse = await createPancakeOrder(pancakePayload, API_KEY, SHOP_ID);
         
         if (pancakeResponse) {
             console.log('✅ Order created successfully:', pancakeResponse);
             
-            // Track purchase event
+            // Step 2: Get tracking URL if order has prepaid amount
+            let paymentUrl = null;
+            if (pancakePayload.prepaid > 0 && pancakeResponse.system_id) {
+                console.log('🔗 Getting tracking URL for system_id:', pancakeResponse.system_id);
+                paymentUrl = await getTrackingUrl(pancakeResponse.system_id, API_KEY, SHOP_ID);
+            }
+            
+            // Step 3: Track purchase event
             await trackPurchaseEvent(pancakePayload.items, {
                 name: pancakePayload.bill_full_name,
                 phone: pancakePayload.bill_phone_number
             });
             
-            res.status(200).json({
+            // Step 4: Return response with payment URL
+            const response = {
                 success: true,
                 order: pancakeResponse,
                 message: 'Order created successfully'
-            });
+            };
+            
+            // Add payment URL if available
+            if (paymentUrl) {
+                response.payment_url = paymentUrl;
+                console.log('💳 Payment URL included:', paymentUrl);
+            }
+            
+            res.status(200).json(response);
         } else {
             throw new Error('Pancake API returned null response');
         }
@@ -204,6 +219,47 @@ async function createPancakeOrder(payload, apiKey, shopId) {
 }
 
 // ==========================================
+// GET TRACKING URL FOR PAYMENT
+// ==========================================
+
+async function getTrackingUrl(systemId, apiKey, shopId) {
+    const url = `https://pos.pancake.vn/api/v1/shops/${shopId}/orders/get_tracking_url?api_key=${encodeURIComponent(apiKey)}`;
+    
+    try {
+        console.log('🔗 Getting tracking URL for system_id:', systemId);
+        
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: { 
+                'Content-Type': 'application/json',
+                'User-Agent': 'Sincera-Web/1.0'
+            },
+            body: JSON.stringify({
+                system_id: parseInt(systemId)
+            })
+        });
+        
+        const result = await response.json();
+        console.log('📥 Tracking URL response:', {
+            status: response.status,
+            success: result?.success,
+            url: result?.url ? 'Present' : 'Missing'
+        });
+        
+        if (response.ok && result?.success && result?.url) {
+            console.log('✅ Tracking URL retrieved:', result.url);
+            return result.url;
+        } else {
+            console.warn('⚠️ Failed to get tracking URL:', result);
+            return null; // Don't fail the entire order if tracking URL fails
+        }
+    } catch (error) {
+        console.error('💥 Tracking URL request failed:', error);
+        return null; // Don't fail the entire order if tracking URL fails
+    }
+}
+
+// ==========================================
 // ANALYTICS TRACKING
 // ==========================================
 
@@ -216,8 +272,7 @@ async function trackPurchaseEvent(items, customerInfo) {
             timestamp: Date.now(),
             data: {
                 order_total: items.reduce((sum, item) => {
-                    // Use actual price if available, otherwise estimate
-                    const price = item.price || 300000; // Default price
+                    const price = item.price || 300000;
                     return sum + (price * (item.quantity || 1));
                 }, 0),
                 items: items,
