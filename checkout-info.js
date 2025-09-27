@@ -233,6 +233,18 @@ function updatePaymentAmounts() {
         const bankingEl = document.querySelector('.banking-amount');
         if (bankingEl) bankingEl.textContent = formatCurrency(currentTotal);
     }
+
+    // THÊM: Update tất cả amounts luôn để đảm bảo hiển thị đúng
+    const depositEl = document.querySelector('.deposit-amount');
+    const codEl = document.querySelector('.cod-amount');
+    const bankingEl = document.querySelector('.banking-amount');
+
+    const depositAmount = Math.round(currentTotal * 0.5);
+    const codAmount = currentTotal - depositAmount;
+
+    if (depositEl) depositEl.textContent = formatCurrency(depositAmount);
+    if (codEl) codEl.textContent = formatCurrency(codAmount);
+    if (bankingEl) bankingEl.textContent = formatCurrency(currentTotal);
 }
 
 function setupFormValidation() {
@@ -435,7 +447,7 @@ function loadSavedData() {
 
 function goBackToCart() {
     saveFormData();
-    window.location.href = '/';
+    window.history.back();
 }
 
 async function proceedToPayment() {
