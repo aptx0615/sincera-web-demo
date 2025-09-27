@@ -3,9 +3,11 @@ document.addEventListener('DOMContentLoaded', () => {
     loadCartSummary();
     setupFormValidation();
     loadAddressData();
+    setupPaymentMethodSelection();
 });
 
 let addressData = {};
+let currentTotal = 0;
 
 async function loadAddressData() {
     try {
@@ -118,6 +120,8 @@ function loadCartSummary() {
         cartSummary.innerHTML = '<p>Giỏ hàng trống</p>';
         subtotalEl.textContent = '0₫';
         finalTotalEl.textContent = '0₫';
+        currentTotal = 0;
+        updatePaymentAmounts();
         return;
     }
     
@@ -150,6 +154,9 @@ function loadCartSummary() {
     const shippingFee = total >= 300000 ? 0 : 20000;
     const finalTotal = total + shippingFee;
     
+    // Store current total for payment calculations
+    currentTotal = finalTotal;
+    
     const formattedSubtotal = new Intl.NumberFormat('vi-VN', {
         style: 'currency',
         currency: 'VND'
@@ -175,7 +182,57 @@ function loadCartSummary() {
         shippingEl.textContent = shippingFee === 0 ? 'MIỄN PHÍ' : formattedShipping;
     }
     
+    // Update payment amounts based on total
+    updatePaymentAmounts();
+    
     console.log(`📦 Cart summary loaded: ${cart.length} items, Subtotal: ${formattedSubtotal}, Shipping: ${formattedShipping}, Total: ${formattedFinalTotal}`);
+}
+
+// SETUP PAYMENT METHOD SELECTION
+function setupPaymentMethodSelection() {
+    const paymentOptions = document.querySelectorAll('input[name="paymentMethod"]');
+    
+    paymentOptions.forEach(option => {
+        option.addEventListener('change', () => {
+            updatePaymentAmounts();
+            console.log(`💳 Payment method selected: ${option.value}`);
+        });
+    });
+    
+    // Initial update
+    updatePaymentAmounts();
+}
+
+// UPDATE PAYMENT AMOUNTS BASED ON TOTAL AND SELECTED METHOD
+function updatePaymentAmounts() {
+    if (currentTotal === 0) return;
+    
+    const selectedMethod = document.querySelector('input[name="paymentMethod"]:checked');
+    if (!selectedMethod) return;
+    
+    const formatCurrency = (amount) => {
+        return new Intl.NumberFormat('vi-VN', {
+            style: 'currency',
+            currency: 'VND'
+        }).format(amount);
+    };
+    
+    if (selectedMethod.value === 'deposit50') {
+        // 50% deposit + 50% COD
+        const depositAmount = Math.round(currentTotal * 0.5);
+        const codAmount = currentTotal - depositAmount;
+        
+        const depositEl = document.querySelector('.deposit-amount');
+        const codEl = document.querySelector('.cod-amount');
+        
+        if (depositEl) depositEl.textContent = formatCurrency(depositAmount);
+        if (codEl) codEl.textContent = formatCurrency(codAmount);
+        
+    } else if (selectedMethod.value === 'banking100') {
+        // 100% banking
+        const bankingEl = document.querySelector('.banking-amount');
+        if (bankingEl) bankingEl.textContent = formatCurrency(currentTotal);
+    }
 }
 
 function setupFormValidation() {
@@ -315,6 +372,8 @@ function setupAutoSave() {
 }
 
 function saveFormData() {
+    const selectedPaymentMethod = document.querySelector('input[name="paymentMethod"]:checked');
+    
     const formData = {
         ring1Size: document.getElementById('ring1-size').value,
         ring1Name: document.getElementById('ring1-name').value,
@@ -329,6 +388,9 @@ function saveFormData() {
         district: document.getElementById('district').value,
         ward: document.getElementById('ward').value,
         orderNote: document.getElementById('orderNote') ? document.getElementById('orderNote').value : '',
+        
+        // Save payment method selection
+        paymentMethod: selectedPaymentMethod ? selectedPaymentMethod.value : 'deposit50',
         
         timestamp: Date.now()
     };
@@ -357,6 +419,14 @@ function loadSavedData() {
         if (data.ward) document.getElementById('ward').value = data.ward;
         if (data.orderNote && document.getElementById('orderNote')) document.getElementById('orderNote').value = data.orderNote;
         
+        // Restore payment method selection
+        if (data.paymentMethod) {
+            const paymentMethodRadio = document.getElementById(data.paymentMethod);
+            if (paymentMethodRadio) {
+                paymentMethodRadio.checked = true;
+            }
+        }
+        
         console.log('📝 Loaded saved form data');
     } catch (error) {
         console.error('Error loading saved data:', error);
@@ -380,11 +450,18 @@ async function proceedToPayment() {
         return;
     }
 
+    // Get selected payment method
+    const selectedPaymentMethod = document.querySelector('input[name="paymentMethod"]:checked');
+    if (!selectedPaymentMethod) {
+        showNotification('Vui lòng chọn phương thức thanh toán!', 'error');
+        return;
+    }
+
     try {
         showNotification('Đang xử lý đơn hàng...', 'info');
         
-        // Build complete payload
-        const payload = buildCheckoutPayload(cart);
+        // Build complete payload với payment method
+        const payload = buildCheckoutPayload(cart, selectedPaymentMethod.value);
         
         console.log('📤 Sending checkout payload:', payload);
         
@@ -404,9 +481,10 @@ async function proceedToPayment() {
             // Track purchase success
             if (window.trackPurchase) {
                 window.trackPurchase({
-                    total: payload.shipping_fee + cart.reduce((sum, item) => sum + (item.price * item.quantity), 0),
+                    total: currentTotal,
                     items: cart,
-                    order_id: result.order?.id
+                    order_id: result.order?.id,
+                    payment_method: selectedPaymentMethod.value
                 });
             }
 
@@ -414,12 +492,22 @@ async function proceedToPayment() {
             localStorage.removeItem('cart');
             localStorage.removeItem('checkoutFormData');
             
-            showNotification('✅ Đặt hàng thành công!', 'success');
-            
-            // Redirect to success page
-            setTimeout(() => {
-                window.location.href = `success.html?order=${result.order?.id || 'completed'}`;
-            }, 2000);
+            // Redirect based on payment method
+            if (selectedPaymentMethod.value === 'deposit50' || selectedPaymentMethod.value === 'banking100') {
+                // Redirect to Pancake payment page
+                if (result.payment_url) {
+                    showNotification('🔄 Chuyển đến trang thanh toán...', 'info');
+                    setTimeout(() => {
+                        window.location.href = result.payment_url;
+                    }, 1500);
+                } else {
+                    // Fallback to success page if no payment URL
+                    showNotification('✅ Đặt hàng thành công!', 'success');
+                    setTimeout(() => {
+                        window.location.href = `success.html?order=${result.order?.id || 'completed'}`;
+                    }, 2000);
+                }
+            }
             
         } else {
             throw new Error(result.message || result.error || 'Checkout failed');
@@ -431,8 +519,20 @@ async function proceedToPayment() {
     }
 }
 
-// BUILD CHECKOUT PAYLOAD - FIXED với ghi chú đơn hàng
-function buildCheckoutPayload(cart) {
+// BUILD CHECKOUT PAYLOAD với payment method
+function buildCheckoutPayload(cart, paymentMethod) {
+    // Calculate payment amounts
+    let prepaidAmount = 0;
+    let codAmount = 0;
+    
+    if (paymentMethod === 'deposit50') {
+        prepaidAmount = Math.round(currentTotal * 0.5);
+        codAmount = currentTotal - prepaidAmount;
+    } else if (paymentMethod === 'banking100') {
+        prepaidAmount = currentTotal;
+        codAmount = 0;
+    }
+    
     // Transform cart items theo đúng format Pancake API
     const items = cart.map(item => ({
         variation_id: String(item.id), // ID sản phẩm từ pos.json
@@ -468,17 +568,17 @@ function buildCheckoutPayload(cart) {
         customerInfo.provinceName
     ].filter(Boolean).join(', ');
 
-    // FIXED: Combine cả size note và order note
+    // Combine notes
     const sizeNote = buildSizeNote();
     const orderNote = buildOrderNote();
     const fullNote = [sizeNote, orderNote].filter(Boolean).join('\n\n');
 
-    // Payload theo đúng format payload-api.js
+    // Payload theo đúng format payload-api.js với payment info
     return {
         bill_full_name: customerInfo.fullName,
         bill_phone_number: customerInfo.phoneNumber,
         
-        items: items, // Đã format đúng ở trên
+        items: items,
         
         shipping_address: {
             full_name: customerInfo.fullName,
@@ -495,8 +595,13 @@ function buildCheckoutPayload(cart) {
         is_free_shipping: shippingFee === 0,
         received_at_shop: false,
         
-        note: fullNote, // FIXED: Sử dụng fullNote thay vì chỉ sizeNote
-        custom_id: `WEB_${Date.now()}`
+        // PAYMENT FIELDS
+        prepaid: prepaidAmount,
+        cod: codAmount,
+        payment_method: paymentMethod,
+        
+        note: fullNote,
+        custom_id: `WEB_${Date.now()}_${paymentMethod.toUpperCase()}`
     };
 }
 
@@ -529,7 +634,7 @@ function buildSizeNote() {
     return note.trim();
 }
 
-// BUILD ORDER NOTE FROM FORM - FIXED function
+// BUILD ORDER NOTE FROM FORM
 function buildOrderNote() {
     const orderNote = document.getElementById('orderNote');
     if (orderNote && orderNote.value.trim()) {
