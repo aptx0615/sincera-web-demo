@@ -1,3 +1,8 @@
+// ==========================================
+// SECURE CHECKOUT API - BACKEND ONLY  
+// API keys được bảo vệ trong Vercel Environment Variables
+// ==========================================
+
 export default async function handler(req, res) {
     // CORS headers
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -109,7 +114,7 @@ async function handleCheckoutRequest(req, res) {
         is_free_shipping: payload.is_free_shipping || false,
         received_at_shop: payload.received_at_shop || false,
         
-        prepaid: 0, 
+        prepaid: 0,
         cod: parseInt(payload.cod) + parseInt(payload.prepaid) || 0,
         pending_prepaid: parseInt(payload.prepaid) || 0,
         
@@ -296,4 +301,3 @@ async function trackPurchaseEvent(items, customerInfo) {
         // Don't fail checkout if tracking fails
     }
 }
-
